@@ -34,10 +34,18 @@ const router = createRouter({
       name: 'dashboard', 
       component: () => import('@/pages/DashboardView.vue'),
       meta: {
-        title: 'Welcome back'
+        title: 'Welcome back',
+        requiresAuth: true
       }
     },
   ]
+})
+
+router.beforeEach((to) => {
+  const userIsAuthenticated =  localStorage.getItem('__@taskly/user__')
+  if ( !to.meta.requiresAuth && userIsAuthenticated )
+    return { name: 'dashboard' }
+  return true
 })
 
 export default router
