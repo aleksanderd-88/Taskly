@@ -3,5 +3,6 @@ import PWABadge from '@/modules/serviceworker/components/PWABadge.vue'
 </script>
 
 <template>
+  <RouterView />
   <PWABadge />
 </template>
