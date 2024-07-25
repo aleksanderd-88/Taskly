@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import AppForm from '@/common/components/AppForm.vue'
 import { reactive } from 'vue'
+import { fieldIsEmpty } from '@/libs'
 
 const initialValues = {
   username: null,
@@ -12,6 +13,7 @@ const initialValues = {
 const input = reactive({ ...initialValues })
 
 const login = () => {
+  if ( fieldIsEmpty(input) ) return
   console.log({ ...input });
 }
 </script>
