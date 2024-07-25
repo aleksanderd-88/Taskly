@@ -1,18 +1,26 @@
-import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import StartView from '@/pages/StartView.vue'
 
-const routes: RouteRecordRaw[] = [
-  { 
-    path: '/', 
-    name: 'start', 
-    component: StartView 
-  },
-]
-
 const router = createRouter({
-  history: createMemoryHistory(),
-  routes,
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    { 
+      path: '/', 
+      name: 'start',
+      component: StartView,
+      redirect: { name: 'login' },
+      children: []
+    },
+    { 
+      path: '/auth/login', 
+      name: 'login', 
+      component: () => import('@/pages/auth/LoginView.vue'),
+      meta: {
+        title: 'Log in'
+      }
+    }
+  ]
 })
 
 export default router

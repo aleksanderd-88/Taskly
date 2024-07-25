@@ -1,0 +1,14 @@
+.base-layout {
+  width: 100%;
+  height: 100vh;
+  
+  &__content {
+    padding: 0 1rem;
+  }
+
+  &--center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
