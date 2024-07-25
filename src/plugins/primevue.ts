@@ -4,6 +4,8 @@ import Aura from '@primevue/themes/aura';
 
 import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import Button from 'primevue/button';
 
 export default {
   install(app: App) {
@@ -18,5 +20,7 @@ export default {
 
     app.component('FloatLabel', FloatLabel)
     app.component('InputText', InputText)
+    app.component('InputPassword', Password)
+    app.component('PButton', Button)
   }
 }
