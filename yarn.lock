@@ -1160,6 +1160,13 @@
     "@primeuix/utils" "^0.0.5"
     "@primevue/core" "4.0.1"
 
+"@primevue/themes@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@primevue/themes/-/themes-4.0.1.tgz#c1d9961a5fad4dd2bfce306c6b9780fe65b359b8"
+  integrity sha512-DIfQTH/SMY5/ekZM3wnAaC2Te69X9fwVmyxjyAf6yS3e8V9l/jj1BGjinHPlDE0n1G6daHC6qruX4QIR6Jtpwg==
+  dependencies:
+    "@primeuix/styled" "^0.0.5"
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
