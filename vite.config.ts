@@ -33,4 +33,9 @@ export default defineConfig({
       type: 'module',
     },
   })],
+  resolve: {
+    alias: {
+      '@': '/src'
+    }
+  },
 })
