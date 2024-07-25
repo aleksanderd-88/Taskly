@@ -19,7 +19,15 @@ const router = createRouter({
       meta: {
         title: 'Log in'
       }
-    }
+    },
+    { 
+      path: '/auth/signup', 
+      name: 'signup', 
+      component: () => import('@/pages/auth/SignupView.vue'),
+      meta: {
+        title: 'Sign up'
+      }
+    },
   ]
 })
 

@@ -18,7 +18,7 @@ const login = () => {
   <div class="base-layout base-layout--center-content">
     <main class="base-layout__content">
       <AppForm @on-submit="login()">
-        <h1>Login</h1>
+        <h1>Log in</h1>
 
         <FloatLabel>
           <InputText id="email" v-model="input.email" />
@@ -30,12 +30,12 @@ const login = () => {
           <label for="password">Password</label>
         </FloatLabel>
 
-        <PButton label="Log in" type="submit" severity="contrast" />
+        <PButton label="Proceed" type="submit" severity="contrast" />
 
         <template #footer>
           <p :style="{ fontSize: '.8rem'}">
             Don't have an account?
-            <router-link :style="{ color: '#222' }" to="/">Sign up</router-link>
+            <router-link :style="{ color: '#222' }" :to="{ name: 'signup' }">Sign up</router-link>
           </p>
         </template>
       </AppForm>
