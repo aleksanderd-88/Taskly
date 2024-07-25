@@ -2,6 +2,9 @@
 import AppForm from '@/common/components/AppForm.vue'
 import { reactive } from 'vue'
 import { fieldIsEmpty } from '@/libs'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const initialValues = {
   email: null,
@@ -12,6 +15,7 @@ const input = reactive({ ...initialValues })
 
 const login = () => {
   if ( fieldIsEmpty(input) ) return
+  router.replace({ name: 'dashboard' })
   console.log({ ...input });
 }
 </script>

@@ -29,6 +29,14 @@ const router = createRouter({
         },
       ]
     },
+    { 
+      path: '/', 
+      name: 'dashboard', 
+      component: () => import('@/pages/DashboardView.vue'),
+      meta: {
+        title: 'Welcome back'
+      }
+    },
   ]
 })
 
