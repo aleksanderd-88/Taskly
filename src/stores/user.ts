@@ -1,15 +1,27 @@
 import { defineStore } from "pinia";
 import API from '@/services/api'
-import { CreateUserType, UserType } from "@/types/user";
+import { UserRequestType, UserType } from "@/types/user";
 import { ref } from "vue";
 
 export const useUserStore = defineStore('user', () => {
 
   const currentUser = ref<UserType | null>(null)
 
-  const createUser = async (params: CreateUserType) => {
+  const createUser = async (params: UserRequestType<UserType>) => {
     try {
       const { data } = await API.users.create(params)
+
+      setUser(data)
+
+      return Promise.resolve(data)
+    } catch (error) {
+      return null
+    }
+  }
+  
+  const authUser = async (params: UserRequestType<Pick<UserType, 'email' | 'password'>>) => {
+    try {
+      const { data } = await API.users.auth(params)
 
       setUser(data)
 
@@ -26,6 +38,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     createUser,
-    setUser
+    setUser,
+    authUser
   }
 })

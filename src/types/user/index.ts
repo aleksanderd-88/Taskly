@@ -4,6 +4,6 @@ export type UserType = {
   password: string | null
 }
 
-export type CreateUserType = {
-  data: UserType
+export type UserRequestType<T> = {
+  data: T
 }

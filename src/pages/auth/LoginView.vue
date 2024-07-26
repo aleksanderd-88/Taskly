@@ -3,8 +3,10 @@ import AppForm from '@/common/components/AppForm.vue'
 import { reactive } from 'vue'
 import { fieldIsEmpty } from '@/libs'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const initialValues = {
   email: null,
@@ -13,10 +15,13 @@ const initialValues = {
 
 const input = reactive({ ...initialValues })
 
-const login = () => {
+const login = async () => {
   if ( fieldIsEmpty(input) ) return
+
+  const userIsCreated = await userStore.authUser({ data: input })
+  if ( !userIsCreated ) return
+  
   router.replace({ name: 'dashboard' })
-  console.log({ ...input });
 }
 </script>
 

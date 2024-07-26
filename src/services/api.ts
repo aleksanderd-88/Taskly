@@ -1,4 +1,4 @@
-import { CreateUserType } from '@/types/user'
+import { UserRequestType, UserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 
 const client = axios.create({
@@ -26,8 +26,11 @@ export default {
     return client.get('/health-check')
   },
   users: {
-    create(params: CreateUserType): Promise<AxiosResponse> {
+    create(params: UserRequestType<UserType>): Promise<AxiosResponse> {
       return client.post('/users/create', params)
+    },
+    auth(params: UserRequestType<Pick<UserType, 'email' | 'password'>>): Promise<AxiosResponse> {
+      return client.post('/users/auth', params)
     }
   }
 }
