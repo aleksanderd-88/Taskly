@@ -1,3 +1,4 @@
+import { CreateUserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 
 const client = axios.create({
@@ -9,5 +10,10 @@ const client = axios.create({
 export default {
   healthCheck(): Promise<AxiosResponse> {
     return client.get('/health-check')
+  },
+  users: {
+    create(params: CreateUserType): Promise<AxiosResponse> {
+      return client.post('/users/create', params)
+    }
   }
 }
