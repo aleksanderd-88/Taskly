@@ -19,7 +19,10 @@ const input = reactive({ ...initialValues })
 
 const signup = async () => {
   if ( fieldIsEmpty(input) ) return
-  await userStore.createUser({ data: input })
+
+  const userIsCreated = await userStore.createUser({ data: input })
+  if ( !userIsCreated ) return
+  
   router.replace({ name: 'dashboard' })
 }
 </script>

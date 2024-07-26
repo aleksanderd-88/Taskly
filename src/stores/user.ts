@@ -6,9 +6,10 @@ export const useUserStore = defineStore('user', () => {
 
   const createUser = async (params: CreateUserType) => {
     try {
-      await API.users.create(params)
+      const { data } = await API.users.create(params)
+      return Promise.resolve(data)
     } catch (error) {
-      console.log(`Error ==> ${ error }`);
+      return null
     }
   }
 
