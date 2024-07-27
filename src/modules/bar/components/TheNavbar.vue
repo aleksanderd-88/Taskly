@@ -22,7 +22,7 @@
     }
 
     &__logo {
-      width: 45px;
+      width: 40px;
     }
   }
 </style>
