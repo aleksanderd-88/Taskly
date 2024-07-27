@@ -6,6 +6,7 @@ import FloatLabel from 'primevue/floatlabel';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Button from 'primevue/button';
+import InputOtp from 'primevue/inputotp';
 
 export default {
   install(app: App) {
@@ -22,5 +23,6 @@ export default {
     app.component('InputText', InputText)
     app.component('InputPassword', Password)
     app.component('PButton', Button)
+    app.component('InputOtp', InputOtp)
   }
 }

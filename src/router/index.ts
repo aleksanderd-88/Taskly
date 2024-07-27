@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import StartView from '@/pages/StartView.vue'
+import { get } from 'lodash'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,14 @@ const router = createRouter({
             title: 'Sign up'
           }
         },
+        { 
+          path: 'account/verify', 
+          name: 'verifyAccount', 
+          component: () => import('@/pages/verify/VerifyAccountView.vue'),
+          meta: {
+            title: 'Sign up'
+          }
+        },
       ]
     },
     { 
@@ -42,8 +51,8 @@ const router = createRouter({
 })
 
 router.beforeEach( async (to) => {
-  const userIsAuthenticated =  localStorage.getItem('__@taskly/user__')
-  if ( !to.meta.requiresAuth && userIsAuthenticated ) {
+  const user =  JSON.parse(localStorage.getItem('__@taskly/user__') as string)
+  if ( !to.meta.requiresAuth && get(user, 'accountIsVerified', false) ) {
     return { name: 'dashboard' }
   }
   return true

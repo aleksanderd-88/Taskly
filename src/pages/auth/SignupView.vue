@@ -23,7 +23,7 @@ const signup = async () => {
   const userIsCreated = await userStore.createUser({ data: input })
   if ( !userIsCreated ) return
   
-  router.replace({ name: 'dashboard' })
+  router.replace({ name: 'verifyAccount' })
 }
 </script>
 
