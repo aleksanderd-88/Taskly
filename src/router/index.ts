@@ -41,10 +41,11 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to) => {
+router.beforeEach( async (to) => {
   const userIsAuthenticated =  localStorage.getItem('__@taskly/user__')
-  if ( !to.meta.requiresAuth && userIsAuthenticated )
+  if ( !to.meta.requiresAuth && userIsAuthenticated ) {
     return { name: 'dashboard' }
+  }
   return true
 })
 

@@ -22,11 +22,11 @@ export default async (req: Request, res: Response) => {
     if ( !passwordIsVerified )
       throw new Error('Failed to verify password')
 
-    const authToken = generateAuthToken({ ...pick(user, ['username, email']) })
+    const authToken = generateAuthToken({ ...pick(user, ['username', 'email']) })
     if ( !authToken )
       throw new Error('Failed to generate authentication token')
 
-    res.status(201).send({ ...user, authToken })
+    res.status(200).send({ ...user, authToken })
   } catch (error) {
     return res.status(500).send(get(error, 'message', 'Authentication failed'))
   }

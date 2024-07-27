@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import AppForm from '@/common/components/AppForm.vue'
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { fieldIsEmpty } from '@/libs'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user';
+import get from 'lodash/get'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -15,12 +16,15 @@ const initialValues = {
 
 const input = reactive({ ...initialValues })
 
+const currentUser = computed(() => userStore.currentUser)
+
 const login = async () => {
   if ( fieldIsEmpty(input) ) return
 
-  const userIsCreated = await userStore.authUser({ data: input })
-  if ( !userIsCreated ) return
+  const userIsAuthenticated = await userStore.authUser({ data: input })
+  if ( !userIsAuthenticated ) return
   
+  await userStore.getUser({ data: { authToken: get(currentUser.value, 'authToken', '') } })
   router.replace({ name: 'dashboard' })
 }
 </script>

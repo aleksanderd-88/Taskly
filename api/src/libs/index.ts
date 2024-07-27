@@ -10,7 +10,7 @@ export const requestIsValid = (data: Record<string, unknown>) => !isEmpty(data) 
 
 export const generateAuthToken = (payload: Record<string, unknown>) => {
   try {
-    return JWT.sign(payload, process.env.SECRET_KEY || '', { expiresIn: '3h' })
+    return JWT.sign(payload, process.env.SECRET_KEY || '', { expiresIn: '3s' })
   } catch (error) {
     return null
   }
