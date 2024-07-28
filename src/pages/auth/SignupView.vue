@@ -56,10 +56,16 @@ const signup = async () => {
         <PButton label="Create account" type="submit" severity="contrast" />
 
         <template #footer>
-          <p :style="{ fontSize: '.8rem'}">
-            Already have an account?
-            <router-link :style="{ color: '#222' }" :to="{ name: 'login' }">Log in</router-link>
-          </p>
+          <div>
+            <p :style="{ fontSize: '.8rem'}">
+              Already have an account?
+              <router-link :style="{ color: '#222' }" :to="{ name: 'login' }">Log in</router-link>
+            </p>
+            <p :style="{ fontSize: '.8rem'}">
+              Need to verify your account?
+              <router-link :style="{ color: '#222' }" :to="{ name: 'verifyAccount' }">Click here</router-link>
+            </p>
+          </div>
         </template>
       </AppForm>
     </main>
