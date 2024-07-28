@@ -9,5 +9,6 @@ router.get('/api/health-check', controllers.healthCheck)
 router.post('/api/users/create', controllers.user.create)
 router.post('/api/users/auth', controllers.user.auth)
 router.patch('/api/users/get', verifyAuthToken, controllers.user.get)
+router.post('/api/users/resend-otp', controllers.user.resendOtp)
 
 export default router

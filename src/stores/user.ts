@@ -57,6 +57,21 @@ export const useUserStore = defineStore('user', () => {
       return null
     }
   }
+  
+  const resendOtp = async (params: UserRequestType<{ email: string }>) => {
+    try {
+      const { data } = await API.users.resendOtp(params)
+      return Promise.resolve(data)
+    } catch (error) {
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: get(error, 'response.data', 'Something went wrong')
+      })
+      return null
+    }
+  }
 
   const setUser = (user: UserType | null) => {
     currentUser.value = user
@@ -81,6 +96,7 @@ export const useUserStore = defineStore('user', () => {
     authUser,
     getUser,
     currentUser,
-    logoutUser
+    logoutUser,
+    resendOtp
   }
 })

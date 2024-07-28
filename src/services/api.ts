@@ -43,6 +43,9 @@ export default {
     },
     get(params: UserRequestType<{ authToken: string }>): Promise<AxiosResponse> {
       return client.patch('/users/get', params)
+    },
+    resendOtp(params: UserRequestType<{ email: string }>): Promise<AxiosResponse> {
+      return client.post('/users/resend-otp', params)
     }
   }
 }
