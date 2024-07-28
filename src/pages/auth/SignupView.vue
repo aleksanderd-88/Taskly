@@ -20,8 +20,8 @@ const input = reactive({ ...initialValues })
 const signup = async () => {
   if ( fieldIsEmpty(input) ) return
 
-  const userIsCreated = await userStore.createUser({ data: input })
-  if ( !userIsCreated ) return
+  const response = await userStore.createUser({ data: input })
+  if ( response?.status !== 200 ) return
   
   router.replace({ name: 'verifyAccount' })
 }

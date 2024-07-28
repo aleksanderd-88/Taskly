@@ -16,9 +16,6 @@ export const useUserStore = defineStore('user', () => {
   const createUser = async (params: UserRequestType<UserType>) => {
     try {
       const { data } = await API.users.create(params)
-
-      setUser(data)
-
       return Promise.resolve(data)
     } catch (error) {
       useToastStore()
@@ -31,7 +28,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
-  const authUser = async (params: UserRequestType<Pick<UserType, 'email' | 'password'>>) => {
+  const authUser = async (params: UserRequestType<Pick<UserType, 'email' | 'password' | 'otp'>>) => {
     try {
       const { data } = await API.users.auth(params)
 

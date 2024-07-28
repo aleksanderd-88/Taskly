@@ -20,6 +20,12 @@ const schema = new mongoose.Schema({
   accountIsVerified: {
     type: Boolean,
     default: false
+  },
+  otp: {
+    desc: 'One time password for account verification during signup.',
+    type: String,
+    default: null,
+    trim: true
   }
 })
 

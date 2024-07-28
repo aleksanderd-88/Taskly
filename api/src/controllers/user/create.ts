@@ -2,7 +2,8 @@ import { Request, Response } from 'express'
 import models from '../../../models'
 import get from 'lodash/get'
 import bcrypt from 'bcryptjs'
-import { requestIsValid } from '../../libs'
+import { requestIsValid, generateOtp } from '../../libs'
+import { sendMail } from '../../libs/mail'
 
 export default async (req: Request, res: Response) => {
   try {
@@ -12,7 +13,7 @@ export default async (req: Request, res: Response) => {
     if ( !requestIsValid(data) )
       throw new Error('One or more parameters are missing')
     
-    const { password, verifiedPassword } = data
+    const { email, password, verifiedPassword } = data
 
     if ( password !== verifiedPassword )
       throw new Error('Please verify password')
@@ -20,8 +21,18 @@ export default async (req: Request, res: Response) => {
     data.password = await bcrypt.hash(password, 10)
     delete data.verifiedPassword // Don't need this
 
-    const user = await models.User.create(data)
-    res.status(201).send(user)
+    const otp = generateOtp()
+
+    data.otp = otp
+    await models.User.create(data)
+
+    const response = await sendMail({ 
+      recipient: email, 
+      subject: 'Account verification', 
+      html: `Use the 4-digit code below to verify your account <br/> <h1>${ otp }</h1>`
+    })
+
+    res.status(200).send(response)
   } catch (error) {
     return res.status(500).send(get(error, 'message', 'Could not create user'))
   }

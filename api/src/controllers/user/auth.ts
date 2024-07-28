@@ -13,10 +13,22 @@ export default async (req: Request, res: Response) => {
     if ( !requestIsValid(data) )
       throw new Error('One or more parameters are missing')
     
-    const { email, password } = data
-    const user = await models.User.findOne({ email }).lean()
+    const { email, password, otp } = data
+
+    let query = otp ? { otp } : { email }
+
+    const user = await models.User.findOne(query).lean()
     if ( !user )
       throw new Error('Failed to find user')
+
+    const userIsVerifyingAccount = otp //- One time password
+    if ( userIsVerifyingAccount ) {
+      await models.User.findOneAndUpdate({ _id: get(user, '_id', '')}, { accountIsVerified: true, otp: null })
+      return res.status(200).end()
+    }
+
+    if ( !get(user, 'accountIsVerified', false) )
+      throw new Error('Account is not yet verified')
 
     const passwordIsVerified = await bcrypt.compare(password, get(user, 'password', ''))
     if ( !passwordIsVerified )
