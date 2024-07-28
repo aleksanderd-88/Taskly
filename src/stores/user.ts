@@ -4,6 +4,7 @@ import { UserRequestType, UserType } from "@/types/user";
 import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { get } from "lodash";
+import { useToastStore } from "@/modules/toast/stores";
 
 export const useUserStore = defineStore('user', () => {
 
@@ -20,6 +21,12 @@ export const useUserStore = defineStore('user', () => {
 
       return Promise.resolve(data)
     } catch (error) {
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'Something went wrong' 
+      })
       return null
     }
   }
@@ -32,6 +39,12 @@ export const useUserStore = defineStore('user', () => {
 
       return Promise.resolve(data)
     } catch (error) {
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'Something went wrong' 
+      })
       return null
     }
   }
