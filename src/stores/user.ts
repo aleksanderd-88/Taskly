@@ -80,6 +80,7 @@ export const useUserStore = defineStore('user', () => {
 
   const logoutUser = () => {
     localStorage.removeItem('__@taskly/user__')
+    setUser(null)
     router.replace({ name: 'start' })
   }
 
