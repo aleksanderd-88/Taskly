@@ -14,6 +14,8 @@ export default async (req: RequestCustom, res: Response) => {
 
     const { authToken } = data
     const user = await models.User.findOne({ email: get(req, 'user.email', '') }).lean()
+    if ( !user )
+      throw new Error('Unable to find user')
   
     res.status(200).send({ ...user, authToken })
   } catch (error) {
