@@ -3,6 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '@/pages/StartView.vue'
 import { get } from 'lodash'
 
+const setPageTitle = (title = '') => {
+  document.title = `Taskly :: ${ title }`
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -33,7 +37,7 @@ const router = createRouter({
           name: 'verifyAccount', 
           component: () => import('@/pages/verify/VerifyAccountView.vue'),
           meta: {
-            title: 'Sign up'
+            title: 'Verify account'
           }
         },
       ]
@@ -56,6 +60,10 @@ router.beforeEach( async (to) => {
     return { name: 'dashboard' }
   }
   return true
+})
+
+router.afterEach((to) => {
+  setPageTitle(to.meta.title?.toString())
 })
 
 export default router
