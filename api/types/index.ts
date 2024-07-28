@@ -9,3 +9,10 @@ export type UserType = {
   email: string
   authToken?: string
 }
+
+export type MailType = {
+  recipient: string
+  subject?: string
+  text?: string
+  html?: string
+}
