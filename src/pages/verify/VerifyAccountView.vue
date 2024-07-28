@@ -49,7 +49,7 @@ watch(() => verificationCode.value.length, value => {
       </AppForm>
 
       <div :style="{ width: '100%', maxWidth: '350px', margin: 'auto' }" v-if="verificationStep === 2">
-        <h1>Verification complete</h1>
+        <h1>Your account has been verified</h1>
         <PButton 
           label="Log in" 
           severity="info"
