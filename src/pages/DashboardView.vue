@@ -1,9 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import TheSidebar from '@/modules/bar/components/TheSidebar.vue';
+</script>
 
 <template>
   <div class="base-layout">
     <main class="base-layout__content">
-      <h1>Dashboard</h1>
+      <TheSidebar />
     </main>
   </div>
 </template>
