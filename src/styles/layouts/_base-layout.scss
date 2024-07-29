@@ -1,0 +1,15 @@
+.base-layout {
+  width: 100%;
+  height: calc(100vh - 60px);
+  
+  &__content {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  &--center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

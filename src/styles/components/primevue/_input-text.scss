@@ -1,0 +1,9 @@
+.p-inputtext {
+  width: 100% !important;
+  
+  &:enabled {
+    &:focus {
+      border-color: var(--p-gray-800) !important;
+    }
+  }
+}
