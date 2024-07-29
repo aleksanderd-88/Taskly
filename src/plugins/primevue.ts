@@ -9,6 +9,7 @@ import Button from 'primevue/button';
 import InputOtp from 'primevue/inputotp';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import Tooltip from 'primevue/tooltip';
 
 export default {
   install(app: App) {
@@ -20,6 +21,8 @@ export default {
         }
       }
     })
+
+    app.directive('tooltip', Tooltip);
 
     app.use(ToastService)
 
