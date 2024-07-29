@@ -5,6 +5,10 @@ import bcrypt from 'bcryptjs'
 import { requestIsValid, generateOtp } from '../../libs'
 import { sendMail } from '../../libs/mail'
 
+const findAndDelete = async (email: string) => {
+  await models.User.findOneAndDelete({ email })
+}
+
 export default async (req: Request, res: Response) => {
   try {
     const data = get(req, 'body.data', null)
@@ -34,6 +38,7 @@ export default async (req: Request, res: Response) => {
 
     res.status(200).send(response)
   } catch (error) {
-    return res.status(500).send(get(error, 'message', 'Could not create user'))
+    return findAndDelete(get(req, 'body.data.email', null))
+    .then(() => res.status(500).send(get(error, 'message', 'Could not create user')))
   }
 }
