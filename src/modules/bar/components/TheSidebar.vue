@@ -27,6 +27,54 @@ const buttons = ref([
     severity: 'success',
   },
   { 
+    title: 'Home', 
+    rounded: true,
+    icon: 'pi pi-home',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
+    title: 'Mark favorite', 
+    rounded: true,
+    icon: 'pi pi-star',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
+    title: 'Add note', 
+    rounded: true,
+    icon: 'pi pi-file-edit',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
+    title: 'Add tag', 
+    rounded: true,
+    icon: 'pi pi-tag',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
+    title: 'Add member/s', 
+    rounded: true,
+    icon: 'pi pi-users',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
+    title: 'Delete task/s', 
+    rounded: true,
+    icon: 'pi pi-trash',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900'
+  },
+  { 
     title: 'About', 
     rounded: true,
     icon: 'pi pi-info-circle',
@@ -35,7 +83,7 @@ const buttons = ref([
     positionBottom: true,
     text: true,
     backgroundColor: '--p-stone-900'
-  }
+  },
 ])
 </script>
 
