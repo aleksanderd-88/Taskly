@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 const buttons = ref([
   { 
-    title: 'Go home', 
+    title: 'Taskly', 
     renderImage: true, 
     imageSrc: '/src/assets/logos/app_logo.png', 
     as: 'router-link',
@@ -20,7 +20,7 @@ const buttons = ref([
     backgroundColor: '--p-gray-700'
   },
   { 
-    title: 'Add task', 
+    title: 'Add project', 
     rounded: true,
     icon: 'pi pi-plus',
     size: 'large',
