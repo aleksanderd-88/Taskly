@@ -12,7 +12,9 @@ const email = ref('')
 
 const verifyUser = async () => {
   try {
-    await userStore.authUser({ data: { otp: verificationCode.value } })
+    const response = await userStore.authUser({ data: { otp: verificationCode.value } })
+    if ( response === null )
+      return verificationStep.value = 1
     verificationStep.value = 2
   } catch (error) {
     // Do nothing
