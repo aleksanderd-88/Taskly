@@ -23,7 +23,7 @@ const buttons = ref([
     backgroundColor: '--p-gray-700'
   },
   { 
-    title: 'Add project', 
+    title: 'Create project', 
     rounded: true,
     icon: 'pi pi-plus',
     size: 'large',
