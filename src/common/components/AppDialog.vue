@@ -27,6 +27,7 @@ const dialogIsVisible = computed({
     v-model:visible="dialogIsVisible" 
     modal 
     :header="headerTitle"
+    :draggable="false"
   >
     <slot />
   </PrimeDialog>
