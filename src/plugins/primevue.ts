@@ -10,6 +10,7 @@ import InputOtp from 'primevue/inputotp';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
+import Dialog from 'primevue/dialog';
 
 export default {
   install(app: App) {
@@ -32,5 +33,6 @@ export default {
     app.component('PButton', Button)
     app.component('InputOtp', InputOtp)
     app.component('PrimeToast', Toast)
+    app.component('PrimeDialog', Dialog)
   }
 }

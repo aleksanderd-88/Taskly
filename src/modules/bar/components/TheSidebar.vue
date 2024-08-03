@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useDialogStore } from '@/modules/dialog/stores'
+
+const dialogStore = useDialogStore()
 
 const buttons = ref([
   { 
@@ -20,11 +23,12 @@ const buttons = ref([
     backgroundColor: '--p-gray-700'
   },
   { 
-    title: 'Add project', 
+    title: 'Create project', 
     rounded: true,
     icon: 'pi pi-plus',
     size: 'large',
     severity: 'success',
+    command: () => dialogStore.setDialogVisibility(true)
   },
   { 
     title: 'Home', 
@@ -111,6 +115,7 @@ const buttons = ref([
           marginTop: button.positionBottom ? 'auto' : ''
         }"
         :to="{ name: button.routeName }"
+        @click.stop="typeof button.command === 'function' ? button.command() : {}"
       >
         <img 
           v-if="button.renderImage"
