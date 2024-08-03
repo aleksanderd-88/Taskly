@@ -14,5 +14,6 @@ router.post('/api/users/resend-otp', controllers.user.resendOtp)
 
 // Project
 router.post('/api/projects/create', verifyAuthToken, controllers.project.create)
+router.get('/api/projects/list', verifyAuthToken, controllers.project.list)
 
 export default router
