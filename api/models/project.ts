@@ -10,6 +10,10 @@ const schema = new mongoose.Schema({
   members: {
     type: Array,
     default: null
+  },
+  userId: {
+    type: String,
+    required: true
   }
 }, { timestamps: true })
 

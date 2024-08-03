@@ -8,6 +8,7 @@ export type UserType = {
   username: string
   email: string
   authToken?: string
+  _id?: string
 }
 
 export type MailType = {

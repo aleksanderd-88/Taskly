@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import models from '../../../models'
 import { requestIsValid } from '../../libs'
 import { sendMail } from '../../libs/mail'
@@ -6,10 +6,11 @@ import { get, pick } from "lodash";
 import { validate } from "email-validator";
 import dotenv from 'dotenv'
 import { generateAuthToken } from "../../libs";
+import { RequestCustom } from "../../../types";
 
 dotenv.config()
 
-export default async (req: Request, res: Response) => {
+export default async (req: RequestCustom, res: Response) => {
   try {
     const data = get(req, 'body.data', null)
   
@@ -18,6 +19,8 @@ export default async (req: Request, res: Response) => {
       throw new Error('One or more parameters are missing')
     
     const { name, members } = data
+
+    data.userId = get(req, 'user._id', null)
 
     await models.Project.create(data)
 

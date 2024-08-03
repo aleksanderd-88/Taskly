@@ -40,7 +40,7 @@ const resetForm = () => {
 
 const createProject = async () => {
   if ( step.value !== 2 ) return
-  console.log('value', omit(input, ['recipient']));
+  
   await projectStore.createProject({ data: omit(input, ['recipient']) })
   dialogStore.setDialogVisibility(false)
 }
