@@ -1,4 +1,5 @@
 import { useUserStore } from '@/stores/user'
+import { ProjectRequestType, ProjectType } from '@/types/project'
 import { UserRequestType, UserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 import get from 'lodash/get'
@@ -46,6 +47,11 @@ export default {
     },
     resendOtp(params: UserRequestType<{ email: string }>): Promise<AxiosResponse> {
       return client.post('/users/resend-otp', params)
+    }
+  },
+  project: {
+    create(params: ProjectRequestType<ProjectType>): Promise<AxiosResponse> {
+      return client.post('/projects/create', params)
     }
   }
 }

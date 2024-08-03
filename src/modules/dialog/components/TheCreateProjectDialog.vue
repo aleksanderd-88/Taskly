@@ -2,34 +2,95 @@
 import AppDialog from '@/common/components/AppDialog.vue'
 import AppForm from '@/common/components/AppForm.vue'
 import { useDialogStore } from '@/modules/dialog/stores'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, reactive } from 'vue'
+import omit from 'lodash/omit'
+import { ProjectType } from '@/types/project'
+import { useProjectStore } from '@/stores/project'
 
 const dialogStore = useDialogStore()
+const projectStore = useProjectStore()
 
-const projectName = ref('')
+const initialValues: ProjectType & { recipient: string | null } = {
+  name: null,
+  recipient: null,
+  members: new Array()
+}
+
+const input = reactive({ ...initialValues })
+const step = ref(1)
 
 const dialogIsVisible = computed(() => dialogStore.dialogIsVisible)
 
+const handleSubmit = () => {
+  if ( !input.name ) return
+  step.value = 2
+}
+
+const addMembers = (recipient: string | null) => {
+  if ( !recipient ) return
+
+  input.members = [ ...input.members, recipient ]
+  input.recipient = null
+}
+
+const resetForm = () => {
+  step.value = 1
+  Object.assign(input, { ...initialValues })
+}
+
+const createProject = async () => {
+  if ( step.value !== 2 ) return
+  console.log('value', omit(input, ['recipient']));
+  await projectStore.createProject({ data: omit(input, ['recipient']) })
+  dialogStore.setDialogVisibility(false)
+}
+
 watch(() => dialogIsVisible.value, (value: boolean) => {
   if ( !value )
-    projectName.value = ''
+    resetForm()
 })
 </script>
 
 <template>
   <AppDialog
     :is-visible="dialogIsVisible"
-    header-title="Create project"
+    :header-title="step === 1 ? 'Create project' : 'Invite member (Optional)'"
     dismissable-mask
     @close="dialogStore.setDialogVisibility(false)"
   >
-    <AppForm :style="{ marginTop: '2rem' }">
-      <FloatLabel>
-        <InputText id="projectName" v-model="projectName" />
-        <label for="projectName">Enter a project name</label>
-      </FloatLabel>
+    <AppForm :style="{ marginTop: '2rem' }" @on-submit="handleSubmit()">
+      <template v-if="step === 1">
+        <FloatLabel>
+          <InputText id="projectName" v-model="input.name" />
+          <label for="projectName">Enter a project name</label>
+        </FloatLabel>
+      </template>
 
-      <PButton label="Create" type="submit" severity="contrast" />
+      <template v-if="step === 2">
+        <FloatLabel>
+          <InputText id="email" v-model="input.recipient " />
+          <label for="email">Enter email address</label>
+        </FloatLabel>
+
+        <div :style="{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '.5rem',
+          marginTop: '-1rem'
+        }">
+          <PButton size="small" severity="secondary" label="Change project name" @click.stop="step = 1" />
+          <PButton size="small" :disabled="!input.recipient" severity="info" label="Add" @click.stop="addMembers(input.recipient)" />
+        </div>
+      </template>
+
+      <PButton 
+        :label="step === 1 ? 'Proceed' : 'Create'" 
+        severity="contrast" 
+        :icon="step === 2 ? 'pi pi-folder-plus' : ''" icon-pos="right"
+        type="submit"
+        @click.stop="createProject()"
+      />
     </AppForm>
   </AppDialog>
 </template>

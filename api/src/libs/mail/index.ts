@@ -2,6 +2,7 @@ import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import dotenv from 'dotenv'
 import { MailType } from '../../../types';
+import validator from 'email-validator'
 
 dotenv.config()
 
@@ -26,3 +27,5 @@ export const sendMail = async (params: MailType) => {
   .then(msg => Promise.resolve(msg))
   .catch(err => Promise.reject(err))
 }
+
+export const validate = (email: string) => validator.validate(email)
