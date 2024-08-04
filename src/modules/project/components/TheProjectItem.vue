@@ -28,6 +28,23 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
       </p>
     </header>
 
+    <main class="project-item__content">
+      <div class="project-item__detail">
+        <h2>0</h2>
+        <p>Scheduled</p>
+      </div>
+
+      <div class="project-item__detail">
+        <h2>0</h2>
+        <p>Ongoing</p>
+      </div>
+
+      <div class="project-item__detail">
+        <h2>0</h2>
+        <p>Completed</p>
+      </div>
+    </main>
+
     <footer class="project-item__footer">
       <AvatarGroup v-if="memberCount">
         <PrimeAvatar
@@ -52,7 +69,7 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
 
 <style lang="scss" scoped>
   .project-item {
-    padding: 1rem;
+    padding: 1rem 1.5rem ;
     border-radius: 5px;
     width: 300px;
     height: 300px;
@@ -61,6 +78,7 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
     border: 1px solid #eee;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     color: var(--p-slate-900);
 
     &__header {
@@ -78,8 +96,18 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
       font-size: 1.25rem;
     }
 
+    &__content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      p {
+        font-size: .8rem;
+      }
+    }
+
     &__footer {
-      margin-top: auto;
       display: flex;
       align-items: center;
     }
