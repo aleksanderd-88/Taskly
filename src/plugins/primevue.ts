@@ -13,6 +13,7 @@ import Tooltip from 'primevue/tooltip';
 import Dialog from 'primevue/dialog';
 import AvatarGroup from 'primevue/avatargroup'
 import Avatar from 'primevue/avatar'
+import Editor from 'primevue/editor'
 
 export default {
   install(app: App) {
@@ -38,5 +39,6 @@ export default {
     app.component('PrimeDialog', Dialog)
     app.component('AvatarGroup', AvatarGroup)
     app.component('PrimeAvatar', Avatar)
+    app.component('PrimeEditor', Editor)
   }
 }

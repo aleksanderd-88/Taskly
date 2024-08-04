@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { PropType } from 'vue';
+import { PropType, ref } from 'vue';
 
 defineProps({
   project: {
@@ -9,6 +9,8 @@ defineProps({
     default: () => ({})
   }
 })
+
+const input = ref('')
 </script>
 
 <template>
@@ -21,6 +23,7 @@ defineProps({
             severity="secondary" 
             text
             size="small"
+            disabled
           />
     
           <h1>
@@ -34,6 +37,17 @@ defineProps({
           <PButton icon="pi pi-ellipsis-h" text severity="secondary" disabled />
         </section>
       </section>
+    </template>
+
+    <template #content>
+      <PrimeEditor
+        v-model="input" 
+        editorStyle="height: 500px"
+      />
+    </template>
+
+    <template #footer>
+      <PButton label="Save task" severity="contrast" />
     </template>
   </AppSection>
 </template>
