@@ -46,10 +46,26 @@ const router = createRouter({
       path: '/', 
       name: 'dashboard', 
       component: () => import('@/pages/DashboardView.vue'),
+      redirect: { name: 'projectList' },
       meta: {
         title: 'Welcome back',
         requiresAuth: true
-      }
+      },
+      children: [
+        { 
+          path: '', 
+          name: 'projectList', 
+          component: () => import('@/pages/project/ProjectListView.vue'),
+        },
+        { 
+          path: 'projects/:id', 
+          name: 'projectOverview', 
+          component: () => import('@/pages/project/ProjectOverview.vue'),
+          meta: {
+            title: 'Project overview'
+          }
+        },
+      ]
     },
   ]
 })

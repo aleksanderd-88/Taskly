@@ -19,7 +19,7 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
 <template>
   <router-link
     class="project-item"
-    to="/"
+    :to="{ name: 'projectOverview', params: { id: get(project, '_id', null) }}"
   >
     <header class="project-item__header">
       <h1 class="project-item__name">{{ get(project, 'name', '') }}</h1>
