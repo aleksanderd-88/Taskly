@@ -1,14 +1,18 @@
 <script lang="ts" setup>
-import { type PropType } from 'vue'
+import { computed, ref, type PropType } from 'vue'
 import { ProjectType } from '@/types/project'
 import get from 'lodash/get'
 
-defineProps({
+const props = defineProps({
   project: {
     type: Object as PropType<ProjectType>,
     default: () => ({})
   }
 })
+
+const maxRenderedMemberCount = ref(3)
+
+const memberCount = computed(() => get(props, 'project.members', []).length)
 
 </script>
 
@@ -20,23 +24,24 @@ defineProps({
     <header class="project-item__header">
       <h1 class="project-item__name">{{ get(project, 'name', '') }}</h1>
       <p class="project-item__description">
-        {{ get(project, 'description', 'This is where the description about the project is shown.') }}
+        {{ get(project, 'description', 'Add a description (Optional)') }}
       </p>
     </header>
 
     <footer class="project-item__footer">
-      <AvatarGroup v-if="get(project, 'members', []).length">
+      <AvatarGroup v-if="memberCount">
         <PrimeAvatar
-          v-for="(index) in get(project, 'members', []).length"
+          v-for="(index) in memberCount"
           :key="index"
           size="small"
           shape="circle"
           icon="pi pi-user"
-          v-show="index <= 5"
+          v-show="index <= maxRenderedMemberCount"
         />
-        
-        <PrimeAvatar 
-          :label="`+${get(project, 'members', []).length}`" 
+
+        <PrimeAvatar
+          v-if="memberCount > maxRenderedMemberCount"
+          :label="`+${memberCount - maxRenderedMemberCount}`"
           size="small"
           shape="circle" 
         />
