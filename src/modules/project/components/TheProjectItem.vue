@@ -34,17 +34,13 @@ defineProps({
           icon="pi pi-user"
           v-show="index <= 5"
         />
-        <PrimeAvatar :label="`+${get(project, 'members', []).length}`" size="small"
-        shape="circle" />
+        
+        <PrimeAvatar 
+          :label="`+${get(project, 'members', []).length}`" 
+          size="small"
+          shape="circle" 
+        />
       </AvatarGroup>
-
-      <PButton
-        class="project-item__options"
-        icon="pi pi-ellipsis-v" 
-        severity="secondary" 
-        aria-label="Options"
-        size="small"
-      />
     </footer>
   </router-link>
 </template>
@@ -91,10 +87,6 @@ defineProps({
         font-weight: 900;
         font-size: 1rem;
       }
-    }
-
-    &__options {
-      margin-left: auto;
     }
   }
 </style>
