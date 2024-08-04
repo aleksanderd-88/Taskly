@@ -20,14 +20,9 @@ export default async (req: RequestCustom, res: Response) => {
     
     const { name, members } = data
 
-    data.userId = get(req, 'user._id', null)
-
-    await models.Project.create(data)
-
     for (const member of members) {
-
       if ( member && !validate(member) )
-        throw new Error('Email address is not valid')
+        throw new Error('Member email address is not valid')
 
       await sendMail({
         recipient: member,
@@ -41,6 +36,10 @@ export default async (req: RequestCustom, res: Response) => {
         `
       })
     }
+
+    data.userId = get(req, 'user._id', null)
+
+    await models.Project.create(data)
 
     res.status(201).end()
   } catch (error) {
