@@ -3,5 +3,9 @@ import TheProjectList from '@/modules/project/components/TheProjectList.vue';
 </script>
 
 <template>
-  <TheProjectList />
+  <div class="base-layout">
+    <main class="base-layout__content">
+      <TheProjectList />
+    </main>
+  </div>
 </template>

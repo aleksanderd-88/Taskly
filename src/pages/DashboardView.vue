@@ -10,7 +10,7 @@ projectStore.listProjects()
 
 <template>
   <div class="base-layout">
-    <main class="base-layout__content base-layout__content--left-padding">
+    <main class="base-layout__content base-layout__content--modified-padding">
       <TheSidebar />
       <TheCreateProjectDialog />
       <RouterView />

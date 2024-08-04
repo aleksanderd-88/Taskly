@@ -55,6 +55,9 @@ export default {
     },
     list(): Promise<AxiosResponse<ProjectResponseType>> {
       return client.get('/projects/list')
+    },
+    getProject(id: string): Promise<AxiosResponse<ProjectType>> {
+      return client.get(`/projects/${ id }/get`)
     }
   }
 }

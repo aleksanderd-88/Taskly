@@ -1,5 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import AppSection from '@/common/components/AppSection.vue';
+</script>
 
 <template>
-  <h1>Project task view</h1>
+  <AppSection />
 </template>
