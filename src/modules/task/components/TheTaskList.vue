@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
-import { useProjectStore } from '@/stores/project';
-import { get } from 'lodash';
-import { computed, ref } from 'vue';
+import { ProjectType } from '@/types/project';
+import { PropType, ref } from 'vue';
 
-const projectStore = useProjectStore()
-
-const project = computed(() => get(projectStore, 'project', null))
+defineProps({
+  project: {
+    type: Object as PropType<ProjectType | null>,
+    default: () => ({})
+  }
+})
 
 const buttons = ref([
   { icon: 'pi-filter' },
