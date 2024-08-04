@@ -11,6 +11,8 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import Dialog from 'primevue/dialog';
+import AvatarGroup from 'primevue/avatargroup'
+import Avatar from 'primevue/avatar'
 
 export default {
   install(app: App) {
@@ -34,5 +36,7 @@ export default {
     app.component('InputOtp', InputOtp)
     app.component('PrimeToast', Toast)
     app.component('PrimeDialog', Dialog)
+    app.component('AvatarGroup', AvatarGroup)
+    app.component('PrimeAvatar', Avatar)
   }
 }

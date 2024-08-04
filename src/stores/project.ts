@@ -12,6 +12,7 @@ export const useProjectStore = defineStore('project', () => {
   const createProject = async (params: ProjectRequestType<ProjectType>) => {
     try {
       await API.project.create(params)
+      await listProjects()
       useToastStore()
       .setToast({ 
         severity: 'success', 
@@ -46,6 +47,7 @@ export const useProjectStore = defineStore('project', () => {
 
   return {
     createProject,
-    listProjects
+    listProjects,
+    result
   }
 })

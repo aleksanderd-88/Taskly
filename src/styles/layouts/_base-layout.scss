@@ -5,6 +5,12 @@
   &__content {
     width: 100%;
     padding: 0 1rem;
+
+    &--left-padding {
+      @media(min-width: 1024px) {
+        padding-left: calc(60px + 1rem);
+      }
+    }
   }
 
   &--center-content {
