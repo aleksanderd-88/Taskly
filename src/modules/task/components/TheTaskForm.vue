@@ -2,15 +2,41 @@
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
 import { PropType, ref } from 'vue';
+import { useTaskStore } from '@/modules/task/store'
+import get from 'lodash/get'
 
-defineProps({
+const props = defineProps({
   project: {
     type: Object as PropType<ProjectType | null>,
     default: () => ({})
   }
 })
 
+const taskStore = useTaskStore()
+
 const input = ref('')
+
+const createTask = async () => {
+  if ( !input.value ) return
+
+  await taskStore.createTask({
+    data: { 
+      text: input.value, 
+      complete: false, 
+      projectId: get(props, 'project._id', '')
+    }
+  })
+
+  await taskStore.listTasks({
+    data: {
+      projectId: get(props, 'project._id', '')
+    }
+  })
+
+  clearEditor()
+}
+
+const clearEditor = () => input.value = ''
 </script>
 
 <template>
@@ -47,7 +73,7 @@ const input = ref('')
     </template>
 
     <template #footer>
-      <PButton label="Save task" severity="contrast" />
+      <PButton label="Save task" severity="contrast" @click="createTask()" />
     </template>
   </AppSection>
 </template>

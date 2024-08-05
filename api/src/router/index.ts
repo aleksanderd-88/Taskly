@@ -17,4 +17,9 @@ router.post('/api/projects/create', verifyAuthToken, controllers.project.create)
 router.get('/api/projects/list', verifyAuthToken, controllers.project.list)
 router.get('/api/projects/:id/get', verifyAuthToken, controllers.project.get)
 
+// Task
+router.post('/api/tasks/create', verifyAuthToken, controllers.task.create)
+router.patch('/api/tasks/list', verifyAuthToken, controllers.task.list)
+router.get('/api/tasks/:id/get', verifyAuthToken, controllers.task.get)
+
 export default router

@@ -7,6 +7,10 @@ defineProps({
   project: {
     type: Object as PropType<ProjectType | null>,
     default: () => ({})
+  },
+  taskCount: {
+    type: Number,
+    default: 0
   }
 })
 
@@ -27,7 +31,7 @@ const buttons = ref([
       </h1>
 
       <section>
-        <p>0 tasks</p>
+        <p>{{ taskCount }} tasks</p>
 
         <div>
           <PButton

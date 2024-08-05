@@ -1,5 +1,6 @@
 import { useUserStore } from '@/stores/user'
 import { ProjectRequestType, ProjectResponseType, ProjectType } from '@/types/project'
+import { TaskRequestType, TaskResponseType, TaskType } from '@/types/task'
 import { UserRequestType, UserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 import get from 'lodash/get'
@@ -58,6 +59,17 @@ export default {
     },
     getProject(id: string): Promise<AxiosResponse<ProjectType>> {
       return client.get(`/projects/${ id }/get`)
+    }
+  },
+  task: {
+    create(params: TaskRequestType<TaskType>): Promise<AxiosResponse> {
+      return client.post('/tasks/create', params)
+    },
+    list(params: TaskRequestType<Pick<TaskType, 'projectId'>>): Promise<AxiosResponse<TaskResponseType>> {
+      return client.patch('/tasks/list', params)
+    },
+    get(id: string): Promise<AxiosResponse<TaskType>> {
+      return client.get(`/tasks/${ id }/get`)
     }
   }
 }
