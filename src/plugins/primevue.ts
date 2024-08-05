@@ -14,6 +14,8 @@ import Dialog from 'primevue/dialog';
 import AvatarGroup from 'primevue/avatargroup'
 import Avatar from 'primevue/avatar'
 import Editor from 'primevue/editor'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 export default {
   install(app: App) {
@@ -40,5 +42,7 @@ export default {
     app.component('AvatarGroup', AvatarGroup)
     app.component('PrimeAvatar', Avatar)
     app.component('PrimeEditor', Editor)
+    app.component('DataTable', DataTable)
+    app.component('DataColumn', Column)
   }
 }

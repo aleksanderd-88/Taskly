@@ -4,6 +4,8 @@ export type TaskType = {
   complete: boolean
   userIds?: string[]
   projectId: string
+  priority?: string
+  html?: string
 }
 
 export type TaskRequestType<T> = {

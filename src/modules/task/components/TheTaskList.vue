@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { PropType, ref } from 'vue';
+import { ref, type PropType } from 'vue';
+import TheTaskItem from './TheTaskItem.vue';
+import { type TaskType } from '@/types/task'
+import TheTaskTable from './TheTaskTable.vue'
 
 defineProps({
   project: {
@@ -11,6 +14,10 @@ defineProps({
   taskCount: {
     type: Number,
     default: 0
+  },
+  tasks: {
+    type: Array as PropType<TaskType[]>,
+    default: () => ([])
   }
 })
 
@@ -31,7 +38,7 @@ const buttons = ref([
       </h1>
 
       <section>
-        <p>{{ taskCount }} tasks</p>
+        <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>
 
         <div>
           <PButton
@@ -43,6 +50,10 @@ const buttons = ref([
           />
         </div>
       </section>
+    </template>
+
+    <template #content>
+      <TheTaskTable  :tasks="tasks" />
     </template>
   </AppSection>
 </template>

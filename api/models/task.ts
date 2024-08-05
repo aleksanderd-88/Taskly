@@ -18,6 +18,15 @@ const schema = new mongoose.Schema({
     desc: 'Member/s belonging to task',
     type: Array,
     default: null
+  },
+  priority: {
+    type: String,
+    enum: ['Low', 'Medium', 'High'],
+    default: 'Low'
+  },
+  html: {
+    type: String,
+    default: null
   }
 }, { timestamps: true })
 

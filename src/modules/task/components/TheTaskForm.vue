@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { PropType, ref } from 'vue';
+import { PropType, reactive } from 'vue';
 import { useTaskStore } from '@/modules/task/store'
 import get from 'lodash/get'
+import pick from 'lodash/pick'
+import { fieldIsEmpty } from '@/libs'
 
 const props = defineProps({
   project: {
@@ -14,14 +16,19 @@ const props = defineProps({
 
 const taskStore = useTaskStore()
 
-const input = ref('')
+const initialValues = {
+  htmlValue: '',
+  textValue: ''
+}
+const input = reactive({ ...initialValues })
 
 const createTask = async () => {
-  if ( !input.value ) return
+  if ( fieldIsEmpty(pick(input, ['text'])) ) return
 
   await taskStore.createTask({
     data: { 
-      text: input.value, 
+      text: get(input, 'textValue', ''),
+      html: get(input, 'htmlValue', ''), 
       complete: false, 
       projectId: get(props, 'project._id', '')
     }
@@ -36,7 +43,9 @@ const createTask = async () => {
   clearEditor()
 }
 
-const clearEditor = () => input.value = ''
+const clearEditor = () => Object.assign(input, { ...initialValues })
+
+const getTextValue = (event: { textValue: string }) => input.textValue = event.textValue
 </script>
 
 <template>
@@ -67,13 +76,18 @@ const clearEditor = () => input.value = ''
 
     <template #content>
       <PrimeEditor
-        v-model="input" 
+        v-model="input.htmlValue"
+        @text-change="getTextValue($event)"
         editorStyle="height: 500px"
       />
     </template>
 
     <template #footer>
-      <PButton label="Save task" severity="contrast" @click="createTask()" />
+      <PButton
+        label="Save task"
+        severity="contrast"
+        @click="createTask()"
+      />
     </template>
   </AppSection>
 </template>

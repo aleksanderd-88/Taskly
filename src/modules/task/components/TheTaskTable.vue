@@ -1,0 +1,35 @@
+<script lang="ts" setup>
+import { type PropType } from 'vue'
+import { TaskType } from '@/types/task'
+import moment from 'moment'
+import get from 'lodash/get'
+
+defineProps({
+  tasks: {
+    type: Array as PropType<TaskType[]>,
+    default: () => ([])
+  }
+})
+</script>
+
+<template>
+  <DataTable :value="tasks" tableStyle="min-width: 50rem" size="small">
+    <DataColumn field="text" header="Description">
+      <template #body="slotProps">
+        {{ slotProps.data.text }}
+      </template>
+    </DataColumn>
+    
+    <DataColumn field="updatedAt" header="Updated">
+      <template #body="slotProps">
+        {{ moment.duration(moment(get(slotProps, 'data.updatedAt', '')).diff(moment())).humanize(true) }}
+      </template>
+    </DataColumn>
+
+    <DataColumn field="priority" header="Priority">
+      <template #body="slotProps">
+        {{ slotProps.data.priority }}
+      </template>
+    </DataColumn>
+  </DataTable>
+</template>

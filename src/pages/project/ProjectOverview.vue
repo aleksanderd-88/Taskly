@@ -10,14 +10,23 @@ const projectStore = useProjectStore()
 const taskStore = useTaskStore()
 
 const project = computed(() => get(projectStore, 'project', null))
-const taskCount = computed(() => get(taskStore, 'result.count', 0))
+const tasks = computed(() => get(taskStore, 'result.rows', []))
 </script>
 
 <template>
   <div class="project-overview">
     <main class="project-overview__content">
-      <TheTaskList class="project-overview__section" :project="project" :task-count="taskCount" />
-      <TheTaskForm class="project-overview__section" :project="project" />
+      <TheTaskList
+        class="project-overview__section"
+        :project="project"
+        :task-count="tasks.length"
+        :tasks="tasks"
+      />
+      
+      <TheTaskForm
+        class="project-overview__section"
+        :project="project"
+      />
     </main>
   </div>
 </template>
