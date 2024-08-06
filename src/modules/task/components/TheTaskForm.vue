@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { PropType, reactive } from 'vue';
+import { computed, PropType, reactive, watch } from 'vue';
 import { useTaskStore } from '@/modules/task/store'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
@@ -22,13 +22,16 @@ const initialValues = {
 }
 const input = reactive({ ...initialValues })
 
+const editMode = computed(() => taskStore.mode === 'edit')
+const task = computed(() => taskStore.task)
+
 const createTask = async () => {
   if ( fieldIsEmpty(pick(input, ['text'])) ) return
 
   await taskStore.createTask({
     data: { 
-      text: get(input, 'textValue', ''),
-      html: get(input, 'htmlValue', ''), 
+      textValue: get(input, 'textValue', ''),
+      htmlValue: get(input, 'htmlValue', ''), 
       complete: false, 
       projectId: get(props, 'project._id', '')
     }
@@ -46,6 +49,11 @@ const createTask = async () => {
 const clearEditor = () => Object.assign(input, { ...initialValues })
 
 const getTextValue = (event: { textValue: string }) => input.textValue = event.textValue
+
+watch(() => editMode.value, (value: boolean) => {
+  if ( value )
+    Object.assign(input, { ...pick(task.value, ['htmlValue', 'textValue']) })
+})
 </script>
 
 <template>
@@ -78,13 +86,14 @@ const getTextValue = (event: { textValue: string }) => input.textValue = event.t
       <PrimeEditor
         v-model="input.htmlValue"
         @text-change="getTextValue($event)"
+        @update:modelValue="input.htmlValue"
         editorStyle="height: 500px"
       />
     </template>
 
     <template #footer>
       <PButton
-        label="Save task"
+        :label="editMode ? 'Update task' : 'Save task'"
         severity="contrast"
         @click="createTask()"
       />

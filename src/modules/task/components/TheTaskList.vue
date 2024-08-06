@@ -2,7 +2,6 @@
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
 import { ref, type PropType } from 'vue';
-import TheTaskItem from './TheTaskItem.vue';
 import { type TaskType } from '@/types/task'
 import TheTaskTable from './TheTaskTable.vue'
 

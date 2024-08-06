@@ -8,6 +8,7 @@ export const useTaskStore = defineStore('task', () => {
 
   const result = ref<TaskResponseType | null>(null)
   const task = ref<TaskType | null>(null)
+  const mode = ref<'basic' | 'edit'>('basic')
 
   const createTask = async (params: TaskRequestType<TaskType>) => {
     try {
@@ -35,19 +36,25 @@ export const useTaskStore = defineStore('task', () => {
   const getTask = async (id: string) => {
     try {
       const { data } = await API.task.get(id)
-      setTask(data)
+      setTask(data, 'basic')
     } catch (error) {
       console.log(`Error ==> ${ error }`);
     }
   }
 
   const setResult = (value: TaskResponseType) => result.value = value
-  const setTask = (value: TaskType) => task.value = value
+  const setTask = (value: TaskType, selectedMode: 'basic' | 'edit') => {
+    mode.value = selectedMode
+    task.value = value
+  }
 
   return {
     createTask,
     listTasks,
     result,
-    getTask
+    getTask,
+    task,
+    setTask,
+    mode
   }
 })

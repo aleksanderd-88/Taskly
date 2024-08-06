@@ -1,11 +1,11 @@
 export type TaskType = {
   _id?: string
-  text: string
+  textValue: string
   complete: boolean
   userIds?: string[]
   projectId: string
   priority?: string
-  html?: string
+  htmlValue?: string
 }
 
 export type TaskRequestType<T> = {

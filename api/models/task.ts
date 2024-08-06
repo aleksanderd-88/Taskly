@@ -1,7 +1,7 @@
 import mongoose from "../config/atlasdb";
 
 const schema = new mongoose.Schema({
-  text: {
+  textValue: {
     type: String,
     required: true,
     trim: true,
@@ -24,7 +24,7 @@ const schema = new mongoose.Schema({
     enum: ['Low', 'Medium', 'High'],
     default: 'Low'
   },
-  html: {
+  htmlValue: {
     type: String,
     default: null
   }

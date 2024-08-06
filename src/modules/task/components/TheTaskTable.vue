@@ -3,6 +3,7 @@ import { type PropType } from 'vue'
 import { TaskType } from '@/types/task'
 import moment from 'moment'
 import get from 'lodash/get'
+import { useTaskStore } from '../store';
 
 defineProps({
   tasks: {
@@ -10,13 +11,27 @@ defineProps({
     default: () => ([])
   }
 })
+
+const taskStore = useTaskStore()
+
+const onRowSelect = (row: { data: TaskType, type: string }) => {
+  console.log(row);
+  taskStore.setTask(row.data, 'edit')
+}
 </script>
 
 <template>
-  <DataTable :value="tasks" tableStyle="min-width: 50rem" size="small">
+  <DataTable
+    :value="tasks"
+    tableStyle="min-width: 50rem"
+    size="small"
+    selection-mode="single"
+    dataKey="_id"
+    @row-select="onRowSelect($event)"
+  >
     <DataColumn field="text" header="Description">
       <template #body="slotProps">
-        {{ slotProps.data.text }}
+        {{ slotProps.data.textValue }}
       </template>
     </DataColumn>
     
