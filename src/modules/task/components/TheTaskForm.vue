@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import pick from 'lodash/pick'
 import { fieldIsEmpty } from '@/libs'
 import { EditorLoadEvent } from 'primevue/editor';
+import { TaskType } from '@/types/task';
 
 const props = defineProps({
   project: {
@@ -30,6 +31,9 @@ const task = computed(() => taskStore.task)
 
 const createTask = async () => {
   if ( fieldIsEmpty(pick(input, ['text'])) ) return
+
+  if ( editMode.value )
+    return updateTask()
 
   await taskStore.createTask({
     data: { 
@@ -59,6 +63,11 @@ const onLoad = ({ instance }: EditorLoadEvent) => {
       html: task.value?.htmlValue
     })
   );
+}
+
+const updateTask = async () => {
+  await taskStore.updateTask(get(task.value, '_id', ''), { data: { ...task.value, ...input } as TaskType })
+  await taskStore.listTasks({ data: { projectId: get(task.value, 'projectId', '') } })
 }
 
 watch(() => task.value, (value) => {

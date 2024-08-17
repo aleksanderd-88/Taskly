@@ -21,5 +21,6 @@ router.get('/api/projects/:id/get', verifyAuthToken, controllers.project.get)
 router.post('/api/tasks/create', verifyAuthToken, controllers.task.create)
 router.patch('/api/tasks/list', verifyAuthToken, controllers.task.list)
 router.get('/api/tasks/:id/get', verifyAuthToken, controllers.task.get)
+router.patch('/api/tasks/:id/update', verifyAuthToken, controllers.task.update)
 
 export default router

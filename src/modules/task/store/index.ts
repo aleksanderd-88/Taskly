@@ -42,6 +42,26 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
+  const updateTask = async (id: string, params: TaskRequestType<TaskType>) => {
+    try {
+      await API.task.update(id, params)
+      useToastStore()
+      .setToast({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Task updated'
+      })
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to update task'
+      })
+    }
+  }
+
   const setResult = (value: TaskResponseType) => result.value = value
   const setTask = (value: TaskType | null, selectedMode: 'basic' | 'edit') => {
     mode.value = selectedMode
@@ -55,6 +75,7 @@ export const useTaskStore = defineStore('task', () => {
     getTask,
     task,
     setTask,
-    mode
+    mode,
+    updateTask
   }
 })

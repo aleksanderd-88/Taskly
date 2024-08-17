@@ -70,6 +70,9 @@ export default {
     },
     get(id: string): Promise<AxiosResponse<TaskType>> {
       return client.get(`/tasks/${ id }/get`)
+    },
+    update(id: string, params: TaskRequestType<TaskType>): Promise<AxiosResponse<TaskType>> {
+      return client.patch(`/tasks/${ id }/update`, params)
     }
   }
 }
