@@ -6,6 +6,7 @@ export type TaskType = {
   projectId: string
   priority?: string
   htmlValue?: string
+  title: string
 }
 
 export type TaskRequestType<T> = {

@@ -28,9 +28,11 @@ const onRowSelect = (row: { data: TaskType, type: string }) => {
     dataKey="_id"
     @row-select="onRowSelect($event)"
   >
-    <DataColumn field="text" header="Description">
+    <DataColumn field="title" header="Title">
       <template #body="slotProps">
-        {{ slotProps.data.textValue }}
+        <div :title="get(slotProps, 'data.textValue', '')">
+          <b>{{ slotProps.data.title }}</b>
+        </div>
       </template>
     </DataColumn>
     

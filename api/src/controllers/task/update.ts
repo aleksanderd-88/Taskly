@@ -10,7 +10,7 @@ export default async (req: RequestCustom, res: Response) => {
     const data = get(req, 'body.data', null)
   
     // Sanity check
-    if ( !id || !requestIsValid(pick(data, ['textValue'])) )
+    if ( !id || !requestIsValid(pick(data, ['textValue', 'title'])) )
       throw new Error('One or more parameters are missing')
 
     await models.Task.findOneAndUpdate({ _id: id }, data)

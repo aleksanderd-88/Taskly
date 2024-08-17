@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { computed, PropType, reactive, ref, watch } from 'vue';
+import { computed, onUnmounted, PropType, reactive, ref, watch } from 'vue';
 import { useTaskStore } from '@/modules/task/store'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
@@ -20,7 +20,8 @@ const taskStore = useTaskStore()
 
 const initialValues = {
   htmlValue: '',
-  textValue: ''
+  textValue: '',
+  title: ''
 }
 const editorKeyValue = ref<string>('')
 
@@ -30,7 +31,7 @@ const editMode = computed(() => taskStore.mode === 'edit')
 const task = computed(() => taskStore.task)
 
 const createTask = async () => {
-  if ( fieldIsEmpty(pick(input, ['text'])) ) return
+  if ( fieldIsEmpty(pick(input, ['text', 'title'])) ) return
 
   if ( editMode.value )
     return updateTask()
@@ -40,7 +41,8 @@ const createTask = async () => {
       textValue: get(input, 'textValue', ''),
       htmlValue: get(input, 'htmlValue', ''), 
       complete: false, 
-      projectId: get(props, 'project._id', '')
+      projectId: get(props, 'project._id', ''),
+      title: get(input, 'title', '')
     }
   })
 
@@ -60,7 +62,7 @@ const getTextValue = (event: { textValue: string }) => input.textValue = event.t
 const onLoad = ({ instance }: EditorLoadEvent) => {
   instance.setContents(
     instance.clipboard.convert({
-      html: task.value?.htmlValue
+      html: input?.htmlValue
     })
   );
 }
@@ -70,16 +72,20 @@ const updateTask = async () => {
   await taskStore.listTasks({ data: { projectId: get(task.value, 'projectId', '') } })
 }
 
-watch(() => task.value, (value) => {
-  if ( value ) {
-    editorKeyValue.value = value._id as string
-  }
-}, { deep: true })
-
 const cancelEditMode = () => {
   editorKeyValue.value = ''
   taskStore.setTask(null, 'basic')
+  clearEditor()
 }
+
+watch(() => editMode.value, (value) => {
+  if ( value ) {
+    editorKeyValue.value = get(task.value, '_id', '')
+    Object.assign(input, { ...pick(task.value, ['title', 'textValue', 'htmlValue']) })
+  }
+})
+
+onUnmounted(() => cancelEditMode())
 </script>
 
 <template>
@@ -109,6 +115,11 @@ const cancelEditMode = () => {
     </template>
 
     <template #content>
+      <InputText
+        placeholder="Name your task ..."
+        :style="{ marginBottom: '1rem' }"
+        v-model="input.title"
+      />
       <PrimeEditor
         v-model="input.htmlValue"
         @text-change="getTextValue($event)"

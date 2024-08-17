@@ -27,6 +27,10 @@ const schema = new mongoose.Schema({
   htmlValue: {
     type: String,
     default: null
+  },
+  title: {
+    type: String,
+    required: true
   }
 }, { timestamps: true })
 
