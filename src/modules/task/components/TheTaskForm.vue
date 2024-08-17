@@ -66,6 +66,11 @@ watch(() => task.value, (value) => {
     editorKeyValue.value = value._id as string
   }
 }, { deep: true })
+
+const cancelEditMode = () => {
+  editorKeyValue.value = ''
+  taskStore.setTask(null, 'basic')
+}
 </script>
 
 <template>
@@ -111,7 +116,7 @@ watch(() => task.value, (value) => {
         severity="secondary"
         :style="{ flex: 1 }"
         v-if="editMode"
-        @click.stop
+        @click="cancelEditMode()"
       />
 
       <PButton

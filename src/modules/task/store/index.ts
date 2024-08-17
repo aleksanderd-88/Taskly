@@ -43,7 +43,7 @@ export const useTaskStore = defineStore('task', () => {
   }
 
   const setResult = (value: TaskResponseType) => result.value = value
-  const setTask = (value: TaskType, selectedMode: 'basic' | 'edit') => {
+  const setTask = (value: TaskType | null, selectedMode: 'basic' | 'edit') => {
     mode.value = selectedMode
     task.value = value
   }
