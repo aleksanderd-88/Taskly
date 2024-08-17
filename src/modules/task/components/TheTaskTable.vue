@@ -15,7 +15,6 @@ defineProps({
 const taskStore = useTaskStore()
 
 const onRowSelect = (row: { data: TaskType, type: string }) => {
-  console.log(row);
   taskStore.setTask(row.data, 'edit')
 }
 </script>

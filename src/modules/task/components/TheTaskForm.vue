@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { computed, PropType, reactive, watch } from 'vue';
+import { computed, PropType, reactive, ref, watch } from 'vue';
 import { useTaskStore } from '@/modules/task/store'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
 import { fieldIsEmpty } from '@/libs'
+import { EditorLoadEvent } from 'primevue/editor';
 
 const props = defineProps({
   project: {
@@ -20,6 +21,8 @@ const initialValues = {
   htmlValue: '',
   textValue: ''
 }
+const editorKeyValue = ref<string>('')
+
 const input = reactive({ ...initialValues })
 
 const editMode = computed(() => taskStore.mode === 'edit')
@@ -50,10 +53,19 @@ const clearEditor = () => Object.assign(input, { ...initialValues })
 
 const getTextValue = (event: { textValue: string }) => input.textValue = event.textValue
 
-watch(() => editMode.value, (value: boolean) => {
-  if ( value )
-    Object.assign(input, { ...pick(task.value, ['htmlValue', 'textValue']) })
-})
+const onLoad = ({ instance }: EditorLoadEvent) => {
+  instance.setContents(
+    instance.clipboard.convert({
+      html: task.value?.htmlValue
+    })
+  );
+}
+
+watch(() => task.value, (value) => {
+  if ( value ) {
+    editorKeyValue.value = value._id as string
+  }
+}, { deep: true })
 </script>
 
 <template>
@@ -86,17 +98,29 @@ watch(() => editMode.value, (value: boolean) => {
       <PrimeEditor
         v-model="input.htmlValue"
         @text-change="getTextValue($event)"
-        @update:modelValue="input.htmlValue"
         editorStyle="height: 500px"
+        @load="onLoad"
+        :key="editorKeyValue"
       />
     </template>
 
     <template #footer>
+      <section>
+        <PButton
+        label="Cancel"
+        severity="secondary"
+        :style="{ flex: 1 }"
+        v-if="editMode"
+        @click.stop
+      />
+
       <PButton
         :label="editMode ? 'Update task' : 'Save task'"
         severity="contrast"
+        :style="{ flex: 5 }"
         @click="createTask()"
       />
+      </section>
     </template>
   </AppSection>
 </template>
