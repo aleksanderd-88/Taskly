@@ -8,6 +8,7 @@ import pick from 'lodash/pick'
 import { fieldIsEmpty } from '@/libs'
 import { EditorLoadEvent } from 'primevue/editor';
 import { TaskType } from '@/types/task';
+import moment from 'moment';
 
 const props = defineProps({
   project: {
@@ -112,11 +113,19 @@ onUnmounted(() => cancelEditMode())
           <PButton icon="pi pi-ellipsis-h" text severity="secondary" disabled />
         </section>
       </section>
+
+      <p
+        class="task-form__updatedAt"
+        v-if="get(task, 'updatedAt', '')"
+      >
+        Last edited
+        {{ moment.duration(moment(task?.updatedAt).diff(moment())).humanize(true) }}
+      </p>
     </template>
 
     <template #content>
       <InputText
-        placeholder="Name your task ..."
+        placeholder="Give your task a name"
         :style="{ marginBottom: '1rem' }"
         v-model="input.title"
       />
@@ -191,5 +200,11 @@ onUnmounted(() => cancelEditMode())
       background-color: #ccc;
       display: block;
     }
+  }
+
+  p {
+    color: var(--p-slate-400);
+    margin-left: 1rem;
+    font-size: .85rem;
   }
 </style>

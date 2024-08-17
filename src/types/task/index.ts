@@ -7,6 +7,7 @@ export type TaskType = {
   priority?: string
   htmlValue?: string
   title: string
+  updatedAt?: string
 }
 
 export type TaskRequestType<T> = {
