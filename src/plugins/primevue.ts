@@ -17,6 +17,7 @@ import Editor from 'primevue/editor'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Badge from 'primevue/badge';
+import Select from 'primevue/select';
 
 export default {
   install(app: App) {
@@ -46,5 +47,6 @@ export default {
     app.component('DataTable', DataTable)
     app.component('DataColumn', Column)
     app.component('PrimeBadge', Badge)
+    app.component('PrimeSelect', Select)
   }
 }

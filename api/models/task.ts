@@ -6,9 +6,10 @@ const schema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  complete: {
-    type: Boolean,
-    default: false
+  status: {
+    enum: ['Scheduled', 'Ongoing', 'Completed'],
+    type: String,
+    default: null
   },
   projectId: {
     type: String,

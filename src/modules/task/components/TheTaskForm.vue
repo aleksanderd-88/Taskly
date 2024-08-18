@@ -22,39 +22,29 @@ const taskStore = useTaskStore()
 const initialValues = {
   htmlValue: '',
   textValue: '',
-  title: ''
+  title: '',
+  priority: null,
+  status: null
 }
 const editorKeyValue = ref<string>('')
 
 const input = reactive({ ...initialValues })
 
 const editMode = computed(() => taskStore.mode === 'edit')
+
 const task = computed(() => taskStore.task)
 
-const createTask = async () => {
-  if ( fieldIsEmpty(pick(input, ['text', 'title'])) ) return
+const priorityOptions = computed(() => [
+  { id: 1, name: 'Low' },
+  { id: 2, name: 'Medium' },
+  { id: 3, name: 'High' }
+])
 
-  if ( editMode.value )
-    return updateTask()
-
-  await taskStore.createTask({
-    data: { 
-      textValue: get(input, 'textValue', ''),
-      htmlValue: get(input, 'htmlValue', ''), 
-      complete: false, 
-      projectId: get(props, 'project._id', ''),
-      title: get(input, 'title', '')
-    }
-  })
-
-  await taskStore.listTasks({
-    data: {
-      projectId: get(props, 'project._id', '')
-    }
-  })
-
-  clearEditor()
-}
+const statusOptions = computed(() => [
+  { id: 1, name: 'Scheduled' },
+  { id: 2, name: 'Ongoing' },
+  { id: 3, name: 'Completed' }
+])
 
 const clearEditor = () => Object.assign(input, { ...initialValues })
 
@@ -79,12 +69,46 @@ const cancelEditMode = () => {
   clearEditor()
 }
 
-watch(() => editMode.value, (value) => {
+const createTask = async () => {
+  if ( fieldIsEmpty(pick(input, ['text', 'title'])) ) return
+
+  if ( editMode.value )
+    return updateTask()
+
+  await taskStore.createTask({
+    data: { 
+      textValue: get(input, 'textValue', ''),
+      htmlValue: get(input, 'htmlValue', ''), 
+      status: get(input, 'status.name', null),
+      priority: get(input, 'priority.name', 'Low'),
+      projectId: get(props, 'project._id', ''),
+      title: get(input, 'title', ''),
+    }
+  })
+
+  await taskStore.listTasks({
+    data: {
+      projectId: get(props, 'project._id', '')
+    }
+  })
+
+  clearEditor()
+}
+
+const getPropertyValue = (options: { id: number, name: string }[], propertyValue: string | null) =>  {
+  return options?.find(({ name }) => name === propertyValue)
+}
+
+watch(() => task.value, (value) => {
   if ( value ) {
     editorKeyValue.value = get(task.value, '_id', '')
-    Object.assign(input, { ...pick(task.value, ['title', 'textValue', 'htmlValue']) })
+    Object.assign(input, { 
+      ...task.value, 
+      priority: getPropertyValue(priorityOptions.value, get(task.value, 'priority', null)),
+      status: getPropertyValue(statusOptions.value, get(task.value, 'status', null))
+    })
   }
-})
+}, { deep: true })
 
 onUnmounted(() => cancelEditMode())
 </script>
@@ -129,6 +153,29 @@ onUnmounted(() => cancelEditMode())
         :style="{ marginBottom: '1rem' }"
         v-model="input.title"
       />
+
+      <section :style="{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }">
+        <p>Priority</p>
+        <PrimeSelect
+          v-model="input.priority"
+          :options="priorityOptions"
+          optionLabel="name"
+          placeholder="Priority"
+          :style="{ width: '100%', maxWidth: '150px' }"
+        />
+        
+        <p>Status</p>
+        <PrimeSelect
+          v-model="input.status"
+          :options="statusOptions"
+          optionLabel="name"
+          placeholder="Status"
+          :style="{ width: '100%', maxWidth: '150px' }"
+          checkmark
+          :highlightOnSelect="false"
+        />
+      </section>
+
       <PrimeEditor
         v-model="input.htmlValue"
         @text-change="getTextValue($event)"

@@ -1,10 +1,10 @@
 export type TaskType = {
   _id?: string
   textValue: string
-  complete: boolean
+  status: string | null
   userIds?: string[]
   projectId: string
-  priority?: string
+  priority: string | null
   htmlValue?: string
   title: string
   updatedAt?: string

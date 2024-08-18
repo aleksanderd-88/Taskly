@@ -13,6 +13,9 @@ export default async (req: RequestCustom, res: Response) => {
     if ( !id || !requestIsValid(pick(data, ['textValue', 'title'])) )
       throw new Error('One or more parameters are missing')
 
+    data.priority = get(data, 'priority.name', '')
+    data.status = get(data, 'status.name', '')
+
     await models.Task.findOneAndUpdate({ _id: id }, data)
     res.status(200).send({ updatedRows: 1 })
   } catch (error) {
