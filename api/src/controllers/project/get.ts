@@ -9,7 +9,9 @@ export default async (req: RequestCustom, res: Response) => {
     if ( !id )
       throw new Error('Id is missing and is required')
     
-    const project = await models.Project.findById(id).lean()
+    let project = await models.Project.findById(id).lean()
+    project!.tasks = await models.Task.find({ projectId: get(project, '_id', null) })
+
     res.status(200).send(project)
   } catch (error) {
     res.status(500).send(get(error, 'message', 'Could not create project'))

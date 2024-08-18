@@ -2,15 +2,12 @@
 import TheTaskForm from '@/modules/task/components/TheTaskForm.vue';
 import TheTaskList from '@/modules/task/components/TheTaskList.vue';
 import { useProjectStore } from '@/stores/project';
-import { useTaskStore } from '@/modules/task/store';
 import { get } from 'lodash';
 import { computed } from 'vue';
 
 const projectStore = useProjectStore()
-const taskStore = useTaskStore()
 
 const project = computed(() => get(projectStore, 'project', null))
-const tasks = computed(() => get(taskStore, 'result.rows', []))
 </script>
 
 <template>
@@ -19,8 +16,8 @@ const tasks = computed(() => get(taskStore, 'result.rows', []))
       <TheTaskList
         class="project-overview__section"
         :project="project"
-        :task-count="tasks.length"
-        :tasks="tasks"
+        :task-count="get(project, 'tasks', []).length"
+        :tasks="get(project, 'tasks', [])"
       />
       
       <TheTaskForm

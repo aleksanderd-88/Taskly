@@ -2,6 +2,7 @@
 import { computed, ref, type PropType } from 'vue'
 import { ProjectType } from '@/types/project'
 import get from 'lodash/get'
+import { TaskType } from '@/types/task'
 
 const props = defineProps({
   project: {
@@ -14,6 +15,9 @@ const maxRenderedMemberCount = ref(3)
 
 const memberCount = computed(() => get(props, 'project.members', []).length)
 
+const getTaskStatusCount = (value: 'Scheduled' | 'Ongoing' | 'Completed') => {
+  return get(props, 'project.tasks', []).filter((task: TaskType) => task['status'] === value).length
+}
 </script>
 
 <template>
@@ -30,17 +34,17 @@ const memberCount = computed(() => get(props, 'project.members', []).length)
 
     <main class="project-item__content">
       <div class="project-item__detail">
-        <h2>0</h2>
+        <h2>{{ getTaskStatusCount('Scheduled') }}</h2>
         <p>Scheduled</p>
       </div>
 
       <div class="project-item__detail">
-        <h2>0</h2>
+        <h2>{{ getTaskStatusCount('Ongoing') }}</h2>
         <p>Ongoing</p>
       </div>
 
       <div class="project-item__detail">
-        <h2>0</h2>
+        <h2>{{ getTaskStatusCount('Completed') }}</h2>
         <p>Completed</p>
       </div>
     </main>

@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
   userId: {
     type: String,
     required: true
+  },
+  tasks: {
+    type: Array,
+    default: []
   }
 }, { timestamps: true })
 

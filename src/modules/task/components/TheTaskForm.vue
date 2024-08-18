@@ -9,6 +9,7 @@ import { fieldIsEmpty } from '@/libs'
 import { EditorLoadEvent } from 'primevue/editor';
 import { TaskType } from '@/types/task';
 import moment from 'moment';
+import { useProjectStore } from '@/stores/project'
 
 const props = defineProps({
   project: {
@@ -18,6 +19,7 @@ const props = defineProps({
 })
 
 const taskStore = useTaskStore()
+const projectStore = useProjectStore()
 
 const initialValues = {
   htmlValue: '',
@@ -60,7 +62,7 @@ const onLoad = ({ instance }: EditorLoadEvent) => {
 
 const updateTask = async () => {
   await taskStore.updateTask(get(task.value, '_id', ''), { data: { ...task.value, ...input } as TaskType })
-  await taskStore.listTasks({ data: { projectId: get(task.value, 'projectId', '') } })
+  await projectStore.getProject(get(props, 'project._id', ''))
 }
 
 const cancelEditMode = () => {
@@ -86,11 +88,7 @@ const createTask = async () => {
     }
   })
 
-  await taskStore.listTasks({
-    data: {
-      projectId: get(props, 'project._id', '')
-    }
-  })
+  await projectStore.getProject(get(props, 'project._id', ''))
 
   clearEditor()
 }

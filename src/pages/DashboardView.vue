@@ -2,10 +2,13 @@
 import TheSidebar from '@/modules/bar/components/TheSidebar.vue';
 import TheCreateProjectDialog from '@/modules/dialog/components/TheCreateProjectDialog.vue';
 import { useProjectStore } from '@/stores/project'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 const projectStore = useProjectStore()
 
 projectStore.listProjects()
+
+onBeforeRouteUpdate(() => projectStore.listProjects())
 </script>
 
 <template>

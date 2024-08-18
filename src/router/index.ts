@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '@/pages/StartView.vue'
 import { get } from 'lodash'
 import { useProjectStore } from '@/stores/project'
-import { useTaskStore } from '@/modules/task/store'
 
 const setPageTitle = (title = '') => {
   document.title = `Taskly :: ${ title }`
@@ -68,7 +67,6 @@ const router = createRouter({
           component: () => import('@/pages/project/ProjectOverview.vue'),
           beforeEnter: async (to) => {
             await useProjectStore().getProject(get(to, 'params.id', '') as string)
-            await useTaskStore().listTasks({ data: { projectId: get(to, 'params.id', '') as string } })
           },
           meta: {
             requiresAuth: true,

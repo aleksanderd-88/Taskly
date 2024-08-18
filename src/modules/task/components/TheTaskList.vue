@@ -52,7 +52,7 @@ const buttons = ref([
     </template>
 
     <template #content>
-      <TheTaskTable  :tasks="tasks" />
+      <TheTaskTable :tasks="tasks" />
     </template>
   </AppSection>
 </template>
