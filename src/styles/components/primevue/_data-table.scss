@@ -1,0 +1,9 @@
+.p-datatable {
+  &-tbody > tr > td {
+    &:has(.p-badge) {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+  }
+}

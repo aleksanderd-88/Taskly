@@ -14,6 +14,12 @@ defineProps({
 
 const taskStore = useTaskStore()
 
+const setBadgeSeverity = (priority: 'Low' | 'Medium' | 'High') => {
+  if ( priority === 'Medium') return 'warn'
+  if ( priority === 'High' ) return 'danger'
+  return 'success'
+}
+
 const onRowSelect = (row: { data: TaskType, type: string }) => {
   taskStore.setTask(row.data, 'edit')
 }
@@ -45,6 +51,9 @@ const onRowSelect = (row: { data: TaskType, type: string }) => {
     <DataColumn field="priority" header="Priority">
       <template #body="slotProps">
         {{ slotProps.data.priority }}
+        <PrimeBadge
+          :severity="setBadgeSeverity(get(slotProps, 'data.priority', 'Low'))">
+        </PrimeBadge>
       </template>
     </DataColumn>
   </DataTable>
