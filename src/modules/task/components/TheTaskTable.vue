@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type PropType } from 'vue'
+import { type PropType, ref, watch, computed } from 'vue'
 import { TaskType } from '@/types/task'
 import moment from 'moment'
 import get from 'lodash/get'
@@ -13,6 +13,8 @@ defineProps({
 })
 
 const taskStore = useTaskStore()
+const selectedRow = ref<TaskType | null>(null)
+const editMode = computed(() => taskStore.mode === 'edit')
 
 const setBadgeSeverity = (priority: 'Low' | 'Medium' | 'High') => {
   if ( priority === 'Medium') return 'warn'
@@ -23,10 +25,16 @@ const setBadgeSeverity = (priority: 'Low' | 'Medium' | 'High') => {
 const onRowSelect = (row: { data: TaskType, type: string }) => {
   taskStore.setTask(row.data, 'edit')
 }
+
+watch(() => editMode.value, value => {
+  if ( !value )
+    selectedRow.value = null
+})
 </script>
 
 <template>
   <DataTable
+    v-model:selection="selectedRow"
     :value="tasks"
     tableStyle="min-width: 50rem"
     size="small"
