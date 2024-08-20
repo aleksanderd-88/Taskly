@@ -18,7 +18,7 @@ const initialValues: ProjectType = {
 const input = reactive({ ...initialValues })
 const step = ref(1)
 
-const dialogIsVisible = computed(() => dialogStore.dialogIsVisible)
+const dialogIsVisible = computed(() => dialogStore.dialogIsVisible && dialogMode.value === 'create-project')
 const dialogMode = computed(() => dialogStore.mode)
 
 const handleSubmit = () => {
@@ -48,7 +48,8 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
   <AppDialog
     :header-title="step === 1 ? 'Create project' : 'Invite member (Optional)'"
     dismissable-mask
-    v-if="dialogMode === 'create-project'"
+    :is-visible="dialogIsVisible"
+    @close="dialogStore.setDialogVisibility(false)"
   >
     <AppForm :style="{ marginTop: '2rem' }" @on-submit="handleSubmit()">
       <template v-if="step === 1">
@@ -71,6 +72,7 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
           severity="contrast" 
           :icon="step === 2 ? 'pi pi-folder-plus' : ''" icon-pos="right"
           type="submit"
+          v-if="dialogMode === 'create-project'"
           @click.stop="createProject()"
         />
       </template>

@@ -1,23 +1,24 @@
 <script lang="ts" setup>
-import { useDialogStore } from '@/modules/dialog/stores';
 import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   headerTitle: {
     type: String,
     default: 'Edit Profile'
+  },
+  isVisible: {
+    type: Boolean,
+    default: false
   }
 })
 
 const emit = defineEmits<{
-  (event: 'close', value: boolean): void
+  (event: 'close'): void
 }>()
 
-const dialogStore = useDialogStore()
-
 const dialogIsVisible = computed({
-  get: () => dialogStore.dialogIsVisible,
-  set: (value) => dialogStore.setDialogVisibility(value)
+  get: () => props.isVisible,
+  set: () => emit('close')
 })
 </script>
 
