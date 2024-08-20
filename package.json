@@ -13,14 +13,17 @@
     "@primevue/themes": "^4.0.1",
     "axios": "^1.7.2",
     "lodash": "^4.17.21",
+    "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.1",
+    "quill": "^2.0.2",
     "vue": "^3.4.26",
     "vue-router": "4"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.7",
+    "@types/moment": "^2.13.0",
     "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-vue": "^5.0.4",
     "sass": "^1.77.8",

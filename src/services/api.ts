@@ -1,4 +1,6 @@
 import { useUserStore } from '@/stores/user'
+import { ProjectRequestType, ProjectResponseType, ProjectType } from '@/types/project'
+import { TaskRequestType, TaskResponseType, TaskType } from '@/types/task'
 import { UserRequestType, UserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 import get from 'lodash/get'
@@ -46,6 +48,34 @@ export default {
     },
     resendOtp(params: UserRequestType<{ email: string }>): Promise<AxiosResponse> {
       return client.post('/users/resend-otp', params)
+    }
+  },
+  project: {
+    create(params: ProjectRequestType<ProjectType>): Promise<AxiosResponse> {
+      return client.post('/projects/create', params)
+    },
+    list(): Promise<AxiosResponse<ProjectResponseType>> {
+      return client.get('/projects/list')
+    },
+    getProject(id: string): Promise<AxiosResponse<ProjectType>> {
+      return client.get(`/projects/${ id }/get`)
+    },
+    update(id: string, params: ProjectRequestType<Partial<ProjectType>>): Promise<AxiosResponse<ProjectType>> {
+      return client.patch(`/projects/${ id }/update`, params)
+    }
+  },
+  task: {
+    create(params: TaskRequestType<TaskType>): Promise<AxiosResponse> {
+      return client.post('/tasks/create', params)
+    },
+    list(params: TaskRequestType<Pick<TaskType, 'projectId'>>): Promise<AxiosResponse<TaskResponseType>> {
+      return client.patch('/tasks/list', params)
+    },
+    get(id: string): Promise<AxiosResponse<TaskType>> {
+      return client.get(`/tasks/${ id }/get`)
+    },
+    update(id: string, params: TaskRequestType<TaskType>): Promise<AxiosResponse<TaskType>> {
+      return client.patch(`/tasks/${ id }/update`, params)
     }
   }
 }

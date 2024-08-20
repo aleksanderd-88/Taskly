@@ -8,9 +8,9 @@ dotenv.config()
 
 export const requestIsValid = (data: Record<string, unknown>) => !isEmpty(data) && every(values(data))
 
-export const generateAuthToken = (payload: Record<string, unknown>) => {
+export const generateAuthToken = (payload: Record<string, unknown>, expiresIn = '3h') => {
   try {
-    return JWT.sign(payload, process.env.SECRET_KEY || '', { expiresIn: '3h' })
+    return JWT.sign(payload, process.env.SECRET_KEY || '', { expiresIn })
   } catch (error) {
     return null
   }

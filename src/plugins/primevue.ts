@@ -11,6 +11,14 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import Dialog from 'primevue/dialog';
+import AvatarGroup from 'primevue/avatargroup'
+import Avatar from 'primevue/avatar'
+import Editor from 'primevue/editor'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Badge from 'primevue/badge';
+import Select from 'primevue/select';
+import TieredMenu from 'primevue/tieredmenu'
 
 export default {
   install(app: App) {
@@ -34,5 +42,13 @@ export default {
     app.component('InputOtp', InputOtp)
     app.component('PrimeToast', Toast)
     app.component('PrimeDialog', Dialog)
+    app.component('AvatarGroup', AvatarGroup)
+    app.component('PrimeAvatar', Avatar)
+    app.component('PrimeEditor', Editor)
+    app.component('DataTable', DataTable)
+    app.component('DataColumn', Column)
+    app.component('PrimeBadge', Badge)
+    app.component('PrimeSelect', Select)
+    app.component('TieredMenu', TieredMenu)
   }
 }

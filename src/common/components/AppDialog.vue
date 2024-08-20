@@ -2,23 +2,23 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  isVisible: {
-    type: Boolean,
-    default: false
-  },
   headerTitle: {
     type: String,
     default: 'Edit Profile'
+  },
+  isVisible: {
+    type: Boolean,
+    default: false
   }
 })
 
 const emit = defineEmits<{
-  (event: 'close', value: boolean): void
+  (event: 'close'): void
 }>()
 
 const dialogIsVisible = computed({
   get: () => props.isVisible,
-  set: (value: boolean) => emit('close', value)
+  set: () => emit('close')
 })
 </script>
 

@@ -1,14 +1,21 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+type ActionType = 'create-project' | 'invite-member' | ''
+
 export const useDialogStore = defineStore('dialog', () => {
 
   const dialogIsVisible = ref(false)
+  const mode = ref<ActionType>('')
 
-  const setDialogVisibility = (value: boolean) => dialogIsVisible.value = value
+  const setDialogVisibility = (value: boolean, action: ActionType = 'create-project') => {
+    dialogIsVisible.value = value
+    mode.value = action
+  }
   
   return {
     dialogIsVisible,
-    setDialogVisibility
+    setDialogVisibility,
+    mode
   }
 })

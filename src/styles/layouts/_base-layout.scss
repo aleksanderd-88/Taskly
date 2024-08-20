@@ -5,6 +5,14 @@
   &__content {
     width: 100%;
     padding: 0 1rem;
+
+    &--modified-padding {
+      padding: 0;
+
+      @media(min-width: 1024px) {
+        padding: 0 0 0 calc(60px);
+      }
+    }
   }
 
   &--center-content {
