@@ -74,13 +74,15 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
         />
       </template>
 
-      <PButton 
-        :label="step === 1 ? 'Proceed' : 'Create'" 
-        severity="contrast" 
-        :icon="step === 2 ? 'pi pi-folder-plus' : ''" icon-pos="right"
-        type="submit"
-        @click.stop="createProject()"
-      />
+      <template #footer>
+        <PButton 
+          :label="step === 1 ? 'Proceed' : 'Create'" 
+          severity="contrast" 
+          :icon="step === 2 ? 'pi pi-folder-plus' : ''" icon-pos="right"
+          type="submit"
+          @click.stop="createProject()"
+        />
+      </template>
     </AppForm>
   </AppDialog>
 </template>
