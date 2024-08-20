@@ -3,7 +3,6 @@ import AppDialog from '@/common/components/AppDialog.vue'
 import AppForm from '@/common/components/AppForm.vue'
 import { useDialogStore } from '@/modules/dialog/stores'
 import { ref, computed, watch, reactive } from 'vue'
-import omit from 'lodash/omit'
 import { ProjectType } from '@/types/project'
 import { useProjectStore } from '@/stores/project'
 import AppMemberForm from '@/common/components/AppMemberForm.vue'
@@ -11,9 +10,8 @@ import AppMemberForm from '@/common/components/AppMemberForm.vue'
 const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
 
-const initialValues: ProjectType & { recipient: string | null } = {
+const initialValues: ProjectType = {
   name: null,
-  recipient: null,
   members: new Array()
 }
 
@@ -27,13 +25,6 @@ const handleSubmit = () => {
   step.value = 2
 }
 
-const addMembers = (recipient: string | null) => {
-  if ( !recipient ) return
-
-  input.members = [ ...input.members, recipient ]
-  input.recipient = null
-}
-
 const resetForm = () => {
   step.value = 1
   Object.assign(input, { ...initialValues })
@@ -42,7 +33,7 @@ const resetForm = () => {
 const createProject = async () => {
   if ( step.value !== 2 ) return
   
-  await projectStore.createProject({ data: omit(input, ['recipient']) })
+  await projectStore.createProject({ data: input })
   dialogStore.setDialogVisibility(false)
 }
 
@@ -67,11 +58,9 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
 
       <template v-if="step === 2">
         <AppMemberForm
-          :input="input.recipient"
-          @input="input.recipient = $event"
-          @cancel="step = 1"
-          @submit="addMembers(input.recipient)"
-        />
+        @cancel="step = 1"
+        @on-submit="input.members = $event"
+      />
       </template>
 
       <template #footer>
