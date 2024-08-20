@@ -59,6 +59,9 @@ export default {
     },
     getProject(id: string): Promise<AxiosResponse<ProjectType>> {
       return client.get(`/projects/${ id }/get`)
+    },
+    update(id: string, params: ProjectRequestType<Partial<ProjectType>>): Promise<AxiosResponse<ProjectType>> {
+      return client.patch(`/projects/${ id }/update`, params)
     }
   },
   task: {

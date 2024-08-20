@@ -30,6 +30,27 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const updateProject = async (id: string, params: ProjectRequestType<Partial<ProjectType>>) => {
+    try {
+      await API.project.update(id, params)
+      await listProjects()
+      useToastStore()
+      .setToast({ 
+        severity: 'success', 
+        summary: 'Success', 
+        detail: 'Project updated'
+      })
+    } catch (error) {
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: get(error, 'response.data', 'Failed to update project')
+      })
+      return Promise.reject(error)
+    }
+  }
+
   const listProjects = async () => {
     try {
       const { data } = await API.project.list()
@@ -56,6 +77,7 @@ export const useProjectStore = defineStore('project', () => {
     listProjects,
     result,
     getProject,
-    project
+    project,
+    updateProject
   }
 })
