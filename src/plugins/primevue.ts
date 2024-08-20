@@ -18,6 +18,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Badge from 'primevue/badge';
 import Select from 'primevue/select';
+import TieredMenu from 'primevue/tieredmenu'
 
 export default {
   install(app: App) {
@@ -48,5 +49,6 @@ export default {
     app.component('DataColumn', Column)
     app.component('PrimeBadge', Badge)
     app.component('PrimeSelect', Select)
+    app.component('TieredMenu', TieredMenu)
   }
 }

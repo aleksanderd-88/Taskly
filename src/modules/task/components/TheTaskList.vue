@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { ref, type PropType } from 'vue';
+import { computed, ref, type PropType } from 'vue';
 import { type TaskType } from '@/types/task'
 import TheTaskTable from './TheTaskTable.vue'
 
@@ -20,11 +20,28 @@ defineProps({
   }
 })
 
+const toggleTieredMenu = (event: any) => {
+  tieredMenu.value.toggle(event);
+};
+
 const buttons = ref([
   { icon: 'pi-filter' },
   { icon: 'pi-sort-amount-down' },
   { icon: 'pi-table' },
-  { icon: 'pi-ellipsis-h' },
+  { 
+    icon: 'pi-ellipsis-h',
+    ariaHasPopup: 'true',
+    ariaControls: 'overlay_tmenu',
+    command: toggleTieredMenu
+  },
+])
+
+const tieredMenu = ref()
+const tieredMenuOptions = computed(() => [
+  { 
+    label: 'Add member(s)',
+    icon: 'pi pi-users'
+  }
 ])
 </script>
 
@@ -46,6 +63,16 @@ const buttons = ref([
             :icon="`pi ${ button.icon }`"
             text
             severity="secondary"
+            :aria-haspopup="button.ariaHasPopup"
+            :aria-controls="button.ariaControls"
+            @click="button.command"
+          />
+
+          <TieredMenu 
+            ref="tieredMenu"
+            id="overlay_tmenu"
+            :model="tieredMenuOptions"
+            popup
           />
         </div>
       </section>
