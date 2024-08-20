@@ -43,7 +43,7 @@ const buttons = ref([
 const tieredMenu = ref()
 const tieredMenuOptions = computed(() => [
   { 
-    label: 'Add member(s)',
+    label: 'Invite member',
     icon: 'pi pi-users',
     command: () => inviteMember()
   }
