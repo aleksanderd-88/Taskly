@@ -15,8 +15,6 @@ export default async (req: RequestCustom, res: Response) => {
     const data = get(req, 'body.data', null)
     const id = get(req, 'params.id', null)
 
-    console.log(data);
-  
     // Sanity check
     if ( !id || !requestIsValid(omit(data, ['tasks', 'members', '__v'])) )
       throw new Error('One or more parameters are missing')
