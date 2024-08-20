@@ -54,10 +54,8 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
 
 <template>
   <AppDialog
-    :is-visible="dialogIsVisible"
     :header-title="step === 1 ? 'Create project' : 'Invite member (Optional)'"
     dismissable-mask
-    @close="dialogStore.setDialogVisibility(false)"
   >
     <AppForm :style="{ marginTop: '2rem' }" @on-submit="handleSubmit()">
       <template v-if="step === 1">
