@@ -4,6 +4,8 @@ import { ProjectType } from '@/types/project';
 import { computed, ref, type PropType } from 'vue';
 import { type TaskType } from '@/types/task'
 import TheTaskTable from './TheTaskTable.vue'
+import TheMemberInviteDialog from '@/modules/dialog/components/TheMemberInviteDialog.vue';
+import { useDialogStore } from '@/modules/dialog/stores';
 
 defineProps({
   project: {
@@ -19,6 +21,8 @@ defineProps({
     default: () => ([])
   }
 })
+
+const dialogStore = useDialogStore()
 
 const toggleTieredMenu = (event: any) => {
   tieredMenu.value.toggle(event);
@@ -40,9 +44,12 @@ const tieredMenu = ref()
 const tieredMenuOptions = computed(() => [
   { 
     label: 'Add member(s)',
-    icon: 'pi pi-users'
+    icon: 'pi pi-users',
+    command: () => inviteMember()
   }
 ])
+
+const inviteMember = () => dialogStore.setDialogVisibility(true, 'invite-member')
 </script>
 
 <template>
@@ -80,6 +87,7 @@ const tieredMenuOptions = computed(() => [
 
     <template #content>
       <TheTaskTable :tasks="tasks" />
+      <TheMemberInviteDialog />
     </template>
   </AppSection>
 </template>

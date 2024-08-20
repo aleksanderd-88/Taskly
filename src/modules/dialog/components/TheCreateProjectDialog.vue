@@ -19,6 +19,7 @@ const input = reactive({ ...initialValues })
 const step = ref(1)
 
 const dialogIsVisible = computed(() => dialogStore.dialogIsVisible)
+const dialogMode = computed(() => dialogStore.mode)
 
 const handleSubmit = () => {
   if ( !input.name ) return
@@ -47,6 +48,7 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
   <AppDialog
     :header-title="step === 1 ? 'Create project' : 'Invite member (Optional)'"
     dismissable-mask
+    v-if="dialogMode === 'create-project'"
   >
     <AppForm :style="{ marginTop: '2rem' }" @on-submit="handleSubmit()">
       <template v-if="step === 1">
