@@ -6,6 +6,7 @@ import { ref, computed, watch, reactive } from 'vue'
 import omit from 'lodash/omit'
 import { ProjectType } from '@/types/project'
 import { useProjectStore } from '@/stores/project'
+import AppMemberForm from '@/common/components/AppMemberForm.vue'
 
 const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
@@ -67,21 +68,12 @@ watch(() => dialogIsVisible.value, (value: boolean) => {
       </template>
 
       <template v-if="step === 2">
-        <FloatLabel>
-          <InputText id="email" v-model="input.recipient " />
-          <label for="email">Enter email address</label>
-        </FloatLabel>
-
-        <div :style="{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '.5rem',
-          marginTop: '-1rem'
-        }">
-          <PButton size="small" severity="secondary" label="Change project name" @click.stop="step = 1" />
-          <PButton size="small" :disabled="!input.recipient" severity="info" label="Add" @click.stop="addMembers(input.recipient)" />
-        </div>
+        <AppMemberForm
+          :input="input.recipient"
+          @input="input.recipient = $event"
+          @cancel="step = 1"
+          @submit="addMembers(input.recipient)"
+        />
       </template>
 
       <PButton 
