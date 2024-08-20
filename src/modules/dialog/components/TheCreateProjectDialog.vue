@@ -6,9 +6,12 @@ import { ref, computed, watch, reactive } from 'vue'
 import { ProjectType } from '@/types/project'
 import { useProjectStore } from '@/stores/project'
 import AppMemberForm from '@/common/components/AppMemberForm.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
+const route = useRoute()
+const router = useRouter()
 
 const initialValues: ProjectType = {
   name: null,
@@ -36,6 +39,9 @@ const createProject = async () => {
   
   await projectStore.createProject({ data: input })
   dialogStore.setDialogVisibility(false)
+
+  if ( route.params.id )
+    router.push({ name: 'projectList' })
 }
 
 watch(() => dialogIsVisible.value, (value: boolean) => {
