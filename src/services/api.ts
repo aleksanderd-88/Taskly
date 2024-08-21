@@ -62,6 +62,9 @@ export default {
     },
     update(id: string, params: ProjectRequestType<Partial<ProjectType>>): Promise<AxiosResponse<ProjectType>> {
       return client.patch(`/projects/${ id }/update`, params)
+    },
+    delete(id: string): Promise<AxiosResponse> {
+      return client.delete(`/projects/${ id }/delete`)
     }
   },
   task: {

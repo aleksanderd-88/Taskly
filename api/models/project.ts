@@ -4,8 +4,7 @@ const schema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
-    unique: true
+    trim: true
   },
   members: {
     type: Array,
@@ -18,8 +17,26 @@ const schema = new mongoose.Schema({
   tasks: {
     type: Array,
     default: []
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true })
+
+schema.pre('findOne', async function () {
+  this.where({ isDeleted: false })
+})
+
+schema.pre('find', async function () {
+  this.where({ isDeleted: false })
+})
+
+schema.post('deleteOne', async function () {
+  await mongoose
+    .model('Task')
+    .deleteMany({ projectId: this.getQuery()['_id'] })
+})
 
 const model = mongoose.model('Project', schema)
 

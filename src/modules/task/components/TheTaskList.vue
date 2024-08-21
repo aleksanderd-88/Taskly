@@ -6,8 +6,11 @@ import { type TaskType } from '@/types/task'
 import TheTaskTable from './TheTaskTable.vue'
 import TheMemberInviteDialog from '@/modules/dialog/components/TheMemberInviteDialog.vue';
 import { useDialogStore } from '@/modules/dialog/stores';
+import { useProjectStore } from '@/stores/project';
+import { get } from 'lodash';
+import { useRouter } from 'vue-router';
 
-defineProps({
+const props = defineProps({
   project: {
     type: Object as PropType<ProjectType | null>,
     default: () => ({})
@@ -23,6 +26,8 @@ defineProps({
 })
 
 const dialogStore = useDialogStore()
+const projectStore = useProjectStore()
+const router = useRouter()
 
 const toggleTieredMenu = (event: any) => {
   tieredMenu.value.toggle(event);
@@ -46,10 +51,19 @@ const tieredMenuOptions = computed(() => [
     label: 'Invite member',
     icon: 'pi pi-users',
     command: () => inviteMember()
+  },
+  { 
+    label: 'Delete project',
+    icon: 'pi pi-trash',
+    command: () => deleteProject()
   }
 ])
 
 const inviteMember = () => dialogStore.setDialogVisibility(true, 'invite-member')
+const deleteProject = async () => {
+  await projectStore.deleteProject(get(props, 'project._id', ''))
+  router.push({ name: 'projectList' })
+}
 </script>
 
 <template>

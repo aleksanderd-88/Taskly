@@ -70,6 +70,27 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const deleteProject = async (id: string) => {
+    try {
+      await API.project.delete(id)
+      useToastStore()
+      .setToast({ 
+        severity: 'success', 
+        summary: 'Success', 
+        detail: 'Project deleted'
+      })
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'Failed to delete project'
+      })
+      return Promise.reject(error)
+    }
+  }
+
   const setRows = (value: ProjectResponseType) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
 
@@ -79,6 +100,7 @@ export const useProjectStore = defineStore('project', () => {
     result,
     getProject,
     project,
-    updateProject
+    updateProject,
+    deleteProject
   }
 })

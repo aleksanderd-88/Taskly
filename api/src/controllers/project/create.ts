@@ -20,6 +20,10 @@ export default async (req: RequestCustom, res: Response) => {
     
     const { name, members } = data
 
+    const projectExist = await models.Project.findOne({ name, isDeleted: false })
+    if ( projectExist )
+      throw new Error('Project with this name already exist. Please choose another name.')
+
     for (const member of members) {
       if ( member && !validate(member) )
         throw new Error('Member email address is not valid')
