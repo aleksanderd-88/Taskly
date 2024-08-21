@@ -64,5 +64,18 @@ watch(() => editMode.value, value => {
         </PrimeBadge>
       </template>
     </DataColumn>
+
+    <DataColumn field="status" header="Status">
+      <template #body="slotProps">
+        {{ slotProps.data.status }}
+        &nbsp;
+        <i
+          class="pi pi-check-circle"
+          title="Task is marked as complete"
+          v-if="slotProps.data.status === 'Completed'"
+        >
+        </i>
+      </template>
+    </DataColumn>
   </DataTable>
 </template>
