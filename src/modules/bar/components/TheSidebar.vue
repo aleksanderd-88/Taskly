@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useDialogStore } from '@/modules/dialog/stores'
+import { useRouter } from 'vue-router';
 
 const dialogStore = useDialogStore()
+const router = useRouter()
 
 const buttons = ref([
   { 
@@ -36,7 +38,8 @@ const buttons = ref([
     icon: 'pi pi-home',
     severity: 'contrast',
     text: true,
-    backgroundColor: '--p-stone-900'
+    backgroundColor: '--p-stone-900',
+    command: () => router.push({ name: 'projectList' })
   },
   { 
     title: 'Mark favorite', 
@@ -71,7 +74,7 @@ const buttons = ref([
     backgroundColor: '--p-stone-900'
   },
   { 
-    title: 'Delete task/s', 
+    title: 'Trash bin', 
     rounded: true,
     icon: 'pi pi-trash',
     severity: 'contrast',
