@@ -63,6 +63,7 @@ const onLoad = ({ instance }: EditorLoadEvent) => {
 const updateTask = async () => {
   await taskStore.updateTask(get(task.value, '_id', ''), { data: { ...task.value, ...input } as TaskType })
   await projectStore.getProject(get(props, 'project._id', ''))
+  cancelEditMode()
 }
 
 const cancelEditMode = () => {
