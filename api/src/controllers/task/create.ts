@@ -7,9 +7,9 @@ import models from "../../../models";
 export default async (req: RequestCustom, res: Response) => {
   try {
     const data = get(req, 'body.data', null)
-  
+
     // Sanity check
-    if ( !requestIsValid(pick(data, ['textValue', 'title'])) )
+    if ( !requestIsValid(pick(data, ['title'])) )
       throw new Error('One or more parameters are missing')
 
     await models.Task.create(data)

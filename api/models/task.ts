@@ -3,7 +3,6 @@ import mongoose from "../config/atlasdb";
 const schema = new mongoose.Schema({
   textValue: {
     type: String,
-    required: true,
     trim: true,
   },
   status: {
