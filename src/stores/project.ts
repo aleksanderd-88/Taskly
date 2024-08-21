@@ -66,6 +66,7 @@ export const useProjectStore = defineStore('project', () => {
       setProject(data)
     } catch (error) {
       console.log(`Error ==> ${ error }`);
+      return Promise.reject(error)
     }
   }
 
