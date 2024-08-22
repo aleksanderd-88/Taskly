@@ -29,7 +29,7 @@ const projects = computed(() => projectStore.result?.rows || [])
       size="small"
       v-if="projects.length"
     >
-      <DataColumn field="name" header="Name"></DataColumn>
+      <DataColumn field="name" header="Name" style="width: 15%"></DataColumn>
       <DataColumn field="deletedAt" header="Deleted at">
         <template #body="slotProps">
           {{ moment(new Date(slotProps.data.deletedAt)).format('YYYY-MM-DD HH:MM:ss') }}
