@@ -51,9 +51,9 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const listProjects = async () => {
+  const listProjects = async (params?: ProjectRequestType<{filter: any}>) => {
     try {
-      const { data } = await API.project.list()
+      const { data } = await API.project.list(params)
       setRows(data)
     } catch (error) {
       console.log(`Error ==> ${ error }`);

@@ -14,7 +14,7 @@ router.post('/api/users/resend-otp', controllers.user.resendOtp)
 
 // Project
 router.post('/api/projects/create', verifyAuthToken, controllers.project.create)
-router.get('/api/projects/list', verifyAuthToken, controllers.project.list)
+router.patch('/api/projects/list', verifyAuthToken, controllers.project.list)
 router.get('/api/projects/:id/get', verifyAuthToken, controllers.project.get)
 router.patch('/api/projects/:id/update', verifyAuthToken, controllers.project.update)
 router.delete('/api/projects/:id/delete', verifyAuthToken, controllers.project.softDelete)

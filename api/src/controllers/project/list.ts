@@ -5,8 +5,14 @@ import get from 'lodash/get'
 
 export default async (req: RequestCustom, res: Response) => {
   try {
+    const filter = get(req, 'body.data.filter', { isDeleted: false })
     const userId = get(req, 'user._id', null)
-    let projects = await models.Project.find({ userId }).lean()
+    let data = { userId }
+    
+    if ( filter && Object.keys(filter).length )
+      data = { ...data, ...filter }
+
+    let projects = await models.Project.find(data).lean()
     
     for (const project of projects) {
       project.tasks = await models.Task.find({ projectId: get(project, '_id', null) })

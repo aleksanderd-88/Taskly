@@ -79,7 +79,8 @@ const buttons = ref([
     icon: 'pi pi-trash',
     severity: 'contrast',
     text: true,
-    backgroundColor: '--p-stone-900'
+    backgroundColor: '--p-stone-900',
+    command: () => router.push({ name: 'trashBin' })
   },
   { 
     title: 'About', 

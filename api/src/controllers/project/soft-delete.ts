@@ -11,7 +11,7 @@ export default async (req: RequestCustom, res: Response) => {
     if ( !id )
       throw new Error('Id is missing and is required')
     
-    await models.Project.updateOne({ _id: id }, { isDeleted: true })
+    await models.Project.updateOne({ _id: id }, { isDeleted: true, deletedAt: new Date() })
     res.status(200).send({ deletedRows: 1 })
   } catch (error) {
     res.status(500).send(get(error, 'message', 'Could not delete project'))
