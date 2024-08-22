@@ -11,6 +11,18 @@ const projects = computed(() => projectStore.result?.rows || [])
 <template>
   <div class="trash-bin">
     <h1>Trash bin</h1>
+
+    <PButton
+      severity="secondary"
+      icon="pi pi-trash"
+      label="Empty trash"
+      :style="{ 
+          width: '100%', 
+          maxWidth: '150px', 
+          marginBottom: '1rem' 
+        }" 
+      />
+    
     <DataTable
       :value="projects"
       tableStyle="min-width: 50rem"
@@ -21,6 +33,13 @@ const projects = computed(() => projectStore.result?.rows || [])
       <DataColumn field="deletedAt" header="Deleted at">
         <template #body="slotProps">
           {{ moment(new Date(slotProps.data.deletedAt)).format('YYYY-MM-DD HH:MM:ss') }}
+        </template>
+      </DataColumn>
+      
+      <DataColumn>
+        <template #body>
+          <PButton icon="pi pi-undo" text severity="secondary" />
+          <PButton icon="pi pi-trash" text severity="secondary" />
         </template>
       </DataColumn>
     </DataTable>
