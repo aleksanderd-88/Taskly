@@ -24,6 +24,7 @@ const getTaskStatusCount = (value: 'Scheduled' | 'Ongoing' | 'Completed') => {
   <router-link
     class="project-item"
     :to="{ name: 'projectOverview', params: { id: get(project, '_id', null) }}"
+    v-if="project"
   >
     <header class="project-item__header">
       <h1 class="project-item__name">{{ get(project, 'name', '') }}</h1>
