@@ -91,6 +91,27 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const undoDelete = async (params: ProjectRequestType<{ ids: string[] }>) => {
+    try {
+      await API.project.undoDelete(params)
+      useToastStore()
+      .setToast({ 
+        severity: 'success', 
+        summary: 'Success', 
+        detail: 'Project(s) updated'
+      })
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'Failed to undo project(s)'
+      })
+      return Promise.reject(error)
+    }
+  }
+
   const setRows = (value: ProjectResponseType) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
 
@@ -101,6 +122,7 @@ export const useProjectStore = defineStore('project', () => {
     getProject,
     project,
     updateProject,
-    deleteProject
+    deleteProject,
+    undoDelete
   }
 })

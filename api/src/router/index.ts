@@ -18,6 +18,7 @@ router.patch('/api/projects/list', verifyAuthToken, controllers.project.list)
 router.get('/api/projects/:id/get', verifyAuthToken, controllers.project.get)
 router.patch('/api/projects/:id/update', verifyAuthToken, controllers.project.update)
 router.delete('/api/projects/:id/delete', verifyAuthToken, controllers.project.softDelete)
+router.patch('/api/projects/undo-delete', verifyAuthToken, controllers.project.undoDelete)
 
 // Task
 router.post('/api/tasks/create', verifyAuthToken, controllers.task.create)

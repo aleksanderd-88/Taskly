@@ -6,6 +6,11 @@ import moment from 'moment'
 const projectStore = useProjectStore()
 
 const projects = computed(() => projectStore.result?.rows || [])
+
+const undoDelete = async (ids: string[]) => {
+  await projectStore.undoDelete({ data: { ids } })
+  await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
+}
 </script>
 
 <template>
@@ -21,8 +26,10 @@ const projects = computed(() => projectStore.result?.rows || [])
             width: '100%', 
             maxWidth: '150px', 
             marginBottom: '1rem',
-            marginRight: '1rem'
-          }" 
+            marginRight: '.5rem'
+          }"
+        :disabled="!projects.length"
+        @click="undoDelete(projects.map(({ _id }) => _id as string))"
         />
 
       <PButton
@@ -33,7 +40,8 @@ const projects = computed(() => projectStore.result?.rows || [])
             width: '100%', 
             maxWidth: '150px', 
             marginBottom: '1rem' 
-          }" 
+          }"
+        :disabled="!projects.length"
         />
       
       <DataTable
@@ -50,9 +58,17 @@ const projects = computed(() => projectStore.result?.rows || [])
         </DataColumn>
         
         <DataColumn>
-          <template #body>
-            <PButton icon="pi pi-undo" text severity="secondary" />
-            <PButton icon="pi pi-trash" text severity="secondary" />
+          <template #body="slotProps">
+            <PButton
+              icon="pi pi-undo"
+              text severity="secondary"
+              @click="undoDelete([slotProps.data._id])"
+            />
+
+            <PButton
+              icon="pi pi-trash"
+              text severity="secondary"
+            />
           </template>
         </DataColumn>
       </DataTable>

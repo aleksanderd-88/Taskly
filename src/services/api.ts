@@ -65,6 +65,9 @@ export default {
     },
     delete(id: string): Promise<AxiosResponse> {
       return client.delete(`/projects/${ id }/delete`)
+    },
+    undoDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+      return client.patch(`/projects/undo-delete`, params)
     }
   },
   task: {
