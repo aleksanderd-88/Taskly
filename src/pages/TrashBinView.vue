@@ -108,6 +108,6 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
     </main>
 
     
-    <ConfirmDialog />
+    <ConfirmDialog :draggable="false" />
   </div>
 </template>
