@@ -15,6 +15,18 @@ const projects = computed(() => projectStore.result?.rows || [])
 
       <PButton
         severity="secondary"
+        icon="pi pi-undo"
+        label="Undo all"
+        :style="{ 
+            width: '100%', 
+            maxWidth: '150px', 
+            marginBottom: '1rem',
+            marginRight: '1rem'
+          }" 
+        />
+
+      <PButton
+        severity="secondary"
         icon="pi pi-trash"
         label="Empty trash"
         :style="{ 
