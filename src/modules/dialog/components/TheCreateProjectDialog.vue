@@ -40,7 +40,7 @@ const createProject = async () => {
   await projectStore.createProject({ data: input })
   dialogStore.setDialogVisibility(false)
 
-  if ( route.params.id )
+  if ( route.name !== 'projectList' )
     router.push({ name: 'projectList' })
 }
 

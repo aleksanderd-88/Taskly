@@ -5,6 +5,7 @@ export type ProjectType = {
   userId?: string
   createdAt?: string
   updatedAt?: string
+  isDeleted?: boolean
 }
 
 export type ProjectRequestType<T> = {

@@ -19,6 +19,8 @@ import Column from 'primevue/column'
 import Badge from 'primevue/badge';
 import Select from 'primevue/select';
 import TieredMenu from 'primevue/tieredmenu'
+import ConfirmDialog from 'primevue/confirmdialog'
+import ConfirmationService from 'primevue/confirmationservice'
 
 export default {
   install(app: App) {
@@ -34,6 +36,7 @@ export default {
     app.directive('tooltip', Tooltip);
 
     app.use(ToastService)
+    app.use(ConfirmationService)
 
     app.component('FloatLabel', FloatLabel)
     app.component('InputText', InputText)
@@ -50,5 +53,6 @@ export default {
     app.component('PrimeBadge', Badge)
     app.component('PrimeSelect', Select)
     app.component('TieredMenu', TieredMenu)
+    app.component('ConfirmDialog', ConfirmDialog)
   }
 }

@@ -2,10 +2,12 @@
 import { useProjectStore } from '@/stores/project';
 import { computed } from 'vue';
 import moment from 'moment'
+import { useConfirm } from "primevue/useconfirm"
 
 const projectStore = useProjectStore()
+const confirm = useConfirm();
 
-const projects = computed(() => projectStore.result?.rows || [])
+const projects = computed(() => projectStore.result?.rows?.filter(({ isDeleted }) => isDeleted) || [])
 
 const undoDelete = async (ids: string[]) => {
   await projectStore.undoDelete({ data: { ids } })
@@ -15,6 +17,28 @@ const undoDelete = async (ids: string[]) => {
 const hardDelete = async (ids: string[]) => {
   await projectStore.hardDelete({ data: { ids } })
   await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
+}
+
+const confirmDelete = (ids: string[], confirmHeader?: string) => {
+  confirm.require({
+    message: 'Are you sure you want to proceed?',
+    header: confirmHeader || 'Empty trash bin',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+      size: 'small'
+    },
+    acceptProps: {
+      label: 'Delete',
+      severity: 'danger',
+      size: 'small'
+    },
+    accept: () => {
+      hardDelete(ids)
+    }
+});
 }
 </script>
 
@@ -47,7 +71,7 @@ const hardDelete = async (ids: string[]) => {
             marginBottom: '1rem' 
           }"
         :disabled="!projects.length"
-        @click="hardDelete(projects.map(({ _id }) => _id as string))"
+        @click="confirmDelete(projects.map(({ _id }) => _id as string))"
         />
       
       <DataTable
@@ -76,11 +100,14 @@ const hardDelete = async (ids: string[]) => {
               icon="pi pi-trash"
               text
               severity="secondary"
-              @click="hardDelete([slotProps.data._id])"
+              @click="confirmDelete([slotProps.data._id], 'Delete item')"
             />
           </template>
         </DataColumn>
       </DataTable>
     </main>
+
+    
+    <ConfirmDialog />
   </div>
 </template>
