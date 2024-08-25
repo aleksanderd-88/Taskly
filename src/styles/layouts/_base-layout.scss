@@ -4,7 +4,11 @@
   
   &__content {
     width: 100%;
-    padding: 0 1rem;
+    padding: 1rem;
+
+    h1 {
+      margin-bottom: 1rem;
+    }
 
     &--modified-padding {
       padding: 0;
