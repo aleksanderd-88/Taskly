@@ -6,10 +6,6 @@
     width: 100%;
     padding: 1rem;
 
-    h1 {
-      margin-bottom: 1rem;
-    }
-
     &--modified-padding {
       padding: 0;
 
@@ -17,6 +13,10 @@
         padding: 0 0 0 calc(60px);
       }
     }
+  }
+
+  &__headline {
+    margin-bottom: 1rem;
   }
 
   &--center-content {

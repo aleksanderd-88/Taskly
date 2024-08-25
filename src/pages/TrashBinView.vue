@@ -45,7 +45,7 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
 <template>
   <div class="base-layout">
     <main class="base-layout__content">
-      <h1>Trash bin</h1>
+      <h1 class="base-layout__headline">Trash bin</h1>
 
       <PButton
         severity="secondary"
