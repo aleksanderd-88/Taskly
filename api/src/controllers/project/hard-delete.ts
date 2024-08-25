@@ -5,14 +5,14 @@ import { RequestCustom } from "../../../types";
 
 export default async (req: RequestCustom, res: Response) => {
   try {
-    const id = get(req, 'params.id', null)
+    const ids = get(req, 'body.data.ids', [])
 
     // Sanity check
-    if ( !id )
-      throw new Error('Id is missing and is required')
+    if ( !ids.length )
+      throw new Error('Missing id(s)')
     
-    await models.Project.updateOne({ _id: id }, { isDeleted: true, deletedAt: new Date() })
-    res.status(200).send({ deletedRows: 1 })
+    await models.Project.deleteMany({ _id: ids })
+    res.status(200).send({ deletedRows: ids.length || 0 })
   } catch (error) {
     res.status(500).send(get(error, 'message', 'Could not delete project'))
   }

@@ -54,8 +54,8 @@ export default {
     create(params: ProjectRequestType<ProjectType>): Promise<AxiosResponse> {
       return client.post('/projects/create', params)
     },
-    list(): Promise<AxiosResponse<ProjectResponseType>> {
-      return client.get('/projects/list')
+    list(params?: ProjectRequestType<{ filter: any }>): Promise<AxiosResponse<ProjectResponseType>> {
+      return client.patch('/projects/list', params)
     },
     getProject(id: string): Promise<AxiosResponse<ProjectType>> {
       return client.get(`/projects/${ id }/get`)
@@ -64,7 +64,13 @@ export default {
       return client.patch(`/projects/${ id }/update`, params)
     },
     delete(id: string): Promise<AxiosResponse> {
-      return client.delete(`/projects/${ id }/delete`)
+      return client.delete(`/projects/${ id }/soft-delete`)
+    },
+    undoDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+      return client.patch(`/projects/undo-delete`, params)
+    },
+    hardDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+      return client.patch(`/projects/hard-delete`, params)
     }
   },
   task: {

@@ -65,6 +65,9 @@ const router = createRouter({
           path: '', 
           name: 'projectList', 
           component: () => import('@/pages/project/ProjectListView.vue'),
+          beforeEnter: async () => {
+            await useProjectStore().listProjects()
+          },
           meta: {
             requiresAuth: true
           }
@@ -85,6 +88,18 @@ const router = createRouter({
             title: 'Project overview'
           }
         },
+        {
+          path: 'trash-bin',
+          name: 'trashBin',
+          component: () => import('@/pages/TrashBinView.vue'),
+          beforeEnter: async () => {
+            await useProjectStore().listProjects({ data: { filter: { isDeleted: true } }})
+          },
+          meta: {
+            title: 'Trash bin',
+            requiresAuth: true
+          }
+        }
       ]
     }
   ]

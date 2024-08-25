@@ -21,16 +21,12 @@ const schema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
     default: false
+  },
+  deletedAt: {
+    type: String,
+    default: null
   }
 }, { timestamps: true })
-
-schema.pre('findOne', async function () {
-  this.where({ isDeleted: false })
-})
-
-schema.pre('find', async function () {
-  this.where({ isDeleted: false })
-})
 
 schema.post('deleteOne', async function () {
   await mongoose
