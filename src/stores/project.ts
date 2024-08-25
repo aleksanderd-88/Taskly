@@ -102,12 +102,6 @@ export const useProjectStore = defineStore('project', () => {
       })
     } catch (error) {
       console.log(`Error ==> ${ error }`);
-      useToastStore()
-      .setToast({ 
-        severity: 'error', 
-        summary: 'Error', 
-        detail: 'Failed to undo project(s)'
-      })
       return Promise.reject(error)
     }
   }

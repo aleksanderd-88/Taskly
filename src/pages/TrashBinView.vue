@@ -3,15 +3,51 @@ import { useProjectStore } from '@/stores/project';
 import { computed } from 'vue';
 import moment from 'moment'
 import { useConfirm } from "primevue/useconfirm"
+import { useToastStore } from '@/modules/toast/stores';
+import { get } from 'lodash';
 
 const projectStore = useProjectStore()
 const confirm = useConfirm();
+const toastStore = useToastStore()
 
 const projects = computed(() => projectStore.result?.rows?.filter(({ isDeleted }) => isDeleted) || [])
 
+const handleDuplicateEntry = (ids: string[]) => {
+  return confirm.require({
+    message: 'Failed to undo this project. There is already an active project with this name.',
+    header: 'Info',
+    icon: 'pi pi-info-circle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+      size: 'small'
+    },
+    acceptProps: {
+      label: 'Delete',
+      severity: 'danger',
+      size: 'small'
+    },
+    accept: async () => {
+      await hardDelete(ids)
+    }
+  })
+}
+
 const undoDelete = async (ids: string[]) => {
-  await projectStore.undoDelete({ data: { ids } })
-  await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
+  try {
+    await projectStore.undoDelete({ data: { ids } })
+    await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
+  } catch (error) {
+    if ( get(error, 'response.data.code', null) === 409 )
+      return handleDuplicateEntry(ids)
+
+    toastStore.setToast({
+      severity: 'error', 
+      summary: 'Error', 
+      detail: 'Failed to undo project(s)'
+    })
+  }
 }
 
 const hardDelete = async (ids: string[]) => {
@@ -35,10 +71,10 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
       severity: 'danger',
       size: 'small'
     },
-    accept: () => {
-      hardDelete(ids)
+    accept: async () => {
+      await hardDelete(ids)
     }
-});
+  });
 }
 </script>
 
@@ -81,9 +117,16 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
         v-if="projects.length"
       >
         <DataColumn field="name" header="Name" style="width: 15%"></DataColumn>
-        <DataColumn field="deletedAt" header="Deleted at">
+
+        <DataColumn field="deletedAt" header="Deleted at" style="width: 15%">
           <template #body="slotProps">
             {{ moment(new Date(slotProps.data.deletedAt)).format('YYYY-MM-DD HH:MM:ss') }}
+          </template>
+        </DataColumn>
+
+        <DataColumn field="tasks" header="Tasks">
+          <template #body="slotProps">
+            {{ slotProps.data.tasks.length }}
           </template>
         </DataColumn>
         
@@ -108,6 +151,6 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
     </main>
 
     
-    <ConfirmDialog :draggable="false" />
+    <ConfirmDialog :draggable="false" :style="{ maxWidth: '400px'}" />
   </div>
 </template>
