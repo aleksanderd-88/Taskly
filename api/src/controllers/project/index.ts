@@ -4,6 +4,7 @@ import get from "./get";
 import update from "./update";
 import softDelete from "./soft-delete";
 import undoDelete from "./undo-delete";
+import hardDelete from "./hard-delete";
 
 export default {
   create,
@@ -11,5 +12,6 @@ export default {
   get,
   update,
   softDelete,
-  undoDelete
+  undoDelete,
+  hardDelete
 }

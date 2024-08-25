@@ -11,6 +11,11 @@ const undoDelete = async (ids: string[]) => {
   await projectStore.undoDelete({ data: { ids } })
   await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
 }
+
+const hardDelete = async (ids: string[]) => {
+  await projectStore.hardDelete({ data: { ids } })
+  await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
+}
 </script>
 
 <template>
@@ -42,6 +47,7 @@ const undoDelete = async (ids: string[]) => {
             marginBottom: '1rem' 
           }"
         :disabled="!projects.length"
+        @click="hardDelete(projects.map(({ _id }) => _id as string))"
         />
       
       <DataTable
@@ -61,13 +67,16 @@ const undoDelete = async (ids: string[]) => {
           <template #body="slotProps">
             <PButton
               icon="pi pi-undo"
-              text severity="secondary"
+              text
+              severity="secondary"
               @click="undoDelete([slotProps.data._id])"
             />
 
             <PButton
               icon="pi pi-trash"
-              text severity="secondary"
+              text
+              severity="secondary"
+              @click="hardDelete([slotProps.data._id])"
             />
           </template>
         </DataColumn>

@@ -64,10 +64,13 @@ export default {
       return client.patch(`/projects/${ id }/update`, params)
     },
     delete(id: string): Promise<AxiosResponse> {
-      return client.delete(`/projects/${ id }/delete`)
+      return client.delete(`/projects/${ id }/soft-delete`)
     },
     undoDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
       return client.patch(`/projects/undo-delete`, params)
+    },
+    hardDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+      return client.patch(`/projects/hard-delete`, params)
     }
   },
   task: {
