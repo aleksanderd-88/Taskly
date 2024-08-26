@@ -149,8 +149,5 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
         </DataColumn>
       </DataTable>
     </main>
-
-    
-    <ConfirmDialog :draggable="false" :style="{ maxWidth: '400px'}" />
   </div>
 </template>

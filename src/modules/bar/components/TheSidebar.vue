@@ -2,9 +2,33 @@
 import { ref } from 'vue';
 import { useDialogStore } from '@/modules/dialog/stores'
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import { useConfirm } from 'primevue/useconfirm';
 
 const dialogStore = useDialogStore()
+const userStore = useUserStore()
+const confirm = useConfirm()
 const router = useRouter()
+
+const logout = () => {
+  return confirm.require({
+    message: 'Do you wish to logout?',
+    header: 'Logout',
+    icon: 'pi pi-info-circle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+      size: 'small'
+    },
+    acceptProps: {
+      label: 'Yes',
+      severity: 'contrast',
+      size: 'small'
+    },
+    accept: () => userStore.logoutUser()
+  })
+}
 
 const buttons = ref([
   { 
@@ -83,12 +107,22 @@ const buttons = ref([
     command: () => router.push({ name: 'trashBin' })
   },
   { 
+    title: 'Logout', 
+    rounded: true,
+    icon: 'pi pi-sign-out',
+    size: 'large',
+    severity: 'contrast',
+    positionBottom: true,
+    text: true,
+    backgroundColor: '--p-stone-900',
+    command: () => logout()
+  },
+  { 
     title: 'About', 
     rounded: true,
     icon: 'pi pi-info-circle',
     size: 'large',
     severity: 'contrast',
-    positionBottom: true,
     text: true,
     backgroundColor: '--p-stone-900'
   },

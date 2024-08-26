@@ -7,4 +7,8 @@ import TheAppToast from '@/modules/toast/components/TheAppToast.vue';
   <RouterView />
   <PWABadge />
   <TheAppToast />
+  <ConfirmDialog
+    :draggable="false"
+    :style="{ width: '400px'}"
+  />
 </template>
