@@ -12,9 +12,16 @@ export default async (req: RequestCustom, res: Response) => {
       throw new Error('Missing id(s)')
 
     const deletedProjects = await models.Project.find({ isDeleted: true })
-    const activeProjects = (await models.Project.find({ isDeleted: false })).map(({ name }) => name)
+    const activeProjects = await models.Project.find({ isDeleted: false })
 
-    if ( deletedProjects.some(({ name }) => activeProjects.includes(name)) )
+    const multipleDuplicateEntries = (collection: { name: string }[]) => ids.length > 1 && deletedProjects.filter(deletedProject => collection.find(item => item.name === deletedProject.name)).length > 1
+
+    let foundDuplicateEntry = activeProjects.some(activeProject => deletedProjects.find(deletedProject => activeProject.name === deletedProject.name))
+
+    if ( foundDuplicateEntry )
+      return res.status(400).send({error: 'Duplicate entry', code: 409})
+
+    if ( foundDuplicateEntry = multipleDuplicateEntries(deletedProjects) )
       return res.status(400).send({error: 'Duplicate entry', code: 409})
 
     await models.Project.updateMany({ _id: ids }, { isDeleted: false, deletedAt: null })
