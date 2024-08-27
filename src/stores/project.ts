@@ -3,12 +3,14 @@ import { defineStore } from "pinia";
 import API from '@/services/api'
 import { useToastStore } from "@/modules/toast/stores";
 import { get } from "lodash";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useUserStore } from "./user";
 
 export const useProjectStore = defineStore('project', () => {
 
-  const result = ref<ProjectResponseType>()
+  const result = ref<ProjectResponseType | null>(null)
   const project = ref<ProjectType | null>(null)
+  const userStore = useUserStore()
 
   const createProject = async (params: ProjectRequestType<ProjectType>) => {
     try {
@@ -127,8 +129,13 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const setRows = (value: ProjectResponseType) => result.value = value
+  const setRows = (value: ProjectResponseType | null) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
+
+  watch(() => userStore.currentUser, value => {
+    if ( !value )
+      setRows(null)
+  })
 
   return {
     createProject,
