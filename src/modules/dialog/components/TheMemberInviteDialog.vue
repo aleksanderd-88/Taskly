@@ -25,7 +25,10 @@ const resetForm = () =>  members.value.length = 0
 const updateProject = async () => {
   const data = { ...get(projectStore, 'project', null), members: members.value }
   return projectStore.updateProject(get(projectStore, 'project._id', ''), { data })
-  .then(() => closeDialog())
+  .then( async () => {
+    await projectStore.getProject(get(projectStore, 'project._id', ''))
+    closeDialog()
+  })
   .catch(() => resetForm())
 }
 </script>

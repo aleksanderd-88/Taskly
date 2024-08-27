@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { computed, ref, type PropType } from 'vue'
+import { type PropType } from 'vue'
 import { ProjectType } from '@/types/project'
 import get from 'lodash/get'
 import { TaskType } from '@/types/task'
+import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 
 const props = defineProps({
   project: {
@@ -10,10 +11,6 @@ const props = defineProps({
     default: () => ({})
   }
 })
-
-const maxRenderedMemberCount = ref(3)
-
-const memberCount = computed(() => get(props, 'project.members', []).length)
 
 const getTaskStatusCount = (value: 'Scheduled' | 'Ongoing' | 'Completed') => {
   return get(props, 'project.tasks', []).filter((task: TaskType) => task['status'] === value).length
@@ -51,23 +48,7 @@ const getTaskStatusCount = (value: 'Scheduled' | 'Ongoing' | 'Completed') => {
     </main>
 
     <footer class="project-item__footer">
-      <AvatarGroup v-if="memberCount">
-        <PrimeAvatar
-          v-for="(index) in memberCount"
-          :key="index"
-          size="small"
-          shape="circle"
-          icon="pi pi-user"
-          v-show="index <= maxRenderedMemberCount"
-        />
-
-        <PrimeAvatar
-          v-if="memberCount > maxRenderedMemberCount"
-          :label="`+${memberCount - maxRenderedMemberCount}`"
-          size="small"
-          shape="circle" 
-        />
-      </AvatarGroup>
+      <AppMemberAvatarGroup :project="project" />
     </footer>
   </router-link>
 </template>

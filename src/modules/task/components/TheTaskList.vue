@@ -9,6 +9,7 @@ import { useDialogStore } from '@/modules/dialog/stores';
 import { useProjectStore } from '@/stores/project';
 import { get } from 'lodash';
 import { useRouter } from 'vue-router';
+import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 
 const props = defineProps({
   project: {
@@ -73,6 +74,8 @@ const deleteProject = async () => {
         <i class="pi pi-book"></i>
         {{ project?.name }}
       </h1>
+      
+      <AppMemberAvatarGroup :project="project" :style="{ margin: '1rem 0 0'}" />
 
       <section>
         <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>

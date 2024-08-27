@@ -2,7 +2,7 @@ import { Response } from "express";
 import models from '../../../models'
 import { requestIsValid } from '../../libs'
 import { sendMail } from '../../libs/mail'
-import { get, omit } from "lodash";
+import { get, pick } from "lodash";
 import { validate } from "email-validator";
 import dotenv from 'dotenv'
 import { generateAuthToken } from "../../libs";
@@ -16,7 +16,7 @@ export default async (req: RequestCustom, res: Response) => {
     const id = get(req, 'params.id', null)
 
     // Sanity check
-    if ( !id || !requestIsValid(omit(data, ['tasks', 'members', '__v'])) )
+    if ( !id || !requestIsValid(pick(data, ['name'])) )
       throw new Error('One or more parameters are missing')
     
     const { name, members } = data
