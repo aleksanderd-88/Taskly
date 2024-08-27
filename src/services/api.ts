@@ -85,6 +85,9 @@ export default {
     },
     update(id: string, params: TaskRequestType<TaskType>): Promise<AxiosResponse<TaskType>> {
       return client.patch(`/tasks/${ id }/update`, params)
+    },
+    delete(id: string): Promise<AxiosResponse> {
+      return client.delete(`/tasks/${ id }/delete`)
     }
   }
 }

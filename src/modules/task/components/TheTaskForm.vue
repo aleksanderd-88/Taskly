@@ -109,7 +109,11 @@ const getPropertyValue = (options: { id: number, name: string }[], propertyValue
   return options?.find(({ name }) => name === propertyValue)
 }
 
-const deleteTask = () => {}
+const deleteTask = async () => {
+  await taskStore.deleteTask(get(task, 'value._id', ''))
+  await projectStore.getProject(get(props, 'project._id', ''))
+  cancelEditMode()
+}
 
 const toggleTieredMenu = (event: any) => {
   tieredMenu.value.toggle(event);
