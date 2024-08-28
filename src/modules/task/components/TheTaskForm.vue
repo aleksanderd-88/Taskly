@@ -10,6 +10,7 @@ import { EditorLoadEvent } from 'primevue/editor';
 import { TaskType } from '@/types/task';
 import moment from 'moment';
 import { useProjectStore } from '@/stores/project'
+import { useConfirm } from 'primevue/useconfirm';
 
 const props = defineProps({
   project: {
@@ -29,6 +30,8 @@ const initialValues = {
   status: null
 }
 const editorKeyValue = ref<string>('')
+const tieredMenu = ref()
+const confirm = useConfirm()
 
 const input = reactive({ ...initialValues })
 
@@ -46,6 +49,14 @@ const statusOptions = computed(() => [
   { id: 1, name: 'Scheduled' },
   { id: 2, name: 'Ongoing' },
   { id: 3, name: 'Completed' }
+])
+
+const tieredMenuOptions = computed(() => [
+  { 
+    label: 'Delete task',
+    icon: 'pi pi-trash',
+    command: () => confirmDeleteTask()
+  },
 ])
 
 const clearEditor = () => Object.assign(input, { ...initialValues })
@@ -98,6 +109,36 @@ const getPropertyValue = (options: { id: number, name: string }[], propertyValue
   return options?.find(({ name }) => name === propertyValue)
 }
 
+const deleteTask = async () => {
+  await taskStore.deleteTask(get(task, 'value._id', ''))
+  await projectStore.getProject(get(props, 'project._id', ''))
+  cancelEditMode()
+}
+
+const toggleTieredMenu = (event: any) => {
+  tieredMenu.value.toggle(event);
+};
+
+const confirmDeleteTask = () => {
+  return confirm.require({
+    message: 'Are you sure you want to proceed?',
+    header: 'Delete task',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+      size: 'small'
+    },
+    acceptProps: {
+      label: 'Yes',
+      severity: 'danger',
+      size: 'small'
+    },
+    accept: () => deleteTask()
+  })
+}
+
 watch(() => task.value, (value) => {
   if ( value ) {
     editorKeyValue.value = get(task.value, '_id', '')
@@ -133,7 +174,13 @@ onUnmounted(() => cancelEditMode())
   
         <section>
           <PButton label="Share" severity="success" disabled />
-          <PButton icon="pi pi-ellipsis-h" text severity="secondary" disabled />
+          <PButton
+            icon="pi pi-ellipsis-h"
+            text
+            severity="secondary"
+            @click="toggleTieredMenu"
+            :disabled="!editMode"
+          />
         </section>
       </section>
 
@@ -144,6 +191,13 @@ onUnmounted(() => cancelEditMode())
         Last edited
         {{ moment.duration(moment(task?.updatedAt).diff(moment())).humanize(true) }}
       </p>
+
+      <TieredMenu 
+        ref="tieredMenu"
+        id="overlay_tmenu"
+        :model="tieredMenuOptions"
+        popup
+      />
     </template>
 
     <template #content>

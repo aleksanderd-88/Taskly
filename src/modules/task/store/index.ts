@@ -62,6 +62,26 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
+  const deleteTask = async (id: string) => {
+    try {
+      await API.task.delete(id)
+      useToastStore()
+      .setToast({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Task deleted'
+      })
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to delete task'
+      })
+    }
+  }
+
   const setResult = (value: TaskResponseType) => result.value = value
   const setTask = (value: TaskType | null, selectedMode: 'basic' | 'edit') => {
     mode.value = selectedMode
@@ -76,6 +96,7 @@ export const useTaskStore = defineStore('task', () => {
     task,
     setTask,
     mode,
-    updateTask
+    updateTask,
+    deleteTask
   }
 })
