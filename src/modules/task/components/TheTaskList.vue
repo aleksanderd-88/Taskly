@@ -10,6 +10,7 @@ import { useProjectStore } from '@/stores/project';
 import { get } from 'lodash';
 import { useRouter } from 'vue-router';
 import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
+import { useConfirm } from 'primevue/useconfirm';
 
 const props = defineProps({
   project: {
@@ -28,6 +29,7 @@ const props = defineProps({
 
 const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
+const confirm = useConfirm()
 const router = useRouter()
 
 const toggleTieredMenu = (event: any) => {
@@ -56,11 +58,32 @@ const tieredMenuOptions = computed(() => [
   { 
     label: 'Delete project',
     icon: 'pi pi-trash',
-    command: () => deleteProject()
+    command: () => confirmDeleteProject()
   }
 ])
 
+const confirmDeleteProject = () => {
+  return confirm.require({
+    message: 'Are you sure you want to proceed?',
+    header: 'Delete project',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Cancel',
+      severity: 'secondary',
+      outlined: true,
+      size: 'small'
+    },
+    acceptProps: {
+      label: 'Yes',
+      severity: 'danger',
+      size: 'small'
+    },
+    accept: () => deleteProject()
+  })
+}
+
 const inviteMember = () => dialogStore.setDialogVisibility(true, 'invite-member')
+
 const deleteProject = async () => {
   await projectStore.deleteProject(get(props, 'project._id', ''))
   router.push({ name: 'projectList' })
@@ -97,6 +120,7 @@ const deleteProject = async () => {
             id="overlay_tmenu"
             :model="tieredMenuOptions"
             popup
+            aria-hidden="false"
           />
         </div>
       </section>
