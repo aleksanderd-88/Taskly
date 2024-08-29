@@ -38,7 +38,7 @@ export default async (req: RequestCustom, res: Response) => {
         html: `
           <p>You have been invited to join a project</p>
           <p>Project to join: <b>@Taskly/${ name }<b></p>
-          <a href="${ process.env.PROJECT_JOIN_REDIRECT_URL }/projects/join?=${generateAuthToken({ email: newMember }, '24h')}" target="_blank">
+          <a href="${ process.env.PROJECT_JOIN_REDIRECT_URL }/projects/${ project._id }/join/${ generateAuthToken({ email: newMember }, '24h') }" target="_blank">
             Accept invitation
           </a>
         `
