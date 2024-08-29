@@ -80,7 +80,7 @@ const router = createRouter({
             try {
               await useProjectStore().getProject(get(to, 'params.id', '') as string)
             } catch (error) {
-              return { name: 'notFound' }
+              return false
             }
           },
           meta: {
@@ -101,6 +101,15 @@ const router = createRouter({
           }
         }
       ]
+    },
+    {
+      path: '/project/invitation',
+      name: 'invitation',
+      component: () => import('@/pages/project/ProjectInvitationView.vue'),
+      meta: {
+        requiresAuth: true,
+        title: 'Project invitation'
+      }
     }
   ]
 })
