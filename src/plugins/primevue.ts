@@ -21,6 +21,7 @@ import Select from 'primevue/select';
 import TieredMenu from 'primevue/tieredmenu'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ConfirmationService from 'primevue/confirmationservice'
+import Chip from 'primevue/chip'
 
 export default {
   install(app: App) {
@@ -54,5 +55,6 @@ export default {
     app.component('PrimeSelect', Select)
     app.component('TieredMenu', TieredMenu)
     app.component('ConfirmDialog', ConfirmDialog)
+    app.component('PrimeChip', Chip)
   }
 }

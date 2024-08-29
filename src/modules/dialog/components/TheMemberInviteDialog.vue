@@ -40,7 +40,7 @@ const updateProject = async () => {
     dismissable-mask
     @close="closeDialog()"
   >
-    <AppForm>
+    <AppForm :style="{marginTop: '1.25rem'}">
       <AppMemberForm
         @cancel="closeDialog()"
         @on-submit="members = $event"
