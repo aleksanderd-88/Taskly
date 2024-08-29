@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import API from '@/services/api'
-import { UserRequestType, UserType } from "@/types/user";
+import { UserType } from "@/types/user";
 import { computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { get } from "lodash";
 import { useToastStore } from "@/modules/toast/stores";
+import { ApiRequestType } from "@/types/api";
 
 export const useUserStore = defineStore('user', () => {
 
@@ -13,7 +14,7 @@ export const useUserStore = defineStore('user', () => {
   const currentUser = ref<UserType | null>(null)
   const userIsLoggedIn = computed(() => JSON.parse(localStorage.getItem('__@taskly/user__') as string))
 
-  const createUser = async (params: UserRequestType<UserType>) => {
+  const createUser = async (params: ApiRequestType<UserType>) => {
     try {
       const { data } = await API.users.create(params)
       return Promise.resolve(data)
@@ -28,7 +29,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
-  const authUser = async (params: UserRequestType<Pick<UserType, 'email' | 'password' | 'otp'>>) => {
+  const authUser = async (params: ApiRequestType<Pick<UserType, 'email' | 'password' | 'otp'>>) => {
     try {
       const { data } = await API.users.auth(params)
 
@@ -46,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
-  const getUser = async (params: UserRequestType<{ authToken: string }>) => {
+  const getUser = async (params: ApiRequestType<{ authToken: string }>) => {
     try {
       const { data } = await API.users.get(params)
 
@@ -58,7 +59,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
-  const resendOtp = async (params: UserRequestType<{ email: string }>) => {
+  const resendOtp = async (params: ApiRequestType<{ email: string }>) => {
     try {
       const { data } = await API.users.resendOtp(params)
       return Promise.resolve(data)

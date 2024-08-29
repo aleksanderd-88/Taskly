@@ -7,12 +7,3 @@ export type ProjectType = {
   updatedAt?: string
   isDeleted?: boolean
 }
-
-export type ProjectRequestType<T> = {
-  data: T
-}
-
-export type ProjectResponseType = {
-  rows: ProjectType[]
-  count: number
-}

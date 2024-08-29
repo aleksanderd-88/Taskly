@@ -1,16 +1,17 @@
 import { defineStore } from "pinia";
 import API from '@/services/api'
-import { TaskRequestType, TaskResponseType, TaskType } from "@/types/task";
+import { TaskType } from "@/types/task";
 import { useToastStore } from "@/modules/toast/stores";
 import { ref } from "vue";
+import { ApiRequestType, ApiResponseType } from "@/types/api";
 
 export const useTaskStore = defineStore('task', () => {
 
-  const result = ref<TaskResponseType | null>(null)
+  const result = ref<ApiResponseType<TaskType[]> | null>(null)
   const task = ref<TaskType | null>(null)
   const mode = ref<'basic' | 'edit'>('basic')
 
-  const createTask = async (params: TaskRequestType<TaskType>) => {
+  const createTask = async (params: ApiRequestType<TaskType>) => {
     try {
       await API.task.create(params)
     } catch (error) {
@@ -24,7 +25,7 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  const listTasks = async (params: TaskRequestType<Pick<TaskType, 'projectId'>>) => {
+  const listTasks = async (params: ApiRequestType<Pick<TaskType, 'projectId'>>) => {
     try {
       const { data } = await API.task.list(params)
       setResult(data)
@@ -42,7 +43,7 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  const updateTask = async (id: string, params: TaskRequestType<TaskType>) => {
+  const updateTask = async (id: string, params: ApiRequestType<TaskType>) => {
     try {
       await API.task.update(id, params)
       useToastStore()
@@ -82,7 +83,7 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  const setResult = (value: TaskResponseType) => result.value = value
+  const setResult = (value: ApiResponseType<TaskType[]>) => result.value = value
   const setTask = (value: TaskType | null, selectedMode: 'basic' | 'edit') => {
     mode.value = selectedMode
     task.value = value

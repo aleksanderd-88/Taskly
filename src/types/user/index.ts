@@ -6,7 +6,3 @@ export type UserType = {
   accountIsVerified?: boolean
   otp?: string
 }
-
-export type UserRequestType<T> = {
-  data: T
-}

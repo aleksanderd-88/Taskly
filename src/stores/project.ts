@@ -1,18 +1,19 @@
-import { ProjectRequestType, ProjectResponseType, ProjectType } from "@/types/project";
+import { ProjectType } from "@/types/project";
 import { defineStore } from "pinia";
 import API from '@/services/api'
 import { useToastStore } from "@/modules/toast/stores";
 import { get } from "lodash";
 import { ref, watch } from "vue";
 import { useUserStore } from "./user";
+import { ApiRequestType, ApiResponseType } from "@/types/api";
 
 export const useProjectStore = defineStore('project', () => {
 
-  const result = ref<ProjectResponseType | null>(null)
+  const result = ref<ApiResponseType<ProjectType[]> | null>(null)
   const project = ref<ProjectType | null>(null)
   const userStore = useUserStore()
 
-  const createProject = async (params: ProjectRequestType<ProjectType>) => {
+  const createProject = async (params: ApiRequestType<ProjectType>) => {
     try {
       await API.project.create(params)
       await listProjects()
@@ -32,7 +33,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const updateProject = async (id: string, params: ProjectRequestType<Partial<ProjectType>>) => {
+  const updateProject = async (id: string, params: ApiRequestType<Partial<ProjectType>>) => {
     try {
       await API.project.update(id, params)
       await listProjects()
@@ -53,7 +54,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const listProjects = async (params?: ProjectRequestType<{filter: any}>) => {
+  const listProjects = async (params?: ApiRequestType<{filter: any}>) => {
     try {
       const { data } = await API.project.list(params)
       setRows(data)
@@ -93,7 +94,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const undoDelete = async (params: ProjectRequestType<{ ids: string[] }>) => {
+  const undoDelete = async (params: ApiRequestType<{ ids: string[] }>) => {
     try {
       await API.project.undoDelete(params)
       useToastStore()
@@ -108,7 +109,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const hardDelete = async (params: ProjectRequestType<{ ids: string[] }>) => {
+  const hardDelete = async (params: ApiRequestType<{ ids: string[] }>) => {
     try {
       await API.project.hardDelete(params)
       useToastStore()
@@ -129,7 +130,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const setRows = (value: ProjectResponseType | null) => result.value = value
+  const setRows = (value: ApiResponseType<ProjectType[]> | null) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
 
   watch(() => userStore.currentUser, value => {

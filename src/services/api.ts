@@ -1,7 +1,8 @@
 import { useUserStore } from '@/stores/user'
-import { ProjectRequestType, ProjectResponseType, ProjectType } from '@/types/project'
-import { TaskRequestType, TaskResponseType, TaskType } from '@/types/task'
-import { UserRequestType, UserType } from '@/types/user'
+import { ApiRequestType, ApiResponseType } from '@/types/api'
+import { ProjectType } from '@/types/project'
+import { TaskType } from '@/types/task'
+import { UserType } from '@/types/user'
 import axios, { AxiosResponse } from 'axios'
 import get from 'lodash/get'
 
@@ -37,53 +38,53 @@ export default {
     return client.get('/health-check')
   },
   users: {
-    create(params: UserRequestType<UserType>): Promise<AxiosResponse> {
+    create(params: ApiRequestType<UserType>): Promise<AxiosResponse> {
       return client.post('/users/create', params)
     },
-    auth(params: UserRequestType<Pick<UserType, 'email' | 'password'>>): Promise<AxiosResponse> {
+    auth(params: ApiRequestType<Pick<UserType, 'email' | 'password'>>): Promise<AxiosResponse> {
       return client.post('/users/auth', params)
     },
-    get(params: UserRequestType<{ authToken: string }>): Promise<AxiosResponse> {
+    get(params: ApiRequestType<{ authToken: string }>): Promise<AxiosResponse> {
       return client.patch('/users/get', params)
     },
-    resendOtp(params: UserRequestType<{ email: string }>): Promise<AxiosResponse> {
+    resendOtp(params: ApiRequestType<{ email: string }>): Promise<AxiosResponse> {
       return client.post('/users/resend-otp', params)
     }
   },
   project: {
-    create(params: ProjectRequestType<ProjectType>): Promise<AxiosResponse> {
+    create(params: ApiRequestType<ProjectType>): Promise<AxiosResponse> {
       return client.post('/projects/create', params)
     },
-    list(params?: ProjectRequestType<{ filter: any }>): Promise<AxiosResponse<ProjectResponseType>> {
+    list(params?: ApiRequestType<{ filter: any }>): Promise<AxiosResponse<ApiResponseType<ProjectType[]>>> {
       return client.patch('/projects/list', params)
     },
     getProject(id: string): Promise<AxiosResponse<ProjectType>> {
       return client.get(`/projects/${ id }/get`)
     },
-    update(id: string, params: ProjectRequestType<Partial<ProjectType>>): Promise<AxiosResponse<ProjectType>> {
+    update(id: string, params: ApiRequestType<Partial<ProjectType>>): Promise<AxiosResponse<ProjectType>> {
       return client.patch(`/projects/${ id }/update`, params)
     },
     delete(id: string): Promise<AxiosResponse> {
       return client.delete(`/projects/${ id }/soft-delete`)
     },
-    undoDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+    undoDelete(params: ApiRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
       return client.patch(`/projects/undo-delete`, params)
     },
-    hardDelete(params: ProjectRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
+    hardDelete(params: ApiRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
       return client.patch(`/projects/hard-delete`, params)
     }
   },
   task: {
-    create(params: TaskRequestType<TaskType>): Promise<AxiosResponse> {
+    create(params: ApiRequestType<TaskType>): Promise<AxiosResponse> {
       return client.post('/tasks/create', params)
     },
-    list(params: TaskRequestType<Pick<TaskType, 'projectId'>>): Promise<AxiosResponse<TaskResponseType>> {
+    list(params: ApiRequestType<Pick<TaskType, 'projectId'>>): Promise<AxiosResponse<ApiResponseType<TaskType[]>>> {
       return client.patch('/tasks/list', params)
     },
     get(id: string): Promise<AxiosResponse<TaskType>> {
       return client.get(`/tasks/${ id }/get`)
     },
-    update(id: string, params: TaskRequestType<TaskType>): Promise<AxiosResponse<TaskType>> {
+    update(id: string, params: ApiRequestType<TaskType>): Promise<AxiosResponse<TaskType>> {
       return client.patch(`/tasks/${ id }/update`, params)
     },
     delete(id: string): Promise<AxiosResponse> {
