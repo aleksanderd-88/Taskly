@@ -83,33 +83,37 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
     <main class="base-layout__content">
       <h1 class="base-layout__headline">Trash bin</h1>
 
-      <PButton
-        severity="secondary"
-        icon="pi pi-undo"
-        label="Undo all"
-        :style="{ 
-            width: '100%', 
-            maxWidth: '150px', 
-            marginBottom: '1rem',
-            marginRight: '.5rem'
-          }"
-        :disabled="!projects.length"
-        @click="undoDelete(projects.map(({ _id }) => _id as string))"
-        />
+      <p v-if="!projects.length"><i>Trash bin is empty</i></p>
 
-      <PButton
-        severity="secondary"
-        icon="pi pi-trash"
-        label="Empty trash"
-        :style="{ 
-            width: '100%', 
-            maxWidth: '150px', 
-            marginBottom: '1rem' 
-          }"
-        :disabled="!projects.length"
-        @click="confirmDelete(projects.map(({ _id }) => _id as string))"
-        />
-      
+      <template v-else>
+        <PButton
+          severity="secondary"
+          icon="pi pi-undo"
+          label="Undo all"
+          :style="{ 
+              width: '100%', 
+              maxWidth: '150px', 
+              marginBottom: '1rem',
+              marginRight: '.5rem'
+            }"
+          :disabled="!projects.length"
+          @click="undoDelete(projects.map(({ _id }) => _id as string))"
+          />
+  
+        <PButton
+          severity="secondary"
+          icon="pi pi-trash"
+          label="Empty trash"
+          :style="{ 
+              width: '100%', 
+              maxWidth: '150px', 
+              marginBottom: '1rem' 
+            }"
+          :disabled="!projects.length"
+          @click="confirmDelete(projects.map(({ _id }) => _id as string))"
+          />
+      </template>
+
       <DataTable
         :value="projects"
         tableStyle="min-width: 50rem"
@@ -127,6 +131,12 @@ const confirmDelete = (ids: string[], confirmHeader?: string) => {
         <DataColumn field="tasks" header="Tasks">
           <template #body="slotProps">
             {{ slotProps.data.tasks.length }}
+          </template>
+        </DataColumn>
+
+        <DataColumn field="members" header="Members">
+          <template #body="slotProps">
+            {{ slotProps.data.members.length }}
           </template>
         </DataColumn>
         
