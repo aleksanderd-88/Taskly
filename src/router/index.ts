@@ -103,8 +103,8 @@ const router = createRouter({
       ]
     },
     {
-      path: '/project/invitation',
-      name: 'invitation',
+      path: '/projects/:id/join/:token',
+      name: 'projectInvitation',
       component: () => import('@/pages/project/ProjectInvitationView.vue'),
       meta: {
         requiresAuth: true,
