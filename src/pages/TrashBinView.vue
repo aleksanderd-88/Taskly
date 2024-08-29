@@ -12,10 +12,10 @@ const toastStore = useToastStore()
 
 const projects = computed(() => projectStore.result?.rows?.filter(({ isDeleted }) => isDeleted) || [])
 
-const handleDuplicateEntry = (ids: string[]) => {
+const handleDuplicateEntry = (ids: string[], message: string) => {
   return confirm.require({
-    message: 'Failed to undo this project. There is already an active project with this name.',
-    header: 'Info',
+    message: message || 'This action cannot be done. There are multiple projects with the same name.',
+    header: 'Duplicate name',
     icon: 'pi pi-info-circle',
     rejectProps: {
       label: 'Cancel',
@@ -40,7 +40,7 @@ const undoDelete = async (ids: string[]) => {
     await projectStore.listProjects({ data: { filter: { isDeleted: true } }})
   } catch (error) {
     if ( get(error, 'response.data.code', null) === 409 )
-      return handleDuplicateEntry(ids)
+      return handleDuplicateEntry(ids, (ids.length < 2 ? 'This action cannot be done. There is already an active project with this name.' : ''))
 
     toastStore.setToast({
       severity: 'error', 
