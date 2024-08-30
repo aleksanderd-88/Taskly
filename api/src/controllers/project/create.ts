@@ -18,7 +18,7 @@ export default async (req: RequestCustom, res: Response) => {
     if ( !requestIsValid(pick(data, ['name'])) )
       throw new Error('One or more parameters are missing')
     
-    const { name, members } = data
+    let { name, members } = data
 
     const projectExist = await models.Project.findOne({ name, isDeleted: false })
     if ( projectExist )
@@ -26,7 +26,9 @@ export default async (req: RequestCustom, res: Response) => {
 
     data.userId = get(req, 'user._id', null)
 
-    const project = await models.Project.create(data)
+    const newData = { ...data, members: members.map((member: string) => ({ name: member })) }
+
+    const project = await models.Project.create(newData)
     if ( !project )
       throw new Error('Failed to create project')
 

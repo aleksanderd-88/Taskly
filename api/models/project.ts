@@ -6,10 +6,18 @@ const schema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  members: {
-    type: Array,
-    default: null
-  },
+  members: [
+    {
+      name: {
+        type: String,
+        default: null
+      },
+      verified: {
+        type: Boolean,
+        default: false
+      }
+    }
+  ],
   userId: {
     type: String,
     required: true
