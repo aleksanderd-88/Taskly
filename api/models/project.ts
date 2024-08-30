@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
   },
   members: [
     {
-      name: {
+      email: {
         type: String,
         default: null
       },

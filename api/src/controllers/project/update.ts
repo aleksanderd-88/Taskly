@@ -28,7 +28,7 @@ export default async (req: RequestCustom, res: Response) => {
       if ( newMember && !validate(newMember) )
         throw new Error('Email address is not valid')
 
-      const memberExist = project.members.find(existingMember => existingMember.name === newMember)
+      const memberExist = project.members.find(existingMember => existingMember.email === newMember)
       if ( memberExist )
         throw new Error('Member already exist')
 

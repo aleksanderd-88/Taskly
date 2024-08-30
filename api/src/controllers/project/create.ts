@@ -26,7 +26,7 @@ export default async (req: RequestCustom, res: Response) => {
 
     data.userId = get(req, 'user._id', null)
 
-    const newData = { ...data, members: members.map((member: string) => ({ name: member })) }
+    const newData = { ...data, members: members.map((member: string) => ({ email: member })) }
 
     const project = await models.Project.create(newData)
     if ( !project )
