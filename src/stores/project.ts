@@ -130,9 +130,10 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const verifyInvitationToken = async (params: ApiRequestType<{ token: string }>) => {
+  const verifyInvitationToken = async (params: ApiRequestType<{ projectId: string, token: string }>) => {
     try {
-      await API.project.verifyToken(params)
+      const { data } = await API.project.verifyToken(params)
+      setProject(data)
     } catch (error) {
       console.log(`Error ==> ${ error }`);
       useToastStore()
