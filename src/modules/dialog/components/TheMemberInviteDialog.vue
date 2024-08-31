@@ -6,11 +6,12 @@ import { useDialogStore } from '../stores';
 import { computed, ref } from 'vue';
 import { useProjectStore } from '@/stores/project';
 import { get } from 'lodash';
+import { MemberType } from '@/types/project';
 
 const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
 
-const members = ref<string[]>([])
+const members = ref<MemberType[]>([])
 
 const dialogMode = computed(() => dialogStore.mode)
 const dialogIsVisible = computed(() => dialogStore.dialogIsVisible && dialogMode.value === 'invite-member')

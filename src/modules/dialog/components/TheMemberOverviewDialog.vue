@@ -2,10 +2,11 @@
 import AppDialog from '@/common/components/AppDialog.vue';
 import { computed, PropType, ref } from 'vue';
 import { useDialogStore } from '../stores';
+import { MemberType } from '@/types/project';
 
 defineProps({
   members: {
-    type: Array as PropType<{ _id: string, email: string }[]>,
+    type: Array as PropType<MemberType[]>,
     default: () => ([])
   }
 })

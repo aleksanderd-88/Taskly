@@ -109,7 +109,7 @@ const openMemberOverviewDialog = () => {
         @click="openMemberOverviewDialog()"
       />
 
-      <TheMemberOverviewDialog />
+      <TheMemberOverviewDialog :members="get(project, 'members', [])" />
 
       <section>
         <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>
