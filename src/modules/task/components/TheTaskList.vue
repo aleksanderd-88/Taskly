@@ -11,6 +11,7 @@ import { get } from 'lodash';
 import { useRouter } from 'vue-router';
 import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 import { useConfirm } from 'primevue/useconfirm';
+import TheMemberOverviewDialog from '@/modules/dialog/components/TheMemberOverviewDialog.vue';
 
 const props = defineProps({
   project: {
@@ -88,6 +89,10 @@ const deleteProject = async () => {
   await projectStore.deleteProject(get(props, 'project._id', ''))
   router.push({ name: 'projectList' })
 }
+
+const openMemberOverviewDialog = () => {
+  dialogStore.setDialogVisibility(true, 'member-overview')
+}
 </script>
 
 <template>
@@ -98,7 +103,13 @@ const deleteProject = async () => {
         {{ project?.name }}
       </h1>
       
-      <AppMemberAvatarGroup :project="project" :style="{ margin: '1rem 0 0'}" />
+      <AppMemberAvatarGroup
+        :project="project"
+        :style="{ margin: '1rem 0 0'}"
+        @click="openMemberOverviewDialog()"
+      />
+
+      <TheMemberOverviewDialog />
 
       <section>
         <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>
