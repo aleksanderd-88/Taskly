@@ -35,13 +35,17 @@ const resetForm = () => {
 }
 
 const createProject = async () => {
-  if ( step.value !== 2 ) return
+  try {
+    if ( step.value !== 2 ) return
+    
+    await projectStore.createProject({ data: input })
+    dialogStore.setDialogVisibility(false)
   
-  await projectStore.createProject({ data: input })
-  dialogStore.setDialogVisibility(false)
-
-  if ( route.name !== 'projectList' )
-    router.push({ name: 'projectList' })
+    if ( route.name !== 'projectList' )
+      router.push({ name: 'projectList' })
+  } catch (error) {
+    //- Do nothing
+  }
 }
 
 watch(() => dialogIsVisible.value, (value: boolean) => {

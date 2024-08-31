@@ -20,6 +20,7 @@ const addMembers = () => {
 
 const removeMember = (event: string) => {
   members.value = members.value.filter(member => member.email !== event)
+  emit('on-submit', members.value)
 }
 </script>
 
@@ -42,8 +43,8 @@ const removeMember = (event: string) => {
     }">
      <PrimeChip
       v-for="member in members"
-      :key="member"
-      :label="member"
+      :key="member.email"
+      :label="member.email"
       removable
       @remove="removeMember(member.email)"
      />

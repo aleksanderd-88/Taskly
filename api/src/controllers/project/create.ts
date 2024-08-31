@@ -13,6 +13,7 @@ dotenv.config()
 export default async (req: RequestCustom, res: Response) => {
   try {
     const data = get(req, 'body.data', null)
+    const currentUser = get(req, 'user', null)
   
     // Sanity check
     if ( !requestIsValid(pick(data, ['name'])) )
@@ -24,16 +25,20 @@ export default async (req: RequestCustom, res: Response) => {
     if ( projectExist )
       throw new Error('Project with this name already exist. Please choose another name.')
 
+    const memberIsProjectOwner = members.find((member: { email: string }) => member.email === currentUser?.email)
+    if ( memberIsProjectOwner )
+      throw new Error('You cannot add yourself as a member')
+
     data.userId = get(req, 'user._id', null)
 
-    const newData = { ...data, members: members.map((member: string) => ({ email: member })) }
+    const newData = { ...data, members: members.map((member: { email: string }) => ({ email: member.email })) }
 
     const project = await models.Project.create(newData)
     if ( !project )
       throw new Error('Failed to create project')
 
     for (const member of members) {
-      if ( member && !validate(member) )
+      if ( member && !validate(member.email) )
         throw new Error('Member email address is not valid')
 
       await sendMail({

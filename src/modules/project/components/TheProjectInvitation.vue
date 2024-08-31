@@ -10,6 +10,7 @@ const route = useRoute()
 const router = useRouter()
 
 const project = computed(() => projectStore.project)
+const memberCount = computed(() => get(project, 'value.members', []).filter(member => member.verified).length)
 
 const closeBrowserWindow = () => {
   window.close()
@@ -47,7 +48,7 @@ const joinProject = async () => {
       <p>
         Project members
         <span>
-          {{ get(project, 'members', []).length || '-' }}
+          {{ memberCount || '-' }}
         </span>
       </p>
 

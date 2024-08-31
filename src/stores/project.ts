@@ -23,6 +23,7 @@ export const useProjectStore = defineStore('project', () => {
         summary: 'Success', 
         detail: 'Successfully created project'
       })
+      return Promise.resolve(true)
     } catch (error) {
       useToastStore()
       .setToast({ 
@@ -30,6 +31,7 @@ export const useProjectStore = defineStore('project', () => {
         summary: 'Error', 
         detail: get(error, 'response.data', 'Failed to create project')
       })
+      return Promise.reject(error)
     }
   }
 
