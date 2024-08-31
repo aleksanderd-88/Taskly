@@ -44,7 +44,7 @@ export default async (req: RequestCustom, res: Response) => {
         `
       })
 
-      project.members.push({ name: newMember })
+      project.members.push({ email: newMember })
     }
     
     await project.save()
