@@ -154,7 +154,7 @@ export const useProjectStore = defineStore('project', () => {
       .setToast({ 
         severity: 'error', 
         summary: 'Error', 
-        detail: 'The token has expired'
+        detail: `${ get(error, 'response.data', 'Verification failed') }`
       })
       return Promise.reject(error)
     }

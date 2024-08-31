@@ -17,12 +17,16 @@ export default async (req: RequestCustom, res: Response) => {
       throw new Error('Could not find associated member')
     
     const member = project.members.find(member => member.email === data.email)
-    if ( member && !member.verified)
+    if ( member ) {
+      if ( member.verified )
+        throw new Error('Member has already been verified')
+
       member.verified = true
-    
+    }
+
     await project.save()
     res.status(200).end()
   } catch (error) {
-    res.status(401).send(get(error, 'message', 'No access'))
+    res.status(400).send(get(error, 'message', 'Verification failed'))
   }
 }
