@@ -130,6 +130,36 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const verifyInvitationToken = async (params: ApiRequestType<{ token: string }>) => {
+    try {
+      await API.project.verifyToken(params)
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'The token has expired'
+      })
+      return Promise.reject(error)
+    }
+  }
+
+  const verifyMember = async (params: ApiRequestType<{ token: string }>) => {
+    try {
+      await API.project.verifyMember(params)
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'The token has expired'
+      })
+      return Promise.reject(error)
+    }
+  }
+
   const setRows = (value: ApiResponseType<ProjectType[]> | null) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
 
@@ -147,6 +177,8 @@ export const useProjectStore = defineStore('project', () => {
     updateProject,
     deleteProject,
     undoDelete,
-    hardDelete
+    hardDelete,
+    verifyInvitationToken,
+    verifyMember
   }
 })

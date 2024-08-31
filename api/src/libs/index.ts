@@ -16,6 +16,13 @@ export const generateAuthToken = (payload: Record<string, unknown>, expiresIn = 
   }
 }
 
+export const verifyJwtToken = (token: string): any => {
+  return JWT.verify(token, process.env.SECRET_KEY || '', (err, data) => {
+    if ( err ) throw new Error('No access')
+    return data
+  })
+}
+
 export const generateOtp = () => {
   const randomNum = Math.random() * 9000
   return Math.floor(1000 + randomNum)

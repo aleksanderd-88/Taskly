@@ -108,6 +108,7 @@ const router = createRouter({
       component: () => import('@/pages/project/ProjectInvitationView.vue'),
       beforeEnter: async (to) => {
         try {
+          await useProjectStore().verifyInvitationToken({ data: { token: get(to, 'params.token', '') as string } })
           await useProjectStore().getProject(get(to, 'params.id', '') as string)
           return true
         } catch (error) {

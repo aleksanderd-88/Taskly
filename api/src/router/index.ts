@@ -20,6 +20,8 @@ router.patch('/api/projects/:id/update', verifyAuthToken, controllers.project.up
 router.delete('/api/projects/:id/soft-delete', verifyAuthToken, controllers.project.softDelete)
 router.patch('/api/projects/undo-delete', verifyAuthToken, controllers.project.undoDelete)
 router.patch('/api/projects/hard-delete', verifyAuthToken, controllers.project.hardDelete)
+router.patch('/api/projects/invitation/verify-token', controllers.project.verifyInvitationToken)
+router.patch('/api/projects/invitation/verify-member', controllers.project.verifyMember)
 
 // Task
 router.post('/api/tasks/create', verifyAuthToken, controllers.task.create)

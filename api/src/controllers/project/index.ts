@@ -5,6 +5,8 @@ import update from "./update";
 import softDelete from "./soft-delete";
 import undoDelete from "./undo-delete";
 import hardDelete from "./hard-delete";
+import verifyInvitationToken from "./verify-invitation-token";
+import verifyMember from "./verify-member";
 
 export default {
   create,
@@ -13,5 +15,7 @@ export default {
   update,
   softDelete,
   undoDelete,
-  hardDelete
+  hardDelete,
+  verifyInvitationToken,
+  verifyMember
 }

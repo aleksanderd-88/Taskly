@@ -3,13 +3,21 @@ import { useProjectStore } from '@/stores/project';
 import { get } from 'lodash';
 import moment from 'moment';
 import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const projectStore = useProjectStore()
+const route = useRoute()
+const router = useRouter()
 
 const project = computed(() => projectStore.project)
 
 const closeBrowserWindow = () => {
   window.close()
+}
+
+const joinProject = async () => {
+  await projectStore.verifyMember({ data: { token: get(route, 'params.token', '') as string } })
+  router.push({ name: 'start' })
 }
 </script>
 
@@ -60,7 +68,7 @@ const closeBrowserWindow = () => {
         }"
       >
       <PButton label="Cancel" severity="secondary" outlined @click="closeBrowserWindow()" />
-      <PButton label="Join project" />
+      <PButton label="Join project" @click="joinProject()" />
       </div>
     </template>
   </PrimeCard>
