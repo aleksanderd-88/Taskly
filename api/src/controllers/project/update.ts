@@ -15,6 +15,7 @@ export default async (req: RequestCustom, res: Response) => {
     const data = get(req, 'body.data', null)
     const id = get(req, 'params.id', null)
     const currentUser = get(req, 'user', null)
+    let promises = []
 
     // Sanity check
     if ( !id || !requestIsValid(pick(data, ['name'])) )
@@ -24,6 +25,8 @@ export default async (req: RequestCustom, res: Response) => {
     const project = await models.Project.findById(id)
     if ( !project )
       throw new Error('Project not found')
+
+    promises.push(models.Project.updateOne({ _id: id }, data))
 
     for (const newMember of members) {
       if ( newMember && !validate(newMember.email) )
@@ -50,8 +53,10 @@ export default async (req: RequestCustom, res: Response) => {
 
       project.members.push({ email: newMember.email })
     }
+
+    promises.push(project.save())
     
-    await project.save()
+    await Promise.all(promises)
 
     res.status(200).end()
   } catch (error) {
