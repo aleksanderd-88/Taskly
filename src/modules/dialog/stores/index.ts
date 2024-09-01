@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-type ActionType = 'create-project' | 'invite-member' | 'member-overview' | ''
+type ActionType = 'create-project' | 'invite-member' | 'member-overview' | 'edit-text' | ''
 
 export const useDialogStore = defineStore('dialog', () => {
 

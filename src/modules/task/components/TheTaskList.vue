@@ -12,6 +12,7 @@ import { useRouter } from 'vue-router';
 import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import TheMemberOverviewDialog from '@/modules/dialog/components/TheMemberOverviewDialog.vue';
+import TheEditTextDialog from '@/modules/dialog/components/TheEditTextDialog.vue'
 
 const props = defineProps({
   project: {
@@ -32,6 +33,8 @@ const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
 const confirm = useConfirm()
 const router = useRouter()
+
+const editTextDialogHeaderTitle = ref('')
 
 const toggleTieredMenu = (event: any) => {
   tieredMenu.value.toggle(event);
@@ -94,8 +97,9 @@ const openMemberOverviewDialog = () => {
   dialogStore.setDialogVisibility(true, 'member-overview')
 }
 
-const editText = () => {
-  //- Do something
+const editText = (headerTitle = '') => {
+  editTextDialogHeaderTitle.value = headerTitle
+  dialogStore.setDialogVisibility(true, 'edit-text')
 }
 </script>
 
@@ -112,7 +116,7 @@ const editText = () => {
           severity="secondary"
           size="large"
           text
-          @click="editText()"
+          @click="editText('Edit title')"
         />
       </h1>
 
@@ -124,7 +128,7 @@ const editText = () => {
           severity="secondary"
           size="small"
           text
-          @click="editText()"
+          @click="editText('Edit description')"
         />
       </p>
       
@@ -135,6 +139,8 @@ const editText = () => {
       />
 
       <TheMemberOverviewDialog :members="get(project, 'members', [])" />
+
+      <TheEditTextDialog :header-title="editTextDialogHeaderTitle" />
 
       <section>
         <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>

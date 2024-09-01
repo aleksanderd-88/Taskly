@@ -21,7 +21,7 @@ export default async (req: RequestCustom, res: Response) => {
     if ( !id || !requestIsValid(pick(data, ['name'])) )
       throw new Error('One or more parameters are missing')
     
-    const { name, members } = data
+    const { name, members = [] } = data
     const project = await models.Project.findById(id)
     if ( !project )
       throw new Error('Project not found')
