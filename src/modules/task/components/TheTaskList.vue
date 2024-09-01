@@ -121,7 +121,7 @@ const editText = (headerTitle = '') => {
       </h1>
 
       <p>
-        {{ get(project, 'description', 'Description') }}
+        {{ get(project, 'description', '') || 'Description' }}
 
         <PButton
           icon="pi pi-pen-to-square"
