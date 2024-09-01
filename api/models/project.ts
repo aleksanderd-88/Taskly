@@ -6,6 +6,10 @@ const schema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  description: {
+    type: String,
+    default: null
+  },
   members: [
     {
       email: {

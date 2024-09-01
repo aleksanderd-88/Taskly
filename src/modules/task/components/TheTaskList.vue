@@ -93,6 +93,10 @@ const deleteProject = async () => {
 const openMemberOverviewDialog = () => {
   dialogStore.setDialogVisibility(true, 'member-overview')
 }
+
+const editText = () => {
+  //- Do something
+}
 </script>
 
 <template>
@@ -100,8 +104,29 @@ const openMemberOverviewDialog = () => {
     <template #header>
       <h1>
         <i class="pi pi-book"></i>
+
         {{ project?.name }}
+
+        <PButton
+          icon="pi pi-pen-to-square"
+          severity="secondary"
+          size="large"
+          text
+          @click="editText()"
+        />
       </h1>
+
+      <p>
+        {{ get(project, 'description', 'Description') }}
+
+        <PButton
+          icon="pi pi-pen-to-square"
+          severity="secondary"
+          size="small"
+          text
+          @click="editText()"
+        />
+      </p>
       
       <AppMemberAvatarGroup
         :project="project"
@@ -154,6 +179,11 @@ const openMemberOverviewDialog = () => {
       align-items: center;
       gap: .75rem;
       font-size: 1.75rem;
+    }
+
+    p {
+      font-size: .8rem;
+      margin-top: -.25rem;
     }
 
     i {
