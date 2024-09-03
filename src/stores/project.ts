@@ -23,6 +23,7 @@ export const useProjectStore = defineStore('project', () => {
         summary: 'Success', 
         detail: 'Successfully created project'
       })
+      return Promise.resolve(true)
     } catch (error) {
       useToastStore()
       .setToast({ 
@@ -30,6 +31,7 @@ export const useProjectStore = defineStore('project', () => {
         summary: 'Error', 
         detail: get(error, 'response.data', 'Failed to create project')
       })
+      return Promise.reject(error)
     }
   }
 
@@ -130,6 +132,37 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const verifyInvitationToken = async (params: ApiRequestType<{ projectId: string, token: string }>) => {
+    try {
+      const { data } = await API.project.verifyToken(params)
+      setProject(data)
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'The token has expired'
+      })
+      return Promise.reject(error)
+    }
+  }
+
+  const verifyMember = async (params: ApiRequestType<{ token: string }>) => {
+    try {
+      await API.project.verifyMember(params)
+    } catch (error) {
+      console.log(`Error ==> ${ error }`);
+      useToastStore()
+      .setToast({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: `${ get(error, 'response.data', 'Verification failed') }`
+      })
+      return Promise.reject(error)
+    }
+  }
+
   const setRows = (value: ApiResponseType<ProjectType[]> | null) => result.value = value
   const setProject = (value: ProjectType) => project.value = value
 
@@ -147,6 +180,8 @@ export const useProjectStore = defineStore('project', () => {
     updateProject,
     deleteProject,
     undoDelete,
-    hardDelete
+    hardDelete,
+    verifyInvitationToken,
+    verifyMember
   }
 })

@@ -1,24 +1,26 @@
 <script lang="ts" setup>
+import { MemberType } from '@/types/project';
 import { ref } from 'vue';
 
 const emit = defineEmits<{
   (event: 'cancel'): void
-  (event: 'on-submit', value: string[]): void
+  (event: 'on-submit', value: MemberType[]): void
 }>()
 
 const input = ref<string | null>(null)
-const members = ref<string[]>([])
+const members = ref<MemberType[]>([])
 
 const addMembers = () => {
   if ( !input ) return
 
-  members.value = [ ...members.value, input.value as string ]
+  members.value.push({ email: input.value as string })
   input.value = null
   emit('on-submit', members.value)
 }
 
 const removeMember = (event: string) => {
-  members.value = members.value.filter((name) => name !== event)
+  members.value = members.value.filter(member => member.email !== event)
+  emit('on-submit', members.value)
 }
 </script>
 
@@ -40,11 +42,11 @@ const removeMember = (event: string) => {
       gap: '.5rem',
     }">
      <PrimeChip
-      v-for="name in members"
-      :key="name"
-      :label="name"
+      v-for="member in members"
+      :key="member.email"
+      :label="member.email"
       removable
-      @remove="removeMember(name)"
+      @remove="removeMember(member.email)"
      />
   </div>
 

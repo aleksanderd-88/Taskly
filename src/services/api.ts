@@ -72,6 +72,12 @@ export default {
     },
     hardDelete(params: ApiRequestType<{ ids: string[] }>): Promise<AxiosResponse> {
       return client.patch(`/projects/hard-delete`, params)
+    },
+    verifyToken(params: ApiRequestType<{ token: string }>): Promise<AxiosResponse> {
+      return client.patch('/projects/invitation/verify-token', params)
+    },
+    verifyMember(params: ApiRequestType<{ token: string }>): Promise<AxiosResponse> {
+      return client.patch('/projects/invitation/verify-member', params)
     }
   },
   task: {

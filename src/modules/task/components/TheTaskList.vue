@@ -11,6 +11,8 @@ import { get } from 'lodash';
 import { useRouter } from 'vue-router';
 import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 import { useConfirm } from 'primevue/useconfirm';
+import TheMemberOverviewDialog from '@/modules/dialog/components/TheMemberOverviewDialog.vue';
+import TheEditTextDialog from '@/modules/dialog/components/TheEditTextDialog.vue'
 
 const props = defineProps({
   project: {
@@ -31,6 +33,8 @@ const dialogStore = useDialogStore()
 const projectStore = useProjectStore()
 const confirm = useConfirm()
 const router = useRouter()
+
+const editTextDialogHeaderTitle = ref('')
 
 const toggleTieredMenu = (event: any) => {
   tieredMenu.value.toggle(event);
@@ -88,6 +92,15 @@ const deleteProject = async () => {
   await projectStore.deleteProject(get(props, 'project._id', ''))
   router.push({ name: 'projectList' })
 }
+
+const openMemberOverviewDialog = () => {
+  dialogStore.setDialogVisibility(true, 'member-overview')
+}
+
+const editText = (headerTitle = '') => {
+  editTextDialogHeaderTitle.value = headerTitle
+  dialogStore.setDialogVisibility(true, 'edit-text')
+}
 </script>
 
 <template>
@@ -95,10 +108,39 @@ const deleteProject = async () => {
     <template #header>
       <h1>
         <i class="pi pi-book"></i>
+
         {{ project?.name }}
+
+        <PButton
+          icon="pi pi-pen-to-square"
+          severity="secondary"
+          size="large"
+          text
+          @click="editText('Edit title')"
+        />
       </h1>
+
+      <p>
+        {{ get(project, 'description', '') || 'Description' }}
+
+        <PButton
+          icon="pi pi-pen-to-square"
+          severity="secondary"
+          size="small"
+          text
+          @click="editText('Edit description')"
+        />
+      </p>
       
-      <AppMemberAvatarGroup :project="project" :style="{ margin: '1rem 0 0'}" />
+      <AppMemberAvatarGroup
+        :project="project"
+        :style="{ margin: '1rem 0 0'}"
+        @click="openMemberOverviewDialog()"
+      />
+
+      <TheMemberOverviewDialog :members="get(project, 'members', [])" />
+
+      <TheEditTextDialog :header-title="editTextDialogHeaderTitle" />
 
       <section>
         <p>{{ taskCount }} {{ !taskCount || taskCount > 1 ? 'tasks' : 'task' }}</p>
@@ -143,6 +185,11 @@ const deleteProject = async () => {
       align-items: center;
       gap: .75rem;
       font-size: 1.75rem;
+    }
+
+    p {
+      font-size: .8rem;
+      margin-top: -.25rem;
     }
 
     i {

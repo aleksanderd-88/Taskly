@@ -80,7 +80,7 @@ const router = createRouter({
             try {
               await useProjectStore().getProject(get(to, 'params.id', '') as string)
             } catch (error) {
-              return { name: 'notFound' }
+              return false
             }
           },
           meta: {
@@ -101,6 +101,28 @@ const router = createRouter({
           }
         }
       ]
+    },
+    {
+      path: '/projects/:id/join/:token',
+      name: 'projectInvitation',
+      component: () => import('@/pages/project/ProjectInvitationView.vue'),
+      beforeEnter: async (to) => {
+        try {
+          await useProjectStore().verifyInvitationToken({ 
+            data: { 
+              projectId: get(to, 'params.id', '') as string, 
+              token: get(to, 'params.token', '') as string 
+            } 
+          })
+          return true
+        } catch (error) {
+          return false
+        }
+      },
+      meta: {
+        requiresAuth: true,
+        title: 'Project invitation'
+      }
     }
   ]
 })

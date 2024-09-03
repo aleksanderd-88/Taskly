@@ -26,7 +26,7 @@ const getTaskStatusCount = (value: 'Scheduled' | 'Ongoing' | 'Completed') => {
     <header class="project-item__header">
       <h1 class="project-item__name">{{ get(project, 'name', '') }}</h1>
       <p class="project-item__description">
-        {{ get(project, 'description', 'Add a description (Optional)') }}
+        {{ get(project, 'description', '') || 'Description (Optional)' }}
       </p>
     </header>
 

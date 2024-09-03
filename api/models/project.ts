@@ -6,10 +6,22 @@ const schema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  members: {
-    type: Array,
+  description: {
+    type: String,
     default: null
   },
+  members: [
+    {
+      email: {
+        type: String,
+        default: null
+      },
+      verified: {
+        type: Boolean,
+        default: false
+      }
+    }
+  ],
   userId: {
     type: String,
     required: true

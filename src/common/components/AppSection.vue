@@ -23,7 +23,7 @@
     gap: 1rem;
 
     &__header {
-      height: 150px;
+      height: 190px;
       padding: 1rem;
       display: flex;
       flex-direction: column;
