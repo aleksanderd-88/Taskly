@@ -10,3 +10,5 @@ app.use(cors({ origin: ['http://localhost:5173'] }))
 app.use('/', routes)
 
 app.listen(port, () => console.log(`API started and listening to port ${port}`))
+
+export default app
