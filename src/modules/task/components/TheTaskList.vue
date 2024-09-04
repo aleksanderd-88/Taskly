@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppSection from '@/common/components/AppSection.vue';
 import { ProjectType } from '@/types/project';
-import { computed, ref, type PropType } from 'vue';
+import { computed, ref, watch, type PropType } from 'vue';
 import { type TaskType } from '@/types/task'
 import TheTaskTable from './TheTaskTable.vue'
 import TheMemberInviteDialog from '@/modules/dialog/components/TheMemberInviteDialog.vue';
@@ -101,6 +101,11 @@ const editText = (headerTitle = '') => {
   editTextDialogHeaderTitle.value = headerTitle
   dialogStore.setDialogVisibility(true, 'edit-text')
 }
+
+watch(() => dialogStore.dialogIsVisible, value => {
+  if ( !value )
+    editTextDialogHeaderTitle.value = ''
+})
 </script>
 
 <template>

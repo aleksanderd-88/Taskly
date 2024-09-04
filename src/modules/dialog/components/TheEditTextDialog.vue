@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { useDialogStore } from '@/modules/dialog/stores'
 import { useProjectStore } from '@/stores/project'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import AppDialog from '@/common/components/AppDialog.vue'
 import AppForm from '@/common/components/AppForm.vue'
 import get from 'lodash/get'
 import omit from 'lodash/omit'
 
-defineProps({
+const props = defineProps({
   headerTitle: {
     type: String,
     default: ''
@@ -48,6 +48,13 @@ const updateText = async (title = '') => {
     //- Do nothing
   }
 }
+
+watch(() => props.headerTitle, value => {
+  if ( value === 'Edit description' )
+    return input.value = get(projectStore, 'project.description', '')
+
+  input.value = get(projectStore, 'project.name', '')
+})
 </script>
 
 <template>
