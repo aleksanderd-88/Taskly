@@ -1,3 +1,4 @@
+import { useLoaderStore } from '@/modules/loader/store'
 import { useUserStore } from '@/stores/user'
 import { ApiRequestType, ApiResponseType } from '@/types/api'
 import { ProjectType } from '@/types/project'
@@ -13,16 +14,20 @@ const client = axios.create({
 })
 
 client.interceptors.request.use(req => {
+  useLoaderStore().setLoading(true)
+
   const currentUser = useUserStore().currentUser
   if ( get(currentUser, 'authToken', null) )
     req.headers.Authorization = `Bearer ${ currentUser?.authToken }`
   return req
 }, err => {
   console.log('REQUEST ERROR ==>', err);
+  useLoaderStore().setLoading(false)
   return Promise.reject(err)
 })
 
 client.interceptors.response.use(res => {
+  useLoaderStore().setLoading(false)
   return res
 }, err => {
   console.log('RESPONSE ERROR ==>', err);
@@ -30,6 +35,7 @@ client.interceptors.response.use(res => {
   if ( [401, 403].includes(statusCode) )
     useUserStore().logoutUser()
   
+  useLoaderStore().setLoading(false)
   return Promise.reject(err)
 })
 
