@@ -4,6 +4,7 @@ import { useDialogStore } from '@/modules/dialog/stores'
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useConfirm } from 'primevue/useconfirm';
+import AppLogo from '@/assets/logos/app_logo.png'
 
 const dialogStore = useDialogStore()
 const userStore = useUserStore()
@@ -32,9 +33,8 @@ const logout = () => {
 
 const buttons = ref([
   { 
-    title: 'Taskly', 
-    renderImage: true, 
-    imageSrc: '/src/assets/logos/app_logo.png', 
+    title: 'Taskly',
+    src: AppLogo, 
     as: 'router-link',
     text: true,
     routeName: 'dashboard'
@@ -156,8 +156,8 @@ const buttons = ref([
         @click.stop="typeof button.command === 'function' ? button.command() : {}"
       >
         <img 
-          v-if="button.renderImage"
-          :src="button.imageSrc"
+          v-if="button.src"
+          :src="button.src"
           alt="Button image"
         />
       </PButton>
