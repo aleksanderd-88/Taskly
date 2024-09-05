@@ -102,5 +102,10 @@ export default {
     delete(id: string): Promise<AxiosResponse> {
       return client.delete(`/tasks/${ id }/delete`)
     }
+  },
+  version: {
+    get(): Promise<AxiosResponse> {
+      return client.get(`/app/version/get`)
+    }
   }
 }
