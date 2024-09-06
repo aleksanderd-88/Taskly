@@ -15,5 +15,8 @@ watch(() => toast.value, value => {
 </script>
 
 <template>
-  <PrimeToast position="bottom-right" group="br" />
+  <PrimeToast
+    :position="toast.position || 'bottom-right'"
+    :group="toast.group || 'br'"
+  />
 </template>
