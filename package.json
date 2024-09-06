@@ -18,6 +18,7 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.0.1",
     "quill": "^2.0.2",
+    "vite-plugin-package-version": "^1.1.0",
     "vue": "^3.4.26",
     "vue-router": "4"
   },
