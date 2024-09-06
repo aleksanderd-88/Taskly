@@ -4,4 +4,5 @@ export type ToastType = {
   severity?: "info" | "success" | "warn" | "error" | "secondary" | "contrast" | undefined
   life?: number
   group?: string
+  position?: string
 }

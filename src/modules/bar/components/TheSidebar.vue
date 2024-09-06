@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useDialogStore } from '@/modules/dialog/stores'
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useConfirm } from 'primevue/useconfirm';
 import AppLogo from '@/assets/logos/app_logo.png'
+import { useAppStore } from '@/stores/app';
+import { useToastStore } from '@/modules/toast/stores';
 
 const dialogStore = useDialogStore()
 const userStore = useUserStore()
 const confirm = useConfirm()
 const router = useRouter()
+const appStore = useAppStore()
+const toastStore = useToastStore()
 
 const logout = () => {
   return confirm.require({
@@ -124,9 +128,26 @@ const buttons = ref([
     size: 'large',
     severity: 'contrast',
     text: true,
-    backgroundColor: '--p-stone-900'
+    backgroundColor: '--p-stone-900',
+    command: () => getAppInfo()
   },
 ])
+
+const appVersion = computed(() => appStore.version)
+
+const getAppInfo = () => {
+  toastStore.setToast({
+    detail: `
+      Taskly Version :: ${ import.meta.env.PACKAGE_VERSION }
+      API Version :: ${ appVersion.value.apiVersion }
+      Client Git :: ${ appVersion.value.client.slice(0, 7) }
+      API Git :: ${ appVersion.value.api.slice(0, 7) }
+    `,
+    summary: '',
+    severity: 'info',
+    life: 10000
+  })
+}
 </script>
 
 <template>
