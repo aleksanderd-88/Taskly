@@ -139,6 +139,7 @@ const getAppInfo = () => {
   toastStore.setToast({
     detail: `
       Taskly Version :: ${ import.meta.env.PACKAGE_VERSION }
+      API Version :: ${ appVersion.value.apiVersion }
       Client Git :: ${ appVersion.value.client.slice(0, 7) }
       API Git :: ${ appVersion.value.api.slice(0, 7) }
     `,

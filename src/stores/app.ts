@@ -5,9 +5,10 @@ import { useToastStore } from "@/modules/toast/stores";
 import { get } from "lodash";
 
 export const useAppStore = defineStore('app', () => {
-  const version = ref<{api: string, client: string}>({
+  const version = ref<{api: string, client: string, apiVersion: string}>({
     api: '',
-    client: ''
+    client: '',
+    apiVersion: ''
   })
 
   const getVersion = async () => {
