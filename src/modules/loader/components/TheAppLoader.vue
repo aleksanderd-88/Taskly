@@ -23,7 +23,6 @@ const isLoading = computed(() => loaderStore.isLoading)
   position: fixed;
   top: 0;
   right: 0;
-  background-color: rgba(#fff, .8);
 
   &__dots {
     width: 12px;
