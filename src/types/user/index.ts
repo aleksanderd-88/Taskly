@@ -5,4 +5,5 @@ export type UserType = {
   authToken?: string
   accountIsVerified?: boolean
   otp?: string
+  _id?: string
 }
