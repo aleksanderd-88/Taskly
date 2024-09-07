@@ -23,6 +23,7 @@ const isLoading = computed(() => loaderStore.isLoading)
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 10000;
 
   &__dots {
     width: 12px;
