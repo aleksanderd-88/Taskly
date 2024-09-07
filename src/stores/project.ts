@@ -56,7 +56,7 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
-  const listProjects = async (params?: ApiRequestType<{filter: any}>) => {
+  const listProjects = async (params?: ApiRequestType<Record<string, unknown>>) => {
     try {
       const { data } = await API.project.list(params)
       setRows(data)
