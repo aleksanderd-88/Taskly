@@ -76,6 +76,7 @@ const buttons = ref([
     severity: 'contrast',
     text: true,
     backgroundColor: '--p-stone-900',
+    command: () => router.push({ name: 'workspaces' })
   },
   { 
     title: 'Mark favorite', 

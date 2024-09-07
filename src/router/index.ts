@@ -99,6 +99,15 @@ const router = createRouter({
             title: 'Trash bin',
             requiresAuth: true
           }
+        },
+        {
+          path: '/workspaces',
+          name: 'workspaces',
+          component: () => import('@/pages/WorkspaceView.vue'),
+          meta: {
+            requiresAuth: true,
+            title: 'Workspaces'
+          }
         }
       ]
     },
