@@ -70,6 +70,14 @@ const buttons = ref([
     command: () => router.push({ name: 'projectList' })
   },
   { 
+    title: 'Workspaces', 
+    rounded: true,
+    icon: 'pi pi-table',
+    severity: 'contrast',
+    text: true,
+    backgroundColor: '--p-stone-900',
+  },
+  { 
     title: 'Mark favorite', 
     rounded: true,
     icon: 'pi pi-star',
