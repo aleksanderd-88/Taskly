@@ -58,7 +58,8 @@ const tieredMenuOptions = computed(() => [
   { 
     label: 'Invite member',
     icon: 'pi pi-users',
-    command: () => inviteMember()
+    command: () => inviteMember(),
+    disabled: !userIsProjectOwner()
   },
   { 
     label: 'Delete project',
