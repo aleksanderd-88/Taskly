@@ -13,6 +13,7 @@ import AppMemberAvatarGroup from '@/common/components/AppMemberAvatarGroup.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import TheMemberOverviewDialog from '@/modules/dialog/components/TheMemberOverviewDialog.vue';
 import TheEditTextDialog from '@/modules/dialog/components/TheEditTextDialog.vue'
+import { userIsProjectOwner, noPermissionLabel } from '@/utils/user-access'
 
 const props = defineProps({
   project: {
@@ -57,12 +58,14 @@ const tieredMenuOptions = computed(() => [
   { 
     label: 'Invite member',
     icon: 'pi pi-users',
-    command: () => inviteMember()
+    command: () => inviteMember(),
+    disabled: !userIsProjectOwner()
   },
   { 
     label: 'Delete project',
     icon: 'pi pi-trash',
-    command: () => confirmDeleteProject()
+    command: () => confirmDeleteProject(),
+    disabled: !userIsProjectOwner()
   }
 ])
 
@@ -122,6 +125,8 @@ watch(() => dialogStore.dialogIsVisible, value => {
           size="large"
           text
           @click="editText('Edit title')"
+          :disabled="!userIsProjectOwner()"
+          :title="noPermissionLabel()"
         />
       </h1>
 
@@ -134,6 +139,8 @@ watch(() => dialogStore.dialogIsVisible, value => {
           size="small"
           text
           @click="editText('Edit description')"
+          :disabled="!userIsProjectOwner()"
+          :title="noPermissionLabel()"
         />
       </p>
       

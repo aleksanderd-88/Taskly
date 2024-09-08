@@ -7,6 +7,7 @@ export type ProjectType = {
   createdAt?: string
   updatedAt?: string
   isDeleted?: boolean
+  owner?: string
 }
 
 export type MemberType = {

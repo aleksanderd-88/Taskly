@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '@/pages/StartView.vue'
 import { get } from 'lodash'
 import { useProjectStore } from '@/stores/project'
+import { useUserStore } from '@/stores/user'
 
 const setPageTitle = (title = '') => {
   document.title = `Taskly :: ${ title }`
@@ -98,6 +99,18 @@ const router = createRouter({
           meta: {
             title: 'Trash bin',
             requiresAuth: true
+          }
+        },
+        {
+          path: '/workspaces',
+          name: 'workspaces',
+          component: () => import('@/pages/WorkspaceView.vue'),
+          async beforeEnter() {
+            await useProjectStore().listProjects({ data: { filter: { member: get(useUserStore(), 'currentUser.email', '') } } })
+          },
+          meta: {
+            requiresAuth: true,
+            title: 'Workspaces'
           }
         }
       ]

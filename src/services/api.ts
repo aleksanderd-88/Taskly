@@ -61,7 +61,7 @@ export default {
     create(params: ApiRequestType<ProjectType>): Promise<AxiosResponse> {
       return client.post('/projects/create', params)
     },
-    list(params?: ApiRequestType<{ filter: any }>): Promise<AxiosResponse<ApiResponseType<ProjectType[]>>> {
+    list(params?: ApiRequestType<Record<string, unknown>>): Promise<AxiosResponse<ApiResponseType<ProjectType[]>>> {
       return client.patch('/projects/list', params)
     },
     getProject(id: string): Promise<AxiosResponse<ProjectType>> {
