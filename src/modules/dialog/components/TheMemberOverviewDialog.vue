@@ -6,6 +6,7 @@ import { useProjectStore } from '@/stores/project'
 import { MemberType } from '@/types/project';
 import { get } from 'lodash';
 import { useConfirm } from 'primevue/useconfirm';
+import { userIsProjectOwner, noPermissionLabel } from '@/utils/user-access'
 
 const props = defineProps({
   members: {
@@ -94,6 +95,8 @@ const deleteMember = async (id: string) => {
           aria-hidden="false"
           text
           @click="confirmDeleteMember(member._id as string)"
+          :disabled="!userIsProjectOwner()"
+          :title="noPermissionLabel()"
         />
       </li>
     </ul>
