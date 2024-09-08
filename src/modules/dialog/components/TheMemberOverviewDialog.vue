@@ -25,6 +25,8 @@ const dialogIsVisible = computed(() => dialogStore.dialogIsVisible && dialogMode
 const project = computed(() => projectStore.project)
 
 const confirmDeleteMember= (id: string) => {
+  dialogStore.setDialogVisibility(false)
+  
   return confirm.require({
     message: 'Are you sure you want to proceed?',
     header: 'Delete member',
